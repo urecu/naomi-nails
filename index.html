@@ -477,7 +477,7 @@ function renderHome(){
   // Gallery
   document.getElementById('gallery-grid').innerHTML=GAL.map(g=>{
     const s=SVCS.find(x=>x.id===g.sid);
-    return`<div class="gal-item" onclick="openGalModal(${g.id})">
+    return`<div class="gal-item" onclick="startBookingSvc(${g.sid})">
       <div class="gal-img" style="background-image:url(${g.img});background-size:cover;background-position:center bottom"></div>
       <div class="gal-ov"><div class="gal-ov-name">${g.name}</div><div class="gal-ov-price">${s.price} lei</div></div>
     </div>`;
