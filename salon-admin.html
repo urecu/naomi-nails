@@ -2,264 +2,310 @@
 <html lang="ro">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Naomi Pro · Admin</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
+:root{--bg:#141414;--bg2:#1E1E1E;--bg3:#2A2A2A;--rose:#C4788A;--rose-light:rgba(196,120,138,0.15);--rose-border:rgba(196,120,138,0.3);--text:#F0F0F0;--text2:#A0A0A0;--border:#2E2E2E;--green:#4CAF7D;--green-light:rgba(76,175,125,0.2);--red:#E57373;--red-light:rgba(229,115,115,0.15);--amber:#F5A623;--amber-light:rgba(245,166,35,0.15)}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:system-ui,sans-serif;background:#f5f5f0;min-height:100vh}
-.app{max-width:520px;margin:0 auto;padding:1.5rem 1rem 4rem}
+body{font-family:'Jost',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
 .page{display:none}.page.active{display:block}
-h1{font-size:22px;font-weight:500;color:#1a1a1a;margin-bottom:4px}
-h2{font-size:17px;font-weight:500;color:#1a1a1a;margin-bottom:1rem}
-.subtitle{font-size:14px;color:#666;margin-bottom:1.5rem}
-label{font-size:13px;color:#555;display:block;margin-bottom:6px;font-weight:500}
-input,select,textarea{width:100%;padding:11px 12px;border:1.5px solid #e0e0e0;border-radius:8px;font-size:14px;color:#1a1a1a;background:#fff;margin-bottom:1rem;outline:none;font-family:inherit}
-input:focus,select:focus,textarea:focus{border-color:#1D9E75}
+.auth-wrap{max-width:400px;margin:0 auto;padding:3rem 1.5rem}
+.auth-logo{text-align:center;margin-bottom:2rem}
+.auth-logo h1{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:500;color:var(--text)}
+.auth-logo p{font-size:13px;color:var(--text2);margin-top:4px}
+label{font-size:13px;color:var(--text2);display:block;margin-bottom:6px;font-weight:500}
+input,select,textarea{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:10px;font-size:16px;color:var(--text);background:var(--bg2);margin-bottom:1rem;outline:none;font-family:inherit}
+input:focus,select:focus,textarea:focus{border-color:var(--rose)}
 textarea{height:70px;resize:none}
-.btn{display:block;width:100%;padding:13px;background:#1D9E75;color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:500;cursor:pointer;text-align:center;margin-top:0.5rem;transition:opacity 0.15s;font-family:inherit}
-.btn:hover{opacity:0.9}.btn:disabled{opacity:0.4;cursor:default}
+.btn{display:block;width:100%;padding:13px;background:var(--rose);color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:500;cursor:pointer;text-align:center;margin-top:0.5rem;font-family:inherit}
+.btn:hover{opacity:0.85}.btn:disabled{opacity:0.4;cursor:default}
 .btn-sm{padding:7px 12px;border-radius:8px;font-size:12px;font-weight:500;cursor:pointer;border:none;font-family:inherit;display:inline-block}
-.btn-outline{background:#fff;border:1.5px solid #e0e0e0;color:#1a1a1a}
-.btn-danger{background:#E24B4A;color:#fff}
-.btn-success{background:#1D9E75;color:#fff}
-.btn-amber{background:#f5a623;color:#fff}
-.error-msg{background:#FDECEA;color:#A32D2D;border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:1rem}
-.top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem}
-.top-bar h1{margin-bottom:0}
-.logout-btn{background:none;border:none;color:#999;font-size:13px;cursor:pointer;font-family:inherit}
-.tabs{display:flex;gap:6px;margin-bottom:1.5rem;overflow-x:auto;padding-bottom:2px}
-.tab{flex-shrink:0;padding:9px 12px;border:1px solid #e0e0e0;border-radius:8px;font-size:13px;cursor:pointer;background:#fff;color:#666;font-family:inherit}
-.tab.active{border-color:#1D9E75;color:#0F6E56;font-weight:500;background:#f0faf6}
+.btn-ghost{background:var(--bg3);border:1px solid var(--border);color:var(--text);margin-top:8px}
+.btn-danger{background:var(--red-light);color:var(--red);border:1px solid rgba(229,115,115,0.3)}
+.btn-success{background:var(--green-light);color:var(--green);border:1px solid rgba(76,175,125,0.3)}
+.btn-amber{background:var(--amber-light);color:var(--amber);border:1px solid rgba(245,166,35,0.3)}
+.error-msg{background:var(--red-light);color:var(--red);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:1rem}
+.admin-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.header-logo{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:500;color:var(--text)}
+.header-logo span{color:var(--rose)}
+.hamburger{background:none;border:none;cursor:pointer;padding:4px;display:flex;flex-direction:column;gap:5px}
+.hamburger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px}
+.sidebar-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:200;display:none}
+.sidebar{position:fixed;top:0;left:-280px;width:280px;height:100vh;background:var(--bg2);border-right:1px solid var(--border);z-index:201;transition:left 0.3s;padding:2rem 1.25rem;display:flex;flex-direction:column}
+.sidebar.open{left:0}
+.sidebar-logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:var(--text);margin-bottom:2rem}
+.sidebar-logo span{color:var(--rose)}
+.sidebar-menu{display:flex;flex-direction:column;gap:4px;flex:1}
+.sidebar-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:10px;cursor:pointer;color:var(--text2);font-size:15px;font-family:inherit;background:none;border:none;text-align:left;width:100%}
+.sidebar-item:hover{background:var(--bg3);color:var(--text)}
+.sidebar-item.active{background:var(--rose-light);color:var(--rose)}
+.sidebar-close{background:none;border:none;color:var(--text2);font-size:20px;cursor:pointer;align-self:flex-end;margin-bottom:1rem}
+.logout-btn{background:none;border:1px solid var(--border);border-radius:20px;padding:6px 14px;color:var(--text2);font-size:12px;cursor:pointer;font-family:inherit}
+.content{padding:1.25rem;max-width:600px;margin:0 auto;width:100%;padding-bottom:4rem}
 .stats-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:1.5rem}
-.stat-card{background:#fff;border:1px solid #e0e0e0;border-radius:12px;padding:1rem 1.25rem}
-.stat-label{font-size:12px;color:#888;margin-bottom:4px}
-.stat-value{font-size:24px;font-weight:500;color:#1a1a1a}
-.stat-sub{font-size:12px;color:#888;margin-top:2px}
-.filters{display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap}
-.filters select{margin-bottom:0;flex:1;min-width:120px}
-.prog-card{background:#fff;border:1px solid #e0e0e0;border-radius:12px;padding:1rem 1.25rem;margin-bottom:10px}
-.prog-card.negru{border-left:4px solid #2C2C2C}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1rem 1.25rem}
+.stat-label{font-size:12px;color:var(--text2);margin-bottom:4px}
+.stat-value{font-size:24px;font-weight:500;color:var(--text)}
+.stat-sub{font-size:12px;color:var(--rose);margin-top:2px}
+.prog-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1rem 1.25rem;margin-bottom:10px}
 .prog-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}
-.prog-name{font-size:15px;font-weight:500;color:#1a1a1a}
-.prog-detail{font-size:13px;color:#666;line-height:1.7}
-.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:500}
-.badge.asteptare{background:#FFF3CD;color:#856404}
-.badge.confirmat{background:#E1F5EE;color:#085041}
-.badge.anulat{background:#FDECEA;color:#A32D2D}
+.prog-name{font-size:15px;font-weight:500;color:var(--text)}
+.prog-detail{font-size:13px;color:var(--text2);line-height:1.7}
 .prog-actions{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
-.week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:8px}
-.week-day-label{text-align:center;font-size:11px;color:#888;padding:4px 0}
-.week-day-num{font-size:14px;font-weight:500;padding:6px 4px;border-radius:6px;margin-bottom:4px;text-align:center;color:#1a1a1a}
-.week-day-num.today{background:#1D9E75;color:#fff}
-.week-event{background:#f0faf6;border-left:3px solid #1D9E75;border-radius:4px;padding:4px 6px;font-size:11px;color:#085041;margin-bottom:3px;line-height:1.4;cursor:pointer}
-.week-event.asteptare{background:#FFF9E6;border-color:#f5a623;color:#856404}
-.week-event.anulat{background:#fdf0f0;border-color:#E24B4A;color:#A32D2D;text-decoration:line-through}
-.report-row{display:flex;justify-content:space-between;font-size:14px;padding:8px 0;border-bottom:1px solid #f0f0ea;color:#1a1a1a}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:12px;font-weight:500}
+.badge.asteptare{background:var(--amber-light);color:var(--amber)}
+.badge.confirmat{background:var(--green-light);color:var(--green)}
+.badge.anulat{background:var(--red-light);color:var(--red)}
+.badge.done{background:rgba(100,100,100,0.15);color:#888;cursor:pointer}
+/* FAB */
+.fab{position:fixed;bottom:24px;right:24px;width:52px;height:52px;border-radius:50%;background:var(--rose);color:#fff;border:none;font-size:24px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(196,120,138,0.4);z-index:90}
+.fab-green{background:var(--green);box-shadow:0 4px 16px rgba(76,175,125,0.4)}
+.fab-menu{position:fixed;bottom:90px;right:24px;display:flex;flex-direction:column;gap:10px;z-index:90}
+.fab-item{display:flex;align-items:center;gap:10px;justify-content:flex-end}
+.fab-item-label{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:13px;color:var(--text);cursor:pointer}
+.fab-item-btn{width:40px;height:40px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px}
+/* CALENDAR WEEK STRIP */
+.cal-top-bar{background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:57px;z-index:50}
+.cal-week-header{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--border)}
+.cal-month-btn{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:500;color:var(--text);background:none;border:none;cursor:pointer;padding:0}
+.cal-month-btn:hover{color:var(--rose)}
+.cal-week-nav{display:flex;gap:8px}
+.cal-nav-btn{background:none;border:1px solid var(--border);border-radius:8px;color:var(--text2);font-size:16px;cursor:pointer;padding:4px 12px;line-height:1}
+.cal-week-strip{display:grid;grid-template-columns:repeat(7,1fr);padding:8px 16px 10px}
+.cal-week-day{text-align:center;cursor:pointer;border-radius:10px;padding:5px 2px}
+.cal-week-day:hover{background:var(--bg3)}
+.cal-week-day.active{background:var(--rose)}
+.cal-week-day .wday-name{font-size:11px;color:var(--text2);text-transform:uppercase}
+.cal-week-day.active .wday-name{color:rgba(255,255,255,0.8)}
+.cal-week-day .wday-num{font-size:17px;font-weight:500;color:var(--text);margin-top:2px}
+.cal-week-day.active .wday-num{color:#fff}
+.cal-week-day.today .wday-num{color:var(--rose)}
+.cal-week-day.active.today .wday-num{color:#fff}
+/* FULL MONTH PICKER */
+.month-picker-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:300;display:flex;align-items:flex-end;justify-content:center}
+.month-picker{background:var(--bg2);border-radius:20px 20px 0 0;padding:1.5rem;width:100%;max-width:500px}
+.month-picker-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.month-picker-title{font-family:'Cormorant Garamond',serif;font-size:18px;color:var(--text)}
+.mp-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.mp-label{text-align:center;font-size:11px;color:var(--text2);padding:4px 0}
+.mp-day{text-align:center;padding:8px 2px;border-radius:8px;font-size:13px;cursor:pointer;color:var(--text)}
+.mp-day:hover:not(.mp-dis){background:var(--bg3)}
+.mp-day.mp-sel{background:var(--rose);color:#fff}
+.mp-day.mp-tod:not(.mp-sel){color:var(--rose);font-weight:600}
+.mp-day.mp-dis{color:var(--border);cursor:default}
+.mp-day.mp-empty{cursor:default}
+/* DAY VIEW */
+.day-view-label{padding:10px 16px;background:var(--bg);border-bottom:1px solid var(--border)}
+.day-view-label p{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--text)}
+.day-view{overflow-y:auto}
+.day-view-inner{position:relative}
+.hour-bg{position:absolute;left:0;right:0;border-bottom:1px solid var(--border)}
+.hour-lbl{position:absolute;left:4px;font-size:11px;color:var(--text2);top:4px}
+.cal-event{position:absolute;border-radius:7px;padding:4px 7px;cursor:pointer;overflow:hidden}
+.cal-event.confirmat{background:rgba(76,175,125,0.22);border-left:3px solid var(--green)}
+.cal-event.asteptare{background:rgba(245,166,35,0.18);border-left:3px solid var(--amber)}
+.cal-event.blocat{background:rgba(229,115,115,0.18);border-left:3px solid var(--red)}
+.ev-time{font-size:10px;color:var(--text2)}
+.ev-name{font-size:12px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ev-svc{font-size:11px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* OVERLAY */
+.overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);display:flex;align-items:flex-end;justify-content:center;z-index:999}
+.modal{background:var(--bg2);border:1px solid var(--border);border-radius:20px 20px 0 0;padding:1.5rem;max-width:500px;width:100%;max-height:88vh;overflow-y:auto}
+.modal-title{font-size:16px;font-weight:500;color:var(--text);margin-bottom:1rem}
+.msg-box{background:var(--green-light);border-radius:10px;padding:1rem;font-size:14px;color:var(--green);line-height:1.7;margin-bottom:1rem;white-space:pre-line}
+.copy-btn{display:block;width:100%;padding:10px;background:var(--rose-light);border:1px solid var(--rose-border);color:var(--rose);border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;margin-bottom:8px;font-family:inherit}
+.close-modal-btn{display:block;width:100%;padding:10px;background:var(--bg3);border:none;border-radius:8px;cursor:pointer;font-size:14px;color:var(--text2);font-family:inherit}
+.client-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1rem 1.25rem;margin-bottom:8px;cursor:pointer;display:flex;align-items:center;gap:12px}
+.client-card:hover{border-color:var(--rose)}
+.client-avatar{width:44px;height:44px;border-radius:50%;background:var(--rose-light);border:1.5px solid var(--rose);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--rose);flex-shrink:0;overflow:hidden}
+.search-results-adm{background:var(--bg2);border:1px solid var(--border);border-radius:8px;margin-top:-12px;margin-bottom:1rem;overflow:hidden;max-height:200px;overflow-y:auto}
+.search-result-item{padding:10px 12px;font-size:14px;cursor:pointer;color:var(--text);border-bottom:1px solid var(--border)}
+.search-result-item:hover{background:var(--bg3)}
+.client-badge{background:var(--rose-light);border:1px solid var(--rose-border);border-radius:8px;padding:10px 12px;margin-bottom:1rem;font-size:14px;color:var(--rose)}
+.report-row{display:flex;justify-content:space-between;font-size:14px;padding:8px 0;border-bottom:1px solid var(--border);color:var(--text)}
 .report-row:last-child{border-bottom:none}
-.report-row span:first-child{color:#666}
-.loading-txt{text-align:center;padding:2rem;color:#888;font-size:14px}
-.overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:999;padding:1rem;overflow-y:auto}
-.modal{background:#fff;border-radius:16px;padding:1.5rem;max-width:420px;width:100%;max-height:90vh;overflow-y:auto}
-.modal-title{font-size:16px;font-weight:500;color:#1a1a1a;margin-bottom:1rem}
-.msg-box{background:#E1F5EE;border-radius:10px;padding:1rem;font-size:14px;color:#085041;line-height:1.7;margin-bottom:1rem;white-space:pre-line}
-.copy-btn{display:block;width:100%;padding:10px;background:#f0faf6;border:1.5px solid #1D9E75;color:#0F6E56;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;margin-bottom:8px;font-family:inherit}
-.close-modal-btn{display:block;width:100%;padding:10px;background:#f5f5f0;border:none;border-radius:8px;cursor:pointer;font-size:14px;color:#666;font-family:inherit}
-.cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
-.cal-nav{background:#fff;border:1px solid #e0e0e0;border-radius:8px;padding:6px 14px;cursor:pointer;color:#1a1a1a;font-size:16px}
-.cal-title-adm{font-size:15px;font-weight:500;color:#1a1a1a}
-.cal-grid-adm{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:1rem}
-.cal-day-label{text-align:center;font-size:11px;color:#888;padding:4px 0}
-.cal-day-adm{text-align:center;padding:9px 4px;border-radius:8px;font-size:14px;cursor:pointer;color:#1a1a1a;user-select:none}
-.cal-day-adm:hover:not(.disabled):not(.empty){background:#e8f5f0}
-.cal-day-adm.selected{background:#1D9E75;color:#fff!important}
-.cal-day-adm.disabled{color:#ccc;cursor:default}.cal-day-adm.empty{cursor:default}
-.cal-day-adm.today:not(.selected){font-weight:600;color:#0F6E56;border:1.5px solid #1D9E75}
-.slots-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:1rem}
-.slot-adm{text-align:center;padding:10px 4px;border:1.5px solid #e0e0e0;border-radius:8px;font-size:13px;cursor:pointer;color:#1a1a1a;background:#fff}
-.slot-adm:hover:not(.taken){border-color:#1D9E75;background:#f0faf6}
-.slot-adm.selected{border:2px solid #1D9E75;color:#0F6E56;font-weight:500;background:#f0faf6}
-.slot-adm.taken{opacity:0.35;cursor:default;text-decoration:line-through}
-.search-results-adm{background:#fff;border:1px solid #e0e0e0;border-radius:8px;margin-top:-12px;margin-bottom:1rem;overflow:hidden;max-height:200px;overflow-y:auto}
-.search-result-item{padding:10px 12px;font-size:14px;cursor:pointer;color:#1a1a1a;border-bottom:1px solid #f0f0ea}
-.search-result-item:hover{background:#f0faf6}
-.client-badge{background:#f0faf6;border:1.5px solid #1D9E75;border-radius:8px;padding:10px 12px;margin-bottom:1rem;font-size:14px;color:#085041}
-/* CLIENT LIST */
-.client-card{background:#fff;border:1px solid #e0e0e0;border-radius:12px;padding:1rem 1.25rem;margin-bottom:8px;cursor:pointer;transition:border-color 0.15s}
-.client-card:hover{border-color:#1D9E75}
-.client-name{font-size:15px;font-weight:500;color:#1a1a1a}
-.client-phone{font-size:13px;color:#666;margin-top:2px}
-.client-stats{font-size:12px;color:#888;margin-top:4px}
-.notita-box{background:#FFF9E6;border:1px solid #F5D88A;border-radius:8px;padding:10px 12px;font-size:13px;color:#7A5A00;margin-top:8px;white-space:pre-wrap}
-.sursa-badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;margin-left:6px}
-.sursa-badge.galerie{background:#F0E8FF;color:#6B4B9E}
-.sursa-badge.clasic{background:#E8F0FF;color:#3B5B9E}
-.tip-toggle{display:flex;gap:6px;margin-top:8px}
-.tip-btn{padding:5px 12px;border-radius:20px;font-size:12px;font-weight:500;cursor:pointer;font-family:inherit}
-.tip-btn.alb{background:#f5f5f5;color:#555;border:1.5px solid #ddd}
-.tip-btn.negru{background:#2C2C2C;color:#fff;border:1.5px solid #000}
-.tip-btn.active-alb{background:#e8e8e8;border:2px solid #1D9E75;color:#333}
-.tip-btn.active-negru{background:#1a1a1a;border:2px solid #1D9E75;color:#fff}
-.client-search-wrap{position:relative;margin-bottom:1rem}
-.client-search-input{width:100%;padding:11px 12px;border:1.5px solid #e0e0e0;border-radius:8px;font-size:14px;color:#1a1a1a;background:#fff;outline:none;font-family:inherit;margin-bottom:0}
-.client-search-input:focus{border-color:#1D9E75}
-.client-count{font-size:12px;color:#888;margin-bottom:12px}
+.report-row span:first-child{color:var(--text2)}
+.loading-txt{text-align:center;padding:2rem;color:var(--text2);font-size:14px}
+h2{font-size:17px;font-weight:500;color:var(--text);margin-bottom:1rem}
+.filters{display:flex;gap:8px;margin-bottom:1rem;flex-wrap:wrap;align-items:center}
+.filters select{margin-bottom:0;flex:1;min-width:100px}
+.notif-popup{position:fixed;top:80px;left:50%;transform:translateX(-50%);border-radius:12px;padding:12px 16px;z-index:600;max-width:320px;width:90%;animation:sld 0.3s ease}
+@keyframes sld{from{opacity:0;top:60px}to{opacity:1;top:80px}}
+.notif-ok{background:#0A2A1E;border:1px solid var(--green);color:var(--green)}
+.notif-warn{background:#2A1E0A;border:1px solid var(--amber);color:var(--amber)}
+.chelt-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center}
+.chelt-card .chelt-name{font-size:14px;color:var(--text)}
+.chelt-card .chelt-meta{font-size:12px;color:var(--text2);margin-top:2px}
+.chelt-card .chelt-sum{font-size:15px;font-weight:500;color:var(--red)}
 </style>
 </head>
 <body>
-<div class="app">
-  <div class="page active" id="pauth">
-    <div style="text-align:center;margin-bottom:2rem;margin-top:2rem">
-      <div style="font-size:36px;margin-bottom:8px">🔐</div>
-      <h1>Naomi Pro</h1>
-      <p class="subtitle" style="margin-bottom:0">Panou de administrare</p>
+
+<div class="page active" id="pauth">
+  <div class="auth-wrap">
+    <div class="auth-logo">
+      <h1>Naomi <span style="color:var(--rose)">Pro</span></h1>
+      <p>Panou de administrare</p>
     </div>
-    <label>Email</label>
-    <input type="email" id="auth-email" placeholder="email admin">
-    <label>Parola</label>
-    <input type="password" id="auth-pass" placeholder="parola">
+    <label>Email</label><input type="email" id="auth-email" placeholder="email admin" autocomplete="email">
+    <label>Parolă</label><input type="password" id="auth-pass" placeholder="parolă" autocomplete="current-password">
     <div id="auth-error" class="error-msg" style="display:none"></div>
-    <button class="btn" onclick="doLogin()">Intra</button>
+    <button class="btn" onclick="doLogin()">Intră</button>
+  </div>
+</div>
+
+<div class="page" id="pdash">
+  <div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+  <div class="sidebar" id="sidebar">
+    <button class="sidebar-close" onclick="closeSidebar()">✕</button>
+    <div class="sidebar-logo">Naomi <span>Pro</span></div>
+    <div class="sidebar-menu">
+      <button class="sidebar-item active" id="si-home" onclick="showTab('home')">Home</button>
+      <button class="sidebar-item" id="si-calendar" onclick="showTab('calendar')">Calendar</button>
+      <button class="sidebar-item" id="si-programari" onclick="showTab('programari')">Programări</button>
+      <button class="sidebar-item" id="si-clienti" onclick="showTab('clienti')">Clienți</button>
+      <button class="sidebar-item" id="si-rapoarte" onclick="showTab('rapoarte')">Rapoarte</button>
+    </div>
+    <button class="logout-btn" onclick="doLogout()" style="margin-top:auto">Ieși din cont</button>
   </div>
 
-  <div class="page" id="pdash">
-    <div class="top-bar">
-      <div><h1>Naomi Pro</h1><p class="subtitle" style="margin-bottom:0">Bine ai venit!</p></div>
-      <button class="logout-btn" onclick="doLogout()">Iesi</button>
-    </div>
-    <div class="tabs">
-      <div class="tab active" onclick="showTab('azi',this)">Azi</div>
-      <div class="tab" onclick="showTab('programari',this)">Programari</div>
-      <div class="tab" onclick="showTab('adauga',this)">+ Adauga</div>
-      <div class="tab" onclick="showTab('clienti',this)">Clienti</div>
-      <div class="tab" onclick="showTab('calendar',this)">Calendar</div>
-      <div class="tab" onclick="showTab('rapoarte',this)">Rapoarte</div>
-    </div>
+  <div class="admin-header">
+    <button class="hamburger" onclick="openSidebar()"><span></span><span></span><span></span></button>
+    <div class="header-logo">Naomi <span>Pro</span></div>
+    <div style="width:40px"></div>
+  </div>
 
-    <div id="tab-azi">
+  <div class="content">
+    <!-- HOME -->
+    <div id="tab-home" class="tab-content">
       <div class="stats-grid" id="stats-grid"></div>
-      <h2>Programari azi</h2>
-      <div id="azi-list"></div>
-      <h2 style="margin-top:1.5rem">Maine - Remindere</h2>
-      <div id="maine-list"></div>
+      <h2>Programări azi</h2><div id="azi-list"></div>
+      <h2 style="margin-top:1.5rem">Mâine</h2><div id="maine-list"></div>
     </div>
 
-    <div id="tab-programari" style="display:none">
+    <!-- CALENDAR -->
+    <div id="tab-calendar" class="tab-content" style="display:none;padding:0">
+      <div class="cal-top-bar">
+        <div class="cal-week-header">
+          <button class="cal-month-btn" id="cal-month-btn" onclick="openMonthPicker()"></button>
+          <div class="cal-week-nav">
+            <button class="cal-nav-btn" onclick="prevWeek()">&#8249;</button>
+            <button class="cal-nav-btn" onclick="nextWeek()">&#8250;</button>
+          </div>
+        </div>
+        <div class="cal-week-strip" id="cal-week-strip"></div>
+      </div>
+      <div class="day-view-label"><p id="cal-day-label"></p></div>
+      <div class="day-view" id="day-view" style="height:calc(100vh - 230px)"></div>
+      <div id="cal-fab-menu" style="display:none" class="fab-menu">
+        <div class="fab-item" onclick="openAddProgModal()">
+          <span class="fab-item-label">Adaugă programare</span>
+          <div class="fab-item-btn" style="background:var(--green);color:#fff">+</div>
+        </div>
+        <div class="fab-item" onclick="openBlocareModal()">
+          <span class="fab-item-label">Blochează timp</span>
+          <div class="fab-item-btn" style="background:var(--amber);color:#fff">🔒</div>
+        </div>
+      </div>
+      <button class="fab" id="cal-fab" onclick="toggleCalFab()">+</button>
+    </div>
+
+    <!-- PROGRAMARI -->
+    <div id="tab-programari" class="tab-content" style="display:none">
       <div class="filters">
         <select id="filt-status" onchange="loadProgramari()">
-          <option value="toate">Toate statusurile</option>
-          <option value="in_asteptare">In asteptare</option>
+          <option value="toate">Toate</option>
+          <option value="in_asteptare">Așteptare</option>
           <option value="confirmat">Confirmate</option>
           <option value="anulat">Anulate</option>
         </select>
         <select id="filt-period" onchange="loadProgramari()">
           <option value="viitoare">Viitoare</option>
           <option value="azi">Azi</option>
-          <option value="saptamana">Saptamana aceasta</option>
-          <option value="luna">Luna aceasta</option>
+          <option value="maine">Mâine</option>
+          <option value="saptamana">Săptămâna</option>
+          <option value="luna">Luna</option>
           <option value="toate">Toate</option>
-        </select>
-        <select id="filt-tip" onchange="loadProgramari()">
-          <option value="toate">Alb + Negru</option>
-          <option value="alb">Doar Alb</option>
-          <option value="negru">Doar Negru</option>
         </select>
       </div>
       <div id="prog-list"></div>
+      <button class="fab fab-green" onclick="openAddProgModal()">+</button>
     </div>
 
-    <div id="tab-adauga" style="display:none">
-      <h2>Programare noua</h2>
-      <div id="adm-step1">
-        <label>Cauta clienta existenta</label>
-        <input type="text" id="client-search" placeholder="Nume sau numar de telefon..." oninput="searchClients()" autocomplete="off">
-        <div id="search-results-adm" class="search-results-adm" style="display:none"></div>
-        <div id="selected-client-display" style="display:none" class="client-badge"></div>
-        <div style="margin:1rem 0;text-align:center;color:#aaa;font-size:13px">sau clienta noua fara cont</div>
-        <label>Nume si prenume</label>
-        <input type="text" id="new-client-name" placeholder="ex: Maria Popescu">
-        <label>Numar de telefon</label>
-        <input type="tel" id="new-client-phone" placeholder="ex: 0712 345 678">
-        <button class="btn" onclick="adm_nextStep()">Continua</button>
-      </div>
-      <div id="adm-step2" style="display:none">
-        <button style="background:none;border:none;color:#888;font-size:13px;cursor:pointer;margin-bottom:1rem;font-family:inherit;padding:0" onclick="adm_backStep()">Inapoi</button>
-        <div id="adm-client-summary" class="client-badge"></div>
-        <label>Serviciu</label>
-        <select id="adm-serviciu" onchange="adm_updateService()"><option value="">Alege serviciu...</option></select>
-        <div id="adm-cal-wrap" style="display:none">
-          <div class="cal-header">
-            <button class="cal-nav" onclick="admPrevMonth()">&#8249;</button>
-            <span class="cal-title-adm" id="adm-cal-title"></span>
-            <button class="cal-nav" onclick="admNextMonth()">&#8250;</button>
-          </div>
-          <div class="cal-grid-adm" id="adm-cal-grid"></div>
-          <div id="adm-slots-wrap" style="display:none">
-            <p style="font-size:14px;font-weight:500;color:#1a1a1a;margin-bottom:10px">Ore disponibile</p>
-            <div id="adm-slots"></div>
-          </div>
-        </div>
-        <label>Tip programare</label>
-        <select id="adm-tip" style="margin-bottom:1rem">
-          <option value="alb">Alb (clientele mele)</option>
-          <option value="negru">Negru (clientele sefei)</option>
-        </select>
-        <label>Observatii (optional)</label>
-        <textarea id="adm-obs" placeholder="note..."></textarea>
-        <button class="btn" id="adm-submit-btn" disabled onclick="adm_submit()">Salveaza programarea</button>
-      </div>
-      <div id="adm-step-success" style="display:none;text-align:center;padding:2rem 0">
-        <div style="font-size:40px;margin-bottom:12px">✓</div>
-        <h2>Programare salvata!</h2>
-        <button class="btn" onclick="adm_reset()" style="margin-top:1rem">Adauga alta</button>
-      </div>
-    </div>
-
-    <!-- CLIENTI - cu lista preincarcata si filtrare locala -->
-    <div id="tab-clienti" style="display:none">
-      <div class="client-search-wrap">
-        <input class="client-search-input" type="text" id="client-filter-input" placeholder="Cauta dupa nume sau telefon..." oninput="filterClientList()">
-      </div>
-      <div id="client-count" class="client-count"></div>
+    <!-- CLIENTI -->
+    <div id="tab-clienti" class="tab-content" style="display:none">
+      <input style="margin-bottom:1rem" type="text" id="client-filter-input" placeholder="Caută după nume sau telefon..." oninput="filterClientList()">
+      <div id="client-count" style="font-size:12px;color:var(--text2);margin-bottom:12px"></div>
       <div id="client-list"></div>
     </div>
 
-    <div id="tab-calendar" style="display:none">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
-        <button class="btn-sm btn-outline" onclick="prevWeek()">Inapoi</button>
-        <span id="week-label" style="font-size:14px;font-weight:500;color:#1a1a1a"></span>
-        <button class="btn-sm btn-outline" onclick="nextWeek()">Inainte</button>
+    <!-- RAPOARTE -->
+    <div id="tab-rapoarte" class="tab-content" style="display:none">
+      <!-- Filtru perioada -->
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1rem;margin-bottom:1rem">
+        <div class="filters" style="margin-bottom:10px">
+          <select id="rep-period" onchange="onPeriodChange()" style="margin-bottom:0;flex:1">
+            <option value="azi">Azi</option>
+            <option value="saptamana">Săptămâna aceasta</option>
+            <option value="luna" selected>Luna aceasta</option>
+            <option value="luna-trecuta">Luna trecută</option>
+            <option value="an">Anul acesta</option>
+            <option value="custom">Interval personalizat</option>
+            <option value="toate">Toate timpurile</option>
+          </select>
+          <button class="btn-sm btn-success" onclick="exportExcel()" style="padding:10px 14px;flex-shrink:0">Export</button>
+        </div>
+        <div id="custom-range" style="display:none;display:none">
+          <div style="display:flex;gap:8px;align-items:center">
+            <div style="flex:1"><label style="margin-bottom:4px">De la</label><input type="date" id="rep-start" style="margin-bottom:0" onchange="loadRapoarte()"></div>
+            <div style="flex:1"><label style="margin-bottom:4px">Până la</label><input type="date" id="rep-end" style="margin-bottom:0" onchange="loadRapoarte()"></div>
+          </div>
+        </div>
       </div>
-      <div class="week-grid" id="week-labels"></div>
-      <div id="week-content"></div>
-    </div>
 
-    <div id="tab-rapoarte" style="display:none">
-      <div style="display:flex;gap:8px;margin-bottom:1.5rem;flex-wrap:wrap">
-        <select id="rep-period" onchange="loadRapoarte()" style="margin-bottom:0;flex:1">
-          <option value="luna">Luna aceasta</option>
-          <option value="luna-trecuta">Luna trecuta</option>
-          <option value="an">Anul acesta</option>
-          <option value="toate">Toate timpurile</option>
-        </select>
-        <button class="btn-sm btn-success" onclick="exportExcel()" style="flex-shrink:0;padding:10px 16px">Export Excel</button>
+      <!-- SUMAR FINANCIAR -->
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem">
+        <h2 style="font-size:15px;margin-bottom:1rem">Sumar financiar</h2>
+        <div class="stats-grid" id="rep-stats"></div>
+        <div id="rep-profit-box"></div>
       </div>
-      <div class="stats-grid" id="rep-stats"></div>
-      <div style="background:#fff;border:1px solid #e0e0e0;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem">
-        <h2 style="font-size:15px;margin-bottom:1rem">Alb vs Negru</h2>
-        <div id="rep-alb-negru"></div>
+
+      <!-- TIPS -->
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem">
+        <h2 style="font-size:15px;margin-bottom:1rem">Tips</h2>
+        <div id="rep-tips"></div>
       </div>
-      <div style="background:#fff;border:1px solid #e0e0e0;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem">
-        <h2 style="font-size:15px;margin-bottom:1rem">Sursa programari</h2>
-        <div id="rep-sursa"></div>
+
+      <!-- CHELTUIELI VARIABILE -->
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+          <h2 style="margin-bottom:0;font-size:15px">Cheltuieli variabile</h2>
+          <button class="btn-sm btn-danger" onclick="openAddChelt()">+ Adaugă</button>
+        </div>
+        <div id="chelt-list"></div>
+        <div id="chelt-total" style="margin-top:8px;font-size:13px;color:var(--text2)"></div>
       </div>
-      <div style="background:#fff;border:1px solid #e0e0e0;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem">
+
+      <!-- CHELTUIELI FIXE -->
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+          <h2 style="margin-bottom:0;font-size:15px">Cheltuieli fixe lunare</h2>
+          <button class="btn-sm btn-amber" onclick="openAddCheltFixa()">+ Adaugă</button>
+        </div>
+        <p style="font-size:12px;color:var(--text2);margin-bottom:10px">Carte de muncă, taxe, chirie, etc.</p>
+        <div id="chelt-fixe-list"></div>
+        <div id="chelt-fixe-total" style="margin-top:8px;font-size:13px;color:var(--text2)"></div>
+      </div>
+
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem">
         <h2 style="font-size:15px;margin-bottom:1rem">Servicii populare</h2>
         <div id="rep-servicii"></div>
       </div>
-      <div style="background:#fff;border:1px solid #e0e0e0;border-radius:12px;padding:1rem 1.25rem">
-        <h2 style="font-size:15px;margin-bottom:1rem">Clienti frecventi</h2>
+      <div style="background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1rem 1.25rem">
+        <h2 style="font-size:15px;margin-bottom:1rem">Clienți frecvenți</h2>
         <div id="rep-clienti"></div>
       </div>
     </div>
@@ -267,539 +313,766 @@ textarea{height:70px;resize:none}
 </div>
 
 <script>
-const SUPABASE_URL='https://jijvszvsqnmtcqhcqtyo.supabase.co';
-const SUPABASE_KEY='sb_publishable_PBs1sC8MYRAlLCqAM5I6MA_jZVc5r7v';
+const SB_URL='https://jijvszvsqnmtcqhcqtyo.supabase.co';
+const SB_KEY='sb_publishable_PBs1sC8MYRAlLCqAM5I6MA_jZVc5r7v';
 const ADMIN_EMAIL='stanciuflavius00@gmail.com';
-const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY,{auth:{persistSession:true,autoRefreshToken:true}});
+const sb=supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true}});
 
 const SERVICES=[
-  {id:1,name:"Oja semipermanenta",dur:1.5,price:130},
-  {id:2,name:"Constructie unghii scurte/medii",dur:2.5,price:180},
-  {id:3,name:"Intretinere complexa unghii scurte",dur:2,price:170},
-  {id:4,name:"Arhitectura SLIM",dur:2.5,price:200},
-  {id:5,name:"Pachet curatare + demontare",dur:1,price:80},
-  {id:6,name:"Intretinere complexa unghii medii",dur:2,price:200},
+  {id:1,name:"Ojă semipermanentă",dur:1.5,price:130},
+  {id:2,name:"Construcție unghii scurte/medii",dur:2.5,price:180},
+  {id:3,name:"Întreținere complexă unghii scurte",dur:2,price:170},
+  {id:4,name:"Arhitectură SLIM",dur:2.5,price:200},
+  {id:5,name:"Pachet curățare + demontare",dur:1,price:80},
+  {id:6,name:"Întreținere complexă unghii medii",dur:2,price:200},
   {id:7,name:"Man Manicure",dur:0.5,price:60}
 ];
+const DS=['Lu','Ma','Mi','Jo','Vi','Sâ','Du'];
+const MONTHS=['Ianuarie','Februarie','Martie','Aprilie','Mai','Iunie','Iulie','August','Septembrie','Octombrie','Noiembrie','Decembrie'];
+const MG=['ianuarie','februarie','martie','aprilie','mai','iunie','iulie','august','septembrie','octombrie','noiembrie','decembrie'];
+const DLF=['duminică','luni','marți','miercuri','joi','vineri','sâmbătă'];
+const CAL_START=6,CAL_END=21,PX_MIN=2;
 
-const DL=["luni","marti","miercuri","joi","vineri","sambata","duminica"];
-const DS=["Lu","Ma","Mi","Jo","Vi","Sa","Du"];
-const MONTHS=["Ianuarie","Februarie","Martie","Aprilie","Mai","Iunie","Iulie","August","Septembrie","Octombrie","Noiembrie","Decembrie"];
-const MG=["ianuarie","februarie","martie","aprilie","mai","iunie","iulie","august","septembrie","octombrie","noiembrie","decembrie"];
-const WS=10,WE=18;
+let cu=null;
+let calSelectedDate=new Date();
+let calWeekStart=getMonday(new Date());
+let mpYear=new Date().getFullYear(),mpMonth=new Date().getMonth();
+let allClientsData=[],allProgData=[];
+let calFabOpen=false;
+let apClient=null,apSearchTmt=null;
 
-let currentUser=null;
-let weekStart=getMonday(new Date());
-let admClient=null,admService=null,admDate=null,admSlot=null;
-let admViewYear=new Date().getFullYear(),admViewMonth=new Date().getMonth();
-
-// Clienti - stocati in memorie pentru filtrare rapida
-let allClientsData=[];
-let allProgData=[];
-
-function toDateKey(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
-function friendlyDate(ds){const d=new Date(ds+'T12:00:00');return DL[d.getDay()===0?6:d.getDay()-1]+', '+d.getDate()+' '+MG[d.getMonth()];}
+function dk(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function friendlyDate(ds){const d=new Date(ds+'T12:00:00');return DLF[d.getDay()]+', '+d.getDate()+' '+MG[d.getMonth()];}
 function durLabel(h){if(h<1)return(h*60)+' min';if(h===Math.floor(h))return h+' ore';return Math.floor(h)+' ore '+(h%1)*60+' min';}
+function t2m(t){const[h,m]=t.split(':').map(Number);return h*60+m;}
+function addM(t,m){const tot=t2m(t)+m;return String(Math.floor(tot/60)).padStart(2,'0')+':'+String(tot%60).padStart(2,'0');}
+function normPhone(p){return p.replace(/\D/g,'').replace(/^0/,'');}
 function getMonday(d){const dt=new Date(d);const day=dt.getDay();dt.setDate(dt.getDate()-(day===0?6:day-1));return dt;}
 
+// AUTH
 async function initAuth(){
   const{data:{session}}=await sb.auth.getSession();
-  if(session&&session.user.email===ADMIN_EMAIL){currentUser=session.user;showDash();}
+  if(session&&session.user.email===ADMIN_EMAIL){cu=session.user;showDash();}
 }
-
 async function doLogin(){
   const email=document.getElementById('auth-email').value.trim();
   const pass=document.getElementById('auth-pass').value;
-  const errEl=document.getElementById('auth-error');errEl.style.display='none';
-  if(email!==ADMIN_EMAIL){errEl.textContent='Acces interzis.';errEl.style.display='block';return;}
+  const e=document.getElementById('auth-error');e.style.display='none';
+  if(email!==ADMIN_EMAIL){e.textContent='Acces interzis.';e.style.display='block';return;}
   const{data,error}=await sb.auth.signInWithPassword({email,password:pass});
-  if(error){errEl.textContent='Email sau parola gresita.';errEl.style.display='block';return;}
-  currentUser=data.user;showDash();
+  if(error){e.textContent='Email sau parolă greșită.';e.style.display='block';return;}
+  cu=data.user;showDash();
 }
+async function doLogout(){await sb.auth.signOut();cu=null;document.getElementById('pdash').classList.remove('active');document.getElementById('pauth').classList.add('active');}
+function showDash(){document.getElementById('pauth').classList.remove('active');document.getElementById('pdash').classList.add('active');loadHome();}
 
-async function doLogout(){
-  await sb.auth.signOut();currentUser=null;
-  document.getElementById('pdash').classList.remove('active');
-  document.getElementById('pauth').classList.add('active');
-}
+// SIDEBAR
+function openSidebar(){document.getElementById('sidebar').classList.add('open');document.getElementById('sidebar-overlay').style.display='block';}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');document.getElementById('sidebar-overlay').style.display='none';}
 
-function showDash(){
-  document.getElementById('pauth').classList.remove('active');
-  document.getElementById('pdash').classList.add('active');
-  document.getElementById('adm-serviciu').innerHTML='<option value="">Alege serviciu...</option>'+
-    SERVICES.map(s=>`<option value="${s.id}">${s.name} - ${durLabel(s.dur)} - ${s.price} lei</option>`).join('');
-  loadAzi();
-}
-
-function showTab(t,el){
-  document.querySelectorAll('.tab').forEach(e=>e.classList.remove('active'));
-  el.classList.add('active');
-  ['azi','programari','adauga','clienti','calendar','rapoarte'].forEach(id=>{
-    document.getElementById('tab-'+id).style.display=id===t?'block':'none';
-  });
-  if(t==='azi')loadAzi();
-  if(t==='programari')loadProgramari();
+// TABS
+function showTab(t){
+  document.querySelectorAll('.tab-content').forEach(el=>el.style.display='none');
+  document.getElementById('tab-'+t).style.display=t==='calendar'?'block':'block';
+  document.querySelectorAll('.sidebar-item').forEach(el=>el.classList.remove('active'));
+  const si=document.getElementById('si-'+t);if(si)si.classList.add('active');
+  closeSidebar();
+  const fab=document.getElementById('cal-fab');const fabM=document.getElementById('cal-fab-menu');
+  if(fab){fab.style.display=t==='calendar'?'flex':'none';if(fabM)fabM.style.display='none';calFabOpen=false;fab.textContent='+';}
+  if(t==='home')loadHome();
   if(t==='calendar')loadCalendar();
-  if(t==='rapoarte')loadRapoarte();
-  if(t==='adauga')adm_reset();
+  if(t==='programari')loadProgramari();
   if(t==='clienti')loadClientList();
+  if(t==='rapoarte'){loadRapoarte();}
 }
 
-// AZI
-async function loadAzi(){
-  const todayKey=toDateKey(new Date());
-  const tom=new Date();tom.setDate(tom.getDate()+1);
-  const tomorrowKey=toDateKey(tom);
+// HOME
+async function loadHome(){
+  const todayKey=dk(new Date());
+  const tom=new Date();tom.setDate(tom.getDate()+1);const tomorrowKey=dk(tom);
   const{data:all}=await sb.from('programari').select('*').neq('status','anulat');
   const todayD=(all||[]).filter(p=>p.data===todayKey).sort((a,b)=>a.ora.localeCompare(b.ora));
   const tomD=(all||[]).filter(p=>p.data===tomorrowKey).sort((a,b)=>a.ora.localeCompare(b.ora));
   const asteptare=(all||[]).filter(p=>p.status==='in_asteptare').length;
-  const incAzi=todayD.filter(p=>p.status==='confirmat').reduce((s,p)=>s+p.pret,0);
   const mon=getMonday(new Date());const sun=new Date(mon);sun.setDate(sun.getDate()+6);
   const saptN=(all||[]).filter(p=>{const d=new Date(p.data+'T12:00:00');return d>=mon&&d<=sun;}).length;
   document.getElementById('stats-grid').innerHTML=
-    `<div class="stat-card"><div class="stat-label">Azi</div><div class="stat-value">${todayD.length}</div><div class="stat-sub">${incAzi} lei confirmat</div></div>`+
-    `<div class="stat-card"><div class="stat-label">In asteptare</div><div class="stat-value">${asteptare}</div><div class="stat-sub">necesita confirmare</div></div>`+
-    `<div class="stat-card"><div class="stat-label">Maine</div><div class="stat-value">${tomD.length}</div></div>`+
-    `<div class="stat-card"><div class="stat-label">Saptamana</div><div class="stat-value">${saptN}</div></div>`;
-  document.getElementById('azi-list').innerHTML=todayD.length?todayD.map(p=>progCard(p)).join(''):`<div class="loading-txt" style="padding:1rem">Nicio programare azi.</div>`;
-  document.getElementById('maine-list').innerHTML=tomD.length?tomD.map(p=>`
-    <div class="prog-card">
-      <div class="prog-header"><div class="prog-name">${p.nume}</div><span class="badge ${p.status==='confirmat'?'confirmat':'asteptare'}">${p.status==='confirmat'?'Confirmat':'In asteptare'}</span></div>
-      <div class="prog-detail">${p.telefon}<br>${p.serviciu} - ${p.ora}</div>
-      <div class="prog-actions"><button class="btn-sm btn-amber" onclick="showReminder('${p.nume}','${p.data}','${p.ora}')">Reminder</button></div>
-    </div>`).join(''):`<div class="loading-txt" style="padding:1rem">Nicio programare maine.</div>`;
+    `<div class="stat-card"><div class="stat-label">Cliente azi</div><div class="stat-value">${todayD.length}</div></div>`+
+    `<div class="stat-card"><div class="stat-label">În așteptare</div><div class="stat-value">${asteptare}</div><div class="stat-sub">necesită confirmare</div></div>`+
+    `<div class="stat-card"><div class="stat-label">Cliente mâine</div><div class="stat-value">${tomD.length}</div></div>`+
+    `<div class="stat-card"><div class="stat-label">Săptămâna</div><div class="stat-value">${saptN}</div></div>`;
+  document.getElementById('azi-list').innerHTML=todayD.length?todayD.map(p=>progCard(p,false)).join(''):`<div class="loading-txt" style="padding:1rem">Nicio programare azi.</div>`;
+  document.getElementById('maine-list').innerHTML=tomD.length?tomD.map(p=>`<div class="prog-card"><div class="prog-header"><div class="prog-name">${p.nume}</div><span class="badge ${p.status==='confirmat'?'confirmat':'asteptare'}">${p.status==='confirmat'?'Confirmat':'Așteptare'}</span></div><div class="prog-detail">${p.serviciu} · ${p.ora}</div><div class="prog-actions"><button class="btn-sm btn-amber" onclick="showReminderMsg('${p.nume}','${p.data}','${p.ora}','${p.telefon}')">Reminder</button></div></div>`).join(''):`<div class="loading-txt" style="padding:1rem">Nicio programare mâine.</div>`;
 }
 
 // PROGRAMARI
 async function loadProgramari(){
   const status=document.getElementById('filt-status').value;
   const period=document.getElementById('filt-period').value;
-  const tip=document.getElementById('filt-tip').value;
-  document.getElementById('prog-list').innerHTML=`<div class="loading-txt">Se incarca...</div>`;
-  let query=sb.from('programari').select('*').order('data',{ascending:true}).order('ora',{ascending:true});
-  if(status!=='toate')query=query.eq('status',status);
-  if(tip!=='toate')query=query.eq('tip',tip);
-  const now=new Date();
-  if(period==='azi')query=query.eq('data',toDateKey(now));
-  else if(period==='viitoare')query=query.gte('data',toDateKey(now));
-  else if(period==='saptamana'){const mon=getMonday(now);const sun=new Date(mon);sun.setDate(sun.getDate()+6);query=query.gte('data',toDateKey(mon)).lte('data',toDateKey(sun));}
-  else if(period==='luna'){const f=new Date(now.getFullYear(),now.getMonth(),1);const l=new Date(now.getFullYear(),now.getMonth()+1,0);query=query.gte('data',toDateKey(f)).lte('data',toDateKey(l));}
-  const{data}=await query;
+  document.getElementById('prog-list').innerHTML=`<div class="loading-txt">Se încarcă...</div>`;
+  let q=sb.from('programari').select('*').order('data',{ascending:true}).order('ora',{ascending:true});
+  if(status!=='toate')q=q.eq('status',status);
+  const now=new Date();const todayKey=dk(now);const tom=new Date();tom.setDate(tom.getDate()+1);
+  if(period==='azi')q=q.eq('data',todayKey);
+  else if(period==='maine')q=q.eq('data',dk(tom));
+  else if(period==='viitoare')q=q.gte('data',todayKey);
+  else if(period==='saptamana'){const mon=getMonday(now);const sun=new Date(mon);sun.setDate(sun.getDate()+6);q=q.gte('data',dk(mon)).lte('data',dk(sun));}
+  else if(period==='luna'){const f=new Date(now.getFullYear(),now.getMonth(),1);const l=new Date(now.getFullYear(),now.getMonth()+1,0);q=q.gte('data',dk(f)).lte('data',dk(l));}
+  const{data}=await q;
   if(!data||!data.length){document.getElementById('prog-list').innerHTML=`<div class="loading-txt">Nicio programare.</div>`;return;}
-  document.getElementById('prog-list').innerHTML=data.map(p=>progCard(p)).join('');
+  document.getElementById('prog-list').innerHTML=data.map(p=>progCard(p,true)).join('');
 }
 
-function progCard(p){
-  const bc=p.status==='confirmat'?'confirmat':p.status==='anulat'?'anulat':'asteptare';
-  const bt=p.status==='confirmat'?'Confirmat':p.status==='anulat'?'Anulat':'In asteptare';
-  const tip=p.tip||'alb';
-  const sursa=p.sursa||'clasic';
-  return`<div class="prog-card ${tip==='negru'?'negru':''}" id="pc-${p.id}">
-    <div class="prog-header">
-      <div class="prog-name">${p.nume}<span class="sursa-badge ${sursa}">${sursa==='galerie'?'Galerie':'Clasic'}</span></div>
-      <span class="badge ${bc}">${bt}</span>
+function isDone(p){
+  if(p.status!=='confirmat')return false;
+  const endDateTime=new Date(p.data+'T'+addM(p.ora,parseFloat(p.durata)*60)+':00');
+  return new Date()>endDateTime;
+}
+
+function progCard(p,showDate=true){
+  const done=isDone(p);
+  const bc=done?'done':p.status==='confirmat'?'confirmat':p.status==='anulat'?'anulat':'asteptare';
+  const bt=done?'Done':p.status==='confirmat'?'Confirmat':p.status==='anulat'?'Anulat':'Așteptare';
+  const et=addM(p.ora,parseFloat(p.durata)*60);
+  return`<div class="prog-card">
+    <div class="prog-header"><div class="prog-name">${p.nume}</div>
+      <span class="badge ${bc}" ${done?`onclick="addTips('${p.id}',${p.tips||0})" style="cursor:pointer" title="Apasă pentru tips"`:''}>
+        ${bt}
+      </span>
     </div>
-    <div class="prog-detail">${p.telefon}<br>${p.serviciu} - ${durLabel(p.durata)}<br>${friendlyDate(p.data)} - ${p.ora}<br>${p.pret} lei${p.observatii?'<br>'+p.observatii:''}</div>
-    <div style="display:flex;align-items:center;gap:6px;margin-top:8px">
-      <span style="font-size:12px;color:#888">Tip:</span>
-      <div class="tip-toggle">
-        <button class="tip-btn ${tip==='alb'?'active-alb':'alb'}" onclick="setTip('${p.id}','alb',this)">Alb</button>
-        <button class="tip-btn ${tip==='negru'?'active-negru':'negru'}" onclick="setTip('${p.id}','negru',this)">Negru</button>
-      </div>
-    </div>
+    <div class="prog-detail">${p.serviciu}${showDate?'<br>'+friendlyDate(p.data):''} · ${p.ora} – ${et}${p.observatii?'<br>'+p.observatii:''}</div>
     <div class="prog-actions">
-      ${p.status==='in_asteptare'?`<button class="btn-sm btn-success" onclick="updateStatus('${p.id}','confirmat','${p.nume}','${p.data}','${p.ora}')">Confirma</button>`:''}
-      ${p.status!=='anulat'?`<button class="btn-sm btn-danger" onclick="cancelProg('${p.id}')">Anuleaza</button>`:''}
-      ${p.status==='confirmat'?`<button class="btn-sm btn-amber" onclick="showReminder('${p.nume}','${p.data}','${p.ora}')">Reminder</button>`:''}
+      ${p.status==='in_asteptare'?`<button class="btn-sm btn-success" onclick="confirmProg('${p.id}','${p.nume}','${p.data}','${p.ora}','${p.telefon}')">Confirmă</button>`:''}
+      ${p.status!=='anulat'&&!done?`<button class="btn-sm btn-danger" onclick="cancelProg('${p.id}')">Anulează</button>`:''}
+      ${p.status==='confirmat'&&!done?`<button class="btn-sm btn-amber" onclick="showReminderMsg('${p.nume}','${p.data}','${p.ora}','${p.telefon}')">Reminder</button>`:''}
     </div>
   </div>`;
 }
 
-async function setTip(id,tip,btn){
-  await sb.from('programari').update({tip}).eq('id',id);
-  const card=document.getElementById('pc-'+id);
-  if(card){
-    card.className='prog-card'+(tip==='negru'?' negru':'');
-    card.querySelectorAll('.tip-btn').forEach(b=>{
-      if(b===btn)b.className='tip-btn active-'+tip;
-      else b.className='tip-btn '+(tip==='alb'?'negru':'alb');
-    });
-  }
-}
+async function confirmProg(id,nume,data,ora,telefon){await sb.from('programari').update({status:'confirmat'}).eq('id',id);showConfirmMsg(nume,data,ora,telefon);loadHome();loadProgramari();}
+async function cancelProg(id){if(!confirm('Anulezi?'))return;await sb.from('programari').update({status:'anulat'}).eq('id',id);loadHome();loadProgramari();renderDayView();}
 
-async function updateStatus(id,status,nume,data,ora){
-  await sb.from('programari').update({status}).eq('id',id);
-  if(status==='confirmat')showMsgModal(`Programarea ta la Naomi Stanciu a fost CONFIRMATA pentru ${friendlyDate(data)} la ${ora}.`,'Confirmare');
-  loadAzi();loadProgramari();
-}
-
-async function cancelProg(id){
-  if(!confirm('Anulezi aceasta programare?'))return;
-  await sb.from('programari').update({status:'anulat'}).eq('id',id);
-  loadAzi();loadProgramari();
-}
-
-function showReminder(nume,data,ora){showMsgModal(`Naomi Stanciu iti reaminteste ca ai programare ${friendlyDate(data)} la ${ora}.`,'Reminder');}
-
-function showMsgModal(msg,title){
+// MESAJE
+function buildConfirmMsg(n,d,o){return`Programarea ta la Naomi Stanciu a fost CONFIRMATĂ pentru ${friendlyDate(d)} la ora ${o}.`;}
+function buildReminderMsg(n,d,o){return`Naomi Stanciu îți reamintește că ai programare ${friendlyDate(d)} la ora ${o}.`;}
+function waLink(tel,msg){return`https://wa.me/40${normPhone(tel)}?text=${encodeURIComponent(msg)}`;}
+function showConfirmMsg(n,d,o,tel){showMsgModal(buildConfirmMsg(n,d,o),'Confirmare',tel);}
+function showReminderMsg(n,d,o,tel){showMsgModal(buildReminderMsg(n,d,o),'Reminder',tel);}
+function showMsgModal(msg,title,tel){
   const o=document.createElement('div');o.className='overlay';
-  o.innerHTML=`<div class="modal"><p class="modal-title">${title}</p><div class="msg-box">${msg}</div>
-    <button class="copy-btn" id="copybtn-m">Copiaza mesajul</button>
-    <button class="close-modal-btn" onclick="this.closest('.overlay').remove()">Inchide</button></div>`;
+  o.innerHTML=`<div class="modal"><p class="modal-title">${title}</p><div class="msg-box">${msg}</div><button class="copy-btn" id="cbtn">Copiază mesajul</button>${tel?`<a href="${waLink(tel,msg)}" target="_blank" style="display:block;padding:12px;background:#25D366;color:#fff;border-radius:10px;text-align:center;text-decoration:none;font-weight:500;margin-bottom:8px">WhatsApp</a>`:''}<button class="close-modal-btn" onclick="this.closest('.overlay').remove()">Închide</button></div>`;
   document.body.appendChild(o);
-  document.getElementById('copybtn-m').addEventListener('click',function(){
-    navigator.clipboard.writeText(msg).then(()=>{this.textContent='Copiat!';setTimeout(()=>this.textContent='Copiaza mesajul',2000);});
-  });
+  document.getElementById('cbtn').onclick=function(){navigator.clipboard.writeText(msg).then(()=>{this.textContent='Copiat!';setTimeout(()=>this.textContent='Copiază mesajul',2000);});};
+  o.addEventListener('click',e=>{if(e.target===o)o.remove();});
 }
 
-// CLIENTI - incarca tot in memorie, filtreaza local
-async function loadClientList(){
-  document.getElementById('client-list').innerHTML=`<div class="loading-txt">Se incarca clientele...</div>`;
-  document.getElementById('client-count').textContent='';
-  document.getElementById('client-filter-input').value='';
-
-  // Incarcam profilurile
-  const{data:profiles,error}=await sb.from('profiles').select('*').order('nume');
-  
-  if(error){
-    document.getElementById('client-list').innerHTML=`<div class="loading-txt">Eroare la incarcare.</div>`;
-    return;
-  }
-
-  // Incarcam toate programarile pentru statistici
-  const{data:prog}=await sb.from('programari').select('telefon,status,pret');
-  
-  allClientsData=profiles||[];
-  allProgData=prog||[];
-
-  renderClientList(allClientsData);
+// CALENDAR - WEEK STRIP
+function loadCalendar(){
+  renderWeekStrip();
+  renderDayView();
 }
 
-function renderClientList(clients){
-  const cnt=document.getElementById('client-count');
-  const list=document.getElementById('client-list');
+function getWeekDates(weekStart){
+  const dates=[];
+  for(let i=0;i<7;i++){const d=new Date(weekStart);d.setDate(d.getDate()+i);dates.push(d);}
+  return dates;
+}
 
-  if(!clients||!clients.length){
-    cnt.textContent='';
-    list.innerHTML=`<div class="loading-txt">Nicio clienta gasita.</div>`;
-    return;
-  }
+function prevWeek(){calWeekStart.setDate(calWeekStart.getDate()-7);renderWeekStrip();renderDayView();}
+function nextWeek(){calWeekStart.setDate(calWeekStart.getDate()+7);renderWeekStrip();renderDayView();}
 
-  cnt.textContent=clients.length+' '+(clients.length===1?'clienta':'cliente');
-
-  list.innerHTML=clients.map(c=>{
-    const cp=allProgData.filter(p=>p.telefon===c.telefon);
-    const total=cp.filter(p=>p.status==='confirmat').reduce((s,p)=>s+p.pret,0);
-    const nrProg=cp.length;
-    return`<div class="client-card" onclick="openClientDetail('${c.id}','${encodeURIComponent(c.nume||'')}','${c.telefon||''}')">
-      <div class="client-name">${c.nume||'(fara nume)'}</div>
-      <div class="client-phone">${c.telefon||'(fara telefon)'}</div>
-      <div class="client-stats">${nrProg} programari - ${total} lei total</div>
-    </div>`;
+function renderWeekStrip(){
+  const dates=getWeekDates(calWeekStart);
+  const todayKey=dk(new Date());
+  const selKey=dk(calSelectedDate);
+  // Update month label
+  const firstDay=dates[0];const lastDay=dates[6];
+  let label=MONTHS[firstDay.getMonth()]+' '+firstDay.getFullYear();
+  if(firstDay.getMonth()!==lastDay.getMonth())label=MONTHS[firstDay.getMonth()]+' – '+MONTHS[lastDay.getMonth()]+' '+lastDay.getFullYear();
+  document.getElementById('cal-month-btn').textContent=label+' ▾';
+  // Render days
+  document.getElementById('cal-week-strip').innerHTML=dates.map(d=>{
+    const dkey=dk(d);const dayIdx=d.getDay()===0?6:d.getDay()-1;
+    let cls='cal-week-day';
+    if(dkey===selKey)cls+=' active';
+    if(dkey===todayKey)cls+=' today';
+    return`<div class="${cls}" onclick="selectWeekDay('${dkey}')"><div class="wday-name">${DS[dayIdx]}</div><div class="wday-num">${d.getDate()}</div></div>`;
   }).join('');
 }
 
-function filterClientList(){
-  const q=(document.getElementById('client-filter-input').value||'').toLowerCase().trim();
-  if(!q){renderClientList(allClientsData);return;}
-  const filtered=allClientsData.filter(c=>
-    (c.nume||'').toLowerCase().includes(q)||
-    (c.telefon||'').includes(q)||
-    (c.email||'').toLowerCase().includes(q)
-  );
-  renderClientList(filtered);
+function selectWeekDay(dateStr){
+  calSelectedDate=new Date(dateStr+'T12:00:00');
+  renderWeekStrip();
+  renderDayView();
 }
 
-async function openClientDetail(id,numeEnc,telefon){
-  const nume=decodeURIComponent(numeEnc);
-  const{data:prog}=await sb.from('programari').select('*').eq('telefon',telefon).order('data',{ascending:false});
-  const{data:notite}=await sb.from('notite_clienti').select('*').eq('telefon',telefon).order('created_at',{ascending:false});
-  const notita=notite&&notite.length?notite[0].notita:'';
-  const total=(prog||[]).filter(p=>p.status==='confirmat').reduce((s,p)=>s+p.pret,0);
+// MONTH PICKER
+function openMonthPicker(){
+  mpYear=calSelectedDate.getFullYear();mpMonth=calSelectedDate.getMonth();
+  renderMonthPicker();
+}
 
-  const o=document.createElement('div');o.className='overlay';
-  o.innerHTML=`<div class="modal">
-    <p class="modal-title">${nume}</p>
-    <p style="font-size:13px;color:#666;margin-bottom:1rem">${telefon} - ${(prog||[]).length} programari - ${total} lei</p>
-    <div style="margin-bottom:1rem">
-      <label>Notita (vizibila doar Admin)</label>
-      <textarea id="notita-input" placeholder="ex: prefera oja rosie, alergie la gel X...">${notita}</textarea>
-      <button class="btn-sm btn-success" onclick="saveNotita('${telefon}','${encodeURIComponent(nume)}',this)">Salveaza notita</button>
+function renderMonthPicker(){
+  const existing=document.getElementById('month-picker-overlay');
+  if(existing)existing.remove();
+  const o=document.createElement('div');o.className='month-picker-overlay';o.id='month-picker-overlay';
+  const todayKey=dk(new Date());const selKey=dk(calSelectedDate);
+  let html=`<div class="month-picker">
+    <div class="month-picker-header">
+      <button style="background:none;border:none;color:var(--text2);font-size:20px;cursor:pointer" onclick="mpPrevMonth()">&#8249;</button>
+      <span class="month-picker-title">${MONTHS[mpMonth]} ${mpYear}</span>
+      <button style="background:none;border:none;color:var(--text2);font-size:20px;cursor:pointer" onclick="mpNextMonth()">&#8250;</button>
     </div>
-    ${notita?`<div class="notita-box">${notita}</div>`:''}
-    <p style="font-size:14px;font-weight:500;color:#1a1a1a;margin:1rem 0 8px">Istoric programari</p>
-    ${(prog||[]).slice(0,10).map(p=>`
-      <div style="padding:8px 0;border-bottom:1px solid #f0f0ea;font-size:13px;color:#666">
-        <span style="font-weight:500;color:#1a1a1a">${p.serviciu}</span><br>
-        ${friendlyDate(p.data)} - ${p.ora} - ${p.pret} lei
-        <span class="badge ${p.status==='confirmat'?'confirmat':p.status==='anulat'?'anulat':'asteptare'}" style="font-size:11px;padding:2px 8px">${p.status==='confirmat'?'Confirmat':p.status==='anulat'?'Anulat':'In asteptare'}</span>
-      </div>`).join('')}
-    <button class="close-modal-btn" style="margin-top:1rem" onclick="this.closest('.overlay').remove()">Inchide</button>
-  </div>`;
+    <div class="mp-grid">${DS.map(d=>`<div class="mp-label">${d}</div>`).join('')}`;
+  const first=new Date(mpYear,mpMonth,1);
+  let sd=first.getDay()-1;if(sd<0)sd=6;
+  const dim=new Date(mpYear,mpMonth+1,0).getDate();
+  for(let i=0;i<sd;i++)html+=`<div class="mp-day mp-empty"></div>`;
+  for(let d=1;d<=dim;d++){
+    const date=new Date(mpYear,mpMonth,d);const dateKey=dk(date);
+    const isSun=date.getDay()===0;
+    let cls='mp-day';
+    if(isSun)cls+=' mp-dis';
+    if(dateKey===selKey)cls+=' mp-sel';
+    if(dateKey===todayKey&&dateKey!==selKey)cls+=' mp-tod';
+    html+=`<div class="${cls}" ${isSun?'':` onclick="mpSelectDay(${mpYear},${mpMonth},${d})"`}>${d}</div>`;
+  }
+  html+=`</div><button class="close-modal-btn" style="margin-top:1rem" onclick="document.getElementById('month-picker-overlay').remove()">Închide</button></div>`;
+  o.innerHTML=html;
+  o.addEventListener('click',e=>{if(e.target===o)o.remove();});
   document.body.appendChild(o);
 }
 
-async function saveNotita(telefon,numeEnc,btn){
-  const notita=document.getElementById('notita-input').value.trim();
-  const nume=decodeURIComponent(numeEnc);
-  if(!notita){alert('Notita e goala.');return;}
-  const{data:existing}=await sb.from('notite_clienti').select('id').eq('telefon',telefon);
-  if(existing&&existing.length){
-    await sb.from('notite_clienti').update({notita}).eq('telefon',telefon);
-  } else {
-    await sb.from('notite_clienti').insert({telefon,nume_client:nume,notita});
-  }
-  btn.textContent='Salvat!';setTimeout(()=>btn.textContent='Salveaza notita',2000);
+function mpPrevMonth(){if(mpMonth===0){mpMonth=11;mpYear--;}else mpMonth--;renderMonthPicker();}
+function mpNextMonth(){if(mpMonth===11){mpMonth=0;mpYear++;}else mpMonth++;renderMonthPicker();}
+function mpSelectDay(y,m,d){
+  calSelectedDate=new Date(y,m,d,12);
+  calWeekStart=getMonday(calSelectedDate);
+  document.getElementById('month-picker-overlay')?.remove();
+  renderWeekStrip();renderDayView();
 }
 
-// ADAUGA
-let searchTimeout=null;
-async function searchClients(){
-  const q=document.getElementById('client-search').value.trim();
-  const res=document.getElementById('search-results-adm');
-  admClient=null;document.getElementById('selected-client-display').style.display='none';
+// DAY VIEW - cu layout pentru suprapuneri
+async function renderDayView(){
+  const dateKey=dk(calSelectedDate);
+  document.getElementById('cal-day-label').textContent=friendlyDate(dateKey);
+  const{data:prog}=await sb.from('programari').select('*').eq('data',dateKey).neq('status','anulat').order('ora');
+  const{data:blocari}=await sb.from('blocari').select('*').eq('data',dateKey);
+  const dayView=document.getElementById('day-view');
+  const totalMins=(CAL_END-CAL_START)*60;
+  const totalH=totalMins*PX_MIN;
+
+  // Build events list
+  const events=[];
+  (prog||[]).forEach(p=>{
+    events.push({type:'prog',id:p.id,startM:t2m(p.ora),endM:t2m(p.ora)+parseFloat(p.durata)*60,data:p});
+  });
+  (blocari||[]).forEach(b=>{
+    events.push({type:'blocare',id:b.id,startM:t2m(b.ora_start),endM:t2m(b.ora_end),data:b});
+  });
+
+  // Calculate columns for overlapping events
+  const cols=[];
+  events.forEach(ev=>{
+    let placed=false;
+    for(let c=0;c<cols.length;c++){
+      const lastInCol=cols[c][cols[c].length-1];
+      if(ev.startM>=lastInCol.endM){cols[c].push(ev);ev.col=c;placed=true;break;}
+    }
+    if(!placed){ev.col=cols.length;cols.push([ev]);}
+  });
+
+  // Find max overlapping columns
+  events.forEach(ev=>{
+    let maxCols=1;
+    events.forEach(ev2=>{
+      if(ev2!==ev&&ev2.startM<ev.endM&&ev2.endM>ev.startM)maxCols=Math.max(maxCols,ev2.col+1);
+    });
+    ev.totalCols=Math.max(ev.col+1,maxCols);
+  });
+
+  let html=`<div style="position:relative;height:${totalH}px">`;
+  // Hour backgrounds
+  for(let h=CAL_START;h<=CAL_END;h++){
+    const top=(h-CAL_START)*60*PX_MIN;
+    html+=`<div class="hour-bg" style="top:${top}px;height:${60*PX_MIN}px"><span class="hour-lbl">${String(h).padStart(2,'0')}:00</span></div>`;
+  }
+  // Events
+  const COL_LEFT=44;
+  events.forEach(ev=>{
+    const top=(ev.startM-CAL_START*60)*PX_MIN;
+    const height=Math.max((ev.endM-ev.startM)*PX_MIN,30);
+    const avW=`calc(100% - ${COL_LEFT+4}px)`;
+    const colW=100/ev.totalCols;
+    const left=`calc(${COL_LEFT}px + ${ev.col*colW}% * (100% - ${COL_LEFT}px) / 100%)`;
+    const width=`calc(${colW}% - 4px)`;
+
+    if(ev.type==='prog'){
+      const p=ev.data;const et=addM(p.ora,parseFloat(p.durata)*60);
+      const cls=p.status==='confirmat'?'confirmat':'asteptare';
+      html+=`<div class="cal-event ${cls}" style="top:${top}px;height:${height}px;left:calc(${COL_LEFT}px + ${ev.col}*(100% - ${COL_LEFT}px)/${ev.totalCols});width:calc((100% - ${COL_LEFT}px)/${ev.totalCols} - 4px)" onclick="showProgDetailCal('${p.id}','${p.telefon}','${encodeURIComponent(p.nume)}','${p.data}','${p.ora}','${p.status}')">
+        <div class="ev-time">${p.ora} – ${et}</div>
+        <div class="ev-name">${p.nume}</div>
+        <div class="ev-svc">${p.serviciu}</div>
+      </div>`;
+    } else {
+      const b=ev.data;
+      html+=`<div class="cal-event blocat" style="top:${top}px;height:${height}px;left:calc(${COL_LEFT}px + ${ev.col}*(100% - ${COL_LEFT}px)/${ev.totalCols});width:calc((100% - ${COL_LEFT}px)/${ev.totalCols} - 4px)" onclick="showBlocareDetail('${b.id}','${encodeURIComponent(b.motiv||'Blocat')}','${b.ora_start}','${b.ora_end}')">
+        <div class="ev-time">${b.ora_start} – ${b.ora_end}</div>
+        <div class="ev-name" style="color:var(--red)">${b.motiv||'Blocat'}</div>
+      </div>`;
+    }
+  });
+  html+=`</div>`;
+  dayView.innerHTML=html;
+  setTimeout(()=>{dayView.scrollTop=(10-CAL_START)*60*PX_MIN-20;},50);
+}
+
+function showProgDetailCal(id,tel,numeEnc,data,ora,status){
+  const nume=decodeURIComponent(numeEnc);
+  const o=document.createElement('div');o.className='overlay';
+  o.innerHTML=`<div class="modal"><p class="modal-title">${nume}</p><div style="font-size:14px;color:var(--text2);line-height:1.9;margin-bottom:1rem">${tel}<br>${friendlyDate(data)} · ${ora}</div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem"><a href="${waLink(tel,'')}" target="_blank" style="padding:8px 14px;background:#25D366;color:#fff;border-radius:8px;text-decoration:none;font-size:13px;font-weight:500">WhatsApp</a>${status==='in_asteptare'?`<button class="btn-sm btn-success" onclick="confirmFromCal('${id}','${nume}','${data}','${ora}','${tel}',this)">Confirmă</button>`:''}<button class="btn-sm btn-amber" onclick="this.closest('.overlay').remove();showReminderMsg('${nume}','${data}','${ora}','${tel}')">Reminder</button><button class="btn-sm btn-danger" onclick="cancelFromCal('${id}',this)">Anulează</button></div><button class="close-modal-btn" onclick="this.closest('.overlay').remove()">Închide</button></div>`;
+  o.addEventListener('click',e=>{if(e.target===o)o.remove();});document.body.appendChild(o);
+}
+
+function showBlocareDetail(id,motivEnc,start,end){
+  const motiv=decodeURIComponent(motivEnc);
+  const o=document.createElement('div');o.className='overlay';
+  o.innerHTML=`<div class="modal"><p class="modal-title" style="color:var(--red)">Blocat: ${motiv}</p><p style="font-size:14px;color:var(--text2);margin-bottom:1.5rem">${start} – ${end}</p><button class="btn btn-danger" onclick="stergeBlocare('${id}',this)">Șterge blocarea</button><button class="close-modal-btn" style="margin-top:8px" onclick="this.closest('.overlay').remove()">Închide</button></div>`;
+  o.addEventListener('click',e=>{if(e.target===o)o.remove();});document.body.appendChild(o);
+}
+
+async function confirmFromCal(id,n,d,o,tel,btn){
+  await sb.from('programari').update({status:'confirmat'}).eq('id',id);
+  btn.closest('.overlay').remove();showConfirmMsg(n,d,o,tel);renderDayView();
+}
+async function cancelFromCal(id,btn){
+  if(!confirm('Anulezi?'))return;
+  await sb.from('programari').update({status:'anulat'}).eq('id',id);
+  btn.closest('.overlay').remove();renderDayView();loadHome();
+}
+async function stergeBlocare(id,btn){
+  await sb.from('blocari').delete().eq('id',id);
+  btn.closest('.overlay')?.remove();renderDayView();
+}
+
+// FAB CALENDAR
+function toggleCalFab(){
+  calFabOpen=!calFabOpen;
+  document.getElementById('cal-fab-menu').style.display=calFabOpen?'flex':'none';
+  document.getElementById('cal-fab').textContent=calFabOpen?'✕':'+';
+}
+
+// MODAL ADAUGA
+function openAddProgModal(){
+  calFabOpen=false;const fab=document.getElementById('cal-fab');
+  if(fab){fab.textContent='+';const fm=document.getElementById('cal-fab-menu');if(fm)fm.style.display='none';}
+  apClient=null;
+  const dateStr=dk(calSelectedDate);
+  const o=document.createElement('div');o.className='overlay';o.id='add-prog-overlay';
+  o.innerHTML=`<div class="modal" style="max-height:92vh">
+    <p class="modal-title">Programare nouă</p>
+    <label>Caută clientă</label>
+    <input type="text" id="ap-search" placeholder="Nume sau telefon..." oninput="apSearch()" autocomplete="off">
+    <div id="ap-results" class="search-results-adm" style="display:none"></div>
+    <div id="ap-badge" style="display:none" class="client-badge"></div>
+    <div style="color:var(--text2);font-size:12px;text-align:center;margin:-6px 0 12px">— sau clientă nouă —</div>
+    <label>Nume</label><input type="text" id="ap-name" placeholder="Nume și prenume">
+    <label>Telefon</label><input type="tel" id="ap-phone" placeholder="07xx xxx xxx">
+    <label>Serviciu</label>
+    <select id="ap-svc"><option value="">Alege...</option>${SERVICES.map(s=>`<option value="${s.id}">${s.name} · ${s.price} lei</option>`).join('')}</select>
+    <label>Data</label><input type="date" id="ap-data" value="${dateStr}">
+    <label>Ora exactă</label><input type="time" id="ap-ora" value="10:00">
+    <div id="ap-warn" style="display:none;background:var(--amber-light);border:1px solid var(--amber);border-radius:8px;padding:8px 12px;font-size:13px;color:var(--amber);margin-bottom:1rem">Atenție: Ora se suprapune cu o altă programare!</div>
+    <label>Observații</label><textarea id="ap-obs" placeholder="opțional..."></textarea>
+    <button class="btn" onclick="submitAddProg()">Salvează</button>
+    <button class="close-modal-btn" style="margin-top:8px" onclick="document.getElementById('add-prog-overlay').remove()">Anulează</button>
+  </div>`;
+  document.body.appendChild(o);
+  o.addEventListener('click',e=>{if(e.target===o)o.remove();});
+  document.getElementById('ap-ora').addEventListener('change',checkOverlap);
+  document.getElementById('ap-data').addEventListener('change',checkOverlap);
+  document.getElementById('ap-svc').addEventListener('change',checkOverlap);
+}
+
+function apSearch(){
+  const q=document.getElementById('ap-search').value.trim();
+  apClient=null;document.getElementById('ap-badge').style.display='none';
+  const res=document.getElementById('ap-results');
   if(q.length<2){res.style.display='none';return;}
-  clearTimeout(searchTimeout);
-  searchTimeout=setTimeout(async()=>{
-    const{data}=await sb.from('profiles').select('*').or(`nume.ilike.%${q}%,telefon.ilike.%${q}%`).limit(10);
+  clearTimeout(apSearchTmt);
+  apSearchTmt=setTimeout(async()=>{
+    const{data}=await sb.from('profiles').select('*').or(`nume.ilike.%${q}%,telefon.ilike.%${q}%`).limit(8);
     if(!data||!data.length){res.style.display='none';return;}
     res.style.display='block';
-    res.innerHTML=data.map(p=>`<div class="search-result-item" onclick="selectClient('${p.id}','${encodeURIComponent(p.nume||'')}','${p.telefon||''}')"><strong>${p.nume}</strong> - ${p.telefon}</div>`).join('');
+    res.innerHTML=data.map(p=>`<div class="search-result-item" onclick="apSelectClient('${p.id}','${encodeURIComponent(p.nume||'')}','${p.telefon||''}')"><strong>${p.nume}</strong> · ${p.telefon}</div>`).join('');
   },300);
 }
 
-function selectClient(id,numeEnc,telefon){
-  const nume=decodeURIComponent(numeEnc);
-  admClient={user_id:id,nume,telefon};
-  document.getElementById('client-search').value=`${nume} - ${telefon}`;
-  document.getElementById('search-results-adm').style.display='none';
-  const d=document.getElementById('selected-client-display');
-  d.textContent=`${nume} - ${telefon}`;d.style.display='block';
-  document.getElementById('new-client-name').value='';
-  document.getElementById('new-client-phone').value='';
+function apSelectClient(id,numeEnc,tel){
+  const n=decodeURIComponent(numeEnc);apClient={user_id:id,nume:n,telefon:tel};
+  document.getElementById('ap-search').value=`${n} · ${tel}`;
+  document.getElementById('ap-results').style.display='none';
+  const b=document.getElementById('ap-badge');b.textContent=`${n} · ${tel}`;b.style.display='block';
+  document.getElementById('ap-name').value='';document.getElementById('ap-phone').value='';
 }
 
-function adm_nextStep(){
-  if(!admClient){
-    const name=document.getElementById('new-client-name').value.trim();
-    const phone=document.getElementById('new-client-phone').value.trim();
-    if(!name||!phone){alert('Selecteaza o clienta sau completeaza datele.');return;}
-    admClient={nume:name,telefon:phone,user_id:null};
+async function checkOverlap(){
+  const svcId=parseInt(document.getElementById('ap-svc').value);
+  const svc=SERVICES.find(s=>s.id===svcId);
+  const data=document.getElementById('ap-data').value;
+  const ora=document.getElementById('ap-ora').value;
+  const warn=document.getElementById('ap-warn');
+  if(!svc||!data||!ora){warn.style.display='none';return;}
+  const{data:prog}=await sb.from('programari').select('ora,durata').eq('data',data).neq('status','anulat');
+  const ss=t2m(ora);const se=ss+svc.dur*60;
+  let ov=false;
+  (prog||[]).forEach(p=>{const ps=t2m(p.ora);const pe=ps+parseFloat(p.durata)*60;if(ss<pe&&se>ps)ov=true;});
+  warn.style.display=ov?'block':'none';
+}
+
+async function submitAddProg(){
+  const svcId=parseInt(document.getElementById('ap-svc').value);
+  const svc=SERVICES.find(s=>s.id===svcId);
+  const data=document.getElementById('ap-data').value;
+  const ora=document.getElementById('ap-ora').value;
+  const obs=document.getElementById('ap-obs').value.trim();
+  if(!svc||!data||!ora){alert('Completează serviciu, data și ora.');return;}
+  let client=apClient;
+  if(!client){
+    const name=document.getElementById('ap-name').value.trim();
+    const phone=document.getElementById('ap-phone').value.trim();
+    if(!name||!phone){alert('Completează numele și telefonul clientei.');return;}
+    client={user_id:null,nume:name,telefon:phone};
   }
-  document.getElementById('adm-client-summary').textContent=`${admClient.nume} - ${admClient.telefon}`;
-  document.getElementById('adm-step1').style.display='none';
-  document.getElementById('adm-step2').style.display='block';
-  admDate=null;admSlot=null;admService=null;
-  document.getElementById('adm-serviciu').value='';
-  document.getElementById('adm-cal-wrap').style.display='none';
-  document.getElementById('adm-submit-btn').disabled=true;
+  const{error}=await sb.from('programari').insert({user_id:client.user_id||null,nume:client.nume,telefon:client.telefon,serviciu:svc.name,durata:svc.dur,pret:svc.price,data,ora,observatii:obs,status:'confirmat',sursa:'clasic'});
+  if(error){alert('Eroare: '+error.message);return;}
+  document.getElementById('add-prog-overlay').remove();
+  apClient=null;
+  showNotif('Programare salvată!','ok');
+  showConfirmMsg(client.nume,data,ora,client.telefon);
+  loadHome();loadProgramari();renderDayView();
 }
 
-function adm_backStep(){
-  document.getElementById('adm-step1').style.display='block';
-  document.getElementById('adm-step2').style.display='none';
-  admClient=null;
+// MODAL BLOCARE
+function openBlocareModal(){
+  calFabOpen=false;const fab=document.getElementById('cal-fab');
+  if(fab){fab.textContent='+';const fm=document.getElementById('cal-fab-menu');if(fm)fm.style.display='none';}
+  const dateStr=dk(calSelectedDate);
+  const o=document.createElement('div');o.className='overlay';o.id='blocare-overlay';
+  o.innerHTML=`<div class="modal"><p class="modal-title">Blochează timp</p><label>Data</label><input type="date" id="bl-data" value="${dateStr}"><label>Ora început</label><input type="time" id="bl-start" value="10:00"><label>Ora sfârșit</label><input type="time" id="bl-end" value="12:00"><label>Motiv</label><input type="text" id="bl-motiv" placeholder="ex: Pauză, Personal..."><button class="btn" onclick="submitBlocare()">Blochează</button><button class="close-modal-btn" style="margin-top:8px" onclick="document.getElementById('blocare-overlay').remove()">Anulează</button></div>`;
+  document.body.appendChild(o);o.addEventListener('click',e=>{if(e.target===o)o.remove();});
 }
 
-function adm_updateService(){
-  const id=parseInt(document.getElementById('adm-serviciu').value);
-  admService=SERVICES.find(s=>s.id===id)||null;
-  admDate=null;admSlot=null;document.getElementById('adm-submit-btn').disabled=true;
-  document.getElementById('adm-slots-wrap').style.display='none';
-  if(admService){document.getElementById('adm-cal-wrap').style.display='block';admRenderCal();}
-  else document.getElementById('adm-cal-wrap').style.display='none';
+async function submitBlocare(){
+  const data=document.getElementById('bl-data').value;
+  const start=document.getElementById('bl-start').value;
+  const end=document.getElementById('bl-end').value;
+  const motiv=document.getElementById('bl-motiv').value.trim();
+  if(!data||!start||!end){alert('Completează data și orele.');return;}
+  if(start>=end){alert('Ora de sfârșit trebuie să fie după ora de început.');return;}
+  const{error}=await sb.from('blocari').insert({data,ora_start:start,ora_end:end,motiv:motiv||'Blocat'});
+  if(error){alert('Eroare: '+error.message);return;}
+  document.getElementById('blocare-overlay').remove();
+  showNotif('Interval blocat!','ok');renderDayView();
 }
 
-function admRenderCal(){
-  document.getElementById('adm-cal-title').textContent=MONTHS[admViewMonth]+' '+admViewYear;
-  const grid=document.getElementById('adm-cal-grid');
-  grid.innerHTML=DS.map(d=>`<div class="cal-day-label">${d}</div>`).join('');
-  const first=new Date(admViewYear,admViewMonth,1);
-  let sd=first.getDay()-1;if(sd<0)sd=6;
-  const dim=new Date(admViewYear,admViewMonth+1,0).getDate();
-  for(let i=0;i<sd;i++)grid.innerHTML+=`<div class="cal-day-adm empty"></div>`;
-  const tk=toDateKey(new Date());
-  for(let d=1;d<=dim;d++){
-    const date=new Date(admViewYear,admViewMonth,d);
-    const isSun=date.getDay()===0;
-    const isToday=toDateKey(date)===tk;
-    const isSel=admDate&&toDateKey(date)===toDateKey(admDate);
-    let cls='cal-day-adm';
-    if(isSun)cls+=' disabled';
-    if(isToday&&!isSel)cls+=' today';
-    if(isSel)cls+=' selected';
-    grid.innerHTML+=`<div class="${cls}" ${isSun?'':` onclick="admPickDay(${d})"`}>${d}</div>`;
-  }
+// NOTIF
+function showNotif(msg,type='ok'){
+  const n=document.createElement('div');n.className=`notif-popup notif-${type}`;
+  n.innerHTML=`<div style="font-weight:500;margin-bottom:4px">${type==='ok'?'Succes':'Atenție'}</div><div style="font-size:13px">${msg}</div>`;
+  document.body.appendChild(n);setTimeout(()=>n.remove(),3000);
 }
 
-function admPrevMonth(){if(admViewMonth===0){admViewMonth=11;admViewYear--;}else admViewMonth--;admRenderCal();}
-function admNextMonth(){if(admViewMonth===11){admViewMonth=0;admViewYear++;}else admViewMonth++;admRenderCal();}
-
-async function admPickDay(d){
-  admDate=new Date(admViewYear,admViewMonth,d);admSlot=null;
-  document.getElementById('adm-submit-btn').disabled=true;
-  admRenderCal();
-  document.getElementById('adm-slots-wrap').style.display='block';
-  document.getElementById('adm-slots').innerHTML=`<div style="font-size:13px;color:#888;padding:8px">Se verifica...</div>`;
-  const dk=toDateKey(admDate);
-  const{data}=await sb.from('programari').select('ora,durata,status').eq('data',dk).neq('status','anulat');
-  const blocked=new Set();
-  if(data){data.forEach(p=>{const[h,m]=p.ora.split(':').map(Number);const sh=h+m/60;const eh=sh+parseFloat(p.durata);for(let t=WS;t<WE;t+=0.5){if(t<eh&&t+admService.dur>sh)blocked.add(t);}});}
-  const isSat=admDate.getDay()===6;const endH=isSat?12:WE;const slots=[];
-  for(let h=WS;h+admService.dur<=endH;h+=0.5){
-    const taken=blocked.has(h);const hh=Math.floor(h).toString().padStart(2,'0');const mm=h%1===0?'00':'30';
-    slots.push({time:`${hh}:${mm}`,taken});
-  }
-  document.getElementById('adm-slots').innerHTML=`<div class="slots-grid">${slots.map(s=>`<div class="slot-adm${s.taken?' taken':''}" ${s.taken?'':` onclick="admPickSlot('${s.time}')"`}>${s.time}</div>`).join('')}</div>`;
+// CLIENTI
+async function loadClientList(){
+  document.getElementById('client-list').innerHTML=`<div class="loading-txt">Se încarcă...</div>`;
+  document.getElementById('client-count').textContent='';document.getElementById('client-filter-input').value='';
+  const{data:profiles}=await sb.from('profiles').select('*').order('nume');
+  const{data:prog}=await sb.from('programari').select('telefon,status,pret,serviciu');
+  allClientsData=profiles||[];allProgData=prog||[];
+  renderClientList(allClientsData);
 }
-
-function admPickSlot(s){
-  admSlot=s;
-  document.querySelectorAll('.slot-adm:not(.taken)').forEach(el=>{el.classList.remove('selected');if(el.textContent===s)el.classList.add('selected');});
-  document.getElementById('adm-submit-btn').disabled=false;
+function renderClientList(clients){
+  const cnt=document.getElementById('client-count');const list=document.getElementById('client-list');
+  if(!clients||!clients.length){cnt.textContent='';list.innerHTML=`<div class="loading-txt">Nicio clientă.</div>`;return;}
+  cnt.textContent=clients.length+' '+(clients.length===1?'clientă':'cliente');
+  list.innerHTML=clients.map(c=>{
+    const initials=(c.nume||'?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+    const av=c.avatar_url?`<img src="${c.avatar_url}" style="width:100%;height:100%;object-fit:cover;border-radius:50%">`:`<span>${initials}</span>`;
+    return`<div class="client-card" onclick="openClientDetail('${c.id}','${encodeURIComponent(c.nume||'')}','${c.telefon||''}')"><div class="client-avatar">${av}</div><div><div style="font-size:15px;font-weight:500;color:var(--text)">${c.nume||'(fără nume)'}</div><div style="font-size:13px;color:var(--text2);margin-top:2px">${c.telefon||''}</div></div></div>`;
+  }).join('');
 }
-
-async function adm_submit(){
-  if(!admClient||!admService||!admDate||!admSlot){alert('Completeaza toate campurile.');return;}
-  const btn=document.getElementById('adm-submit-btn');
-  btn.disabled=true;btn.textContent='Se salveaza...';
-  const obs=document.getElementById('adm-obs').value.trim();
-  const tip=document.getElementById('adm-tip').value;
-  const{error}=await sb.from('programari').insert({
-    user_id:admClient.user_id||null,
-    nume:admClient.nume,telefon:admClient.telefon,
-    serviciu:admService.name,durata:admService.dur,pret:admService.price,
-    data:toDateKey(admDate),ora:admSlot,observatii:obs,
-    status:'confirmat',tip,sursa:'clasic'
-  });
-  if(error){alert('Eroare: '+error.message);btn.disabled=false;btn.textContent='Salveaza programarea';return;}
-  document.getElementById('adm-step2').style.display='none';
-  document.getElementById('adm-step-success').style.display='block';
-  loadAzi();
+function filterClientList(){
+  const q=(document.getElementById('client-filter-input').value||'').toLowerCase().trim();
+  if(!q){renderClientList(allClientsData);return;}
+  renderClientList(allClientsData.filter(c=>(c.nume||'').toLowerCase().includes(q)||(c.telefon||'').includes(q)));
 }
-
-function adm_reset(){
-  admClient=null;admService=null;admDate=null;admSlot=null;
-  ['client-search','new-client-name','new-client-phone','adm-obs'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('adm-serviciu').value='';
-  document.getElementById('search-results-adm').style.display='none';
-  document.getElementById('selected-client-display').style.display='none';
-  document.getElementById('adm-cal-wrap').style.display='none';
-  document.getElementById('adm-slots-wrap').style.display='none';
-  document.getElementById('adm-submit-btn').disabled=true;
-  document.getElementById('adm-step1').style.display='block';
-  document.getElementById('adm-step2').style.display='none';
-  document.getElementById('adm-step-success').style.display='none';
-}
-
-// CALENDAR
-async function loadCalendar(){
-  const days=[];
-  for(let i=0;i<7;i++){const d=new Date(weekStart);d.setDate(d.getDate()+i);days.push(d);}
-  document.getElementById('week-label').textContent=`${days[0].getDate()} ${MG[days[0].getMonth()]} - ${days[6].getDate()} ${MG[days[6].getMonth()]}`;
-  const{data}=await sb.from('programari').select('*').gte('data',toDateKey(days[0])).lte('data',toDateKey(days[6])).order('ora',{ascending:true});
-  const tk=toDateKey(new Date());
-  document.getElementById('week-labels').innerHTML=days.map(d=>`<div><div class="week-day-label">${DS[d.getDay()===0?6:d.getDay()-1]}</div><div class="week-day-num${toDateKey(d)===tk?' today':''}">${d.getDate()}</div></div>`).join('');
-  document.getElementById('week-content').innerHTML=`<div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px">
-    ${days.map(d=>{
-      const dk=toDateKey(d);
-      const dp=(data||[]).filter(p=>p.data===dk);
-      return`<div>${dp.map(p=>`<div class="week-event ${p.status}" onclick="showProgDetailCal('${p.id}')" title="${p.nume}"><strong>${p.ora}</strong><br>${p.nume.split(' ')[0]}</div>`).join('')}</div>`;
-    }).join('')}
-  </div>`;
-}
-
-function prevWeek(){weekStart=new Date(weekStart);weekStart.setDate(weekStart.getDate()-7);loadCalendar();}
-function nextWeek(){weekStart=new Date(weekStart);weekStart.setDate(weekStart.getDate()+7);loadCalendar();}
-
-async function showProgDetailCal(id){
-  const{data:p}=await sb.from('programari').select('*').eq('id',id).single();
-  if(!p)return;
+async function openClientDetail(id,numeEnc,tel){
+  const n=decodeURIComponent(numeEnc);
+  const{data:prog}=await sb.from('programari').select('*').eq('telefon',tel).order('data',{ascending:false});
+  const{data:notite}=await sb.from('notite_clienti').select('*').eq('telefon',tel);
+  const notita=notite&&notite.length?notite[0].notita:'';
+  const conf=(prog||[]).filter(p=>p.status==='confirmat');
+  const total=conf.reduce((s,p)=>s+p.pret,0);
+  const totalTips=conf.reduce((s,p)=>s+(p.tips||0),0);
+  const sm={};conf.forEach(p=>{sm[p.serviciu]=(sm[p.serviciu]||0)+1;});
   const o=document.createElement('div');o.className='overlay';
+  o.innerHTML=`<div class="modal"><p class="modal-title">${n}</p><div style="display:flex;gap:10px;margin-bottom:1rem;flex-wrap:wrap">
+    <div style="flex:1;min-width:80px;background:var(--green-light);border-radius:10px;padding:12px;text-align:center"><div style="font-size:20px;font-weight:500;color:var(--green)">${conf.length}</div><div style="font-size:11px;color:var(--text2)">programări</div></div>
+    <div style="flex:1;min-width:80px;background:var(--rose-light);border-radius:10px;padding:12px;text-align:center"><div style="font-size:20px;font-weight:500;color:var(--rose)">${total} lei</div><div style="font-size:11px;color:var(--text2)">total</div></div>
+    ${totalTips>0?`<div style="flex:1;min-width:80px;background:var(--amber-light);border-radius:10px;padding:12px;text-align:center"><div style="font-size:20px;font-weight:500;color:var(--amber)">${totalTips} lei</div><div style="font-size:11px;color:var(--text2)">tips</div></div>`:''}
+  </div>${Object.entries(sm).length?`<div style="margin-bottom:1rem"><p style="font-size:12px;color:var(--text2);margin-bottom:8px">SERVICII PREFERATE</p>${Object.entries(sm).sort((a,b)=>b[1]-a[1]).slice(0,3).map(([s,c])=>`<div style="display:flex;justify-content:space-between;font-size:13px;padding:4px 0;color:var(--text)"><span>${s}</span><span style="color:var(--rose)">${c}x</span></div>`).join('')}</div>`:''}<a href="${waLink(tel,'')}" target="_blank" style="display:block;padding:12px;background:#25D366;color:#fff;border-radius:10px;text-align:center;text-decoration:none;font-weight:500;margin-bottom:1rem">WhatsApp</a><label>Mențiuni admin</label><textarea id="notita-input" placeholder="ex: preferă ojă roșie...">${notita}</textarea><button class="btn-sm btn-success" style="margin-bottom:1rem" onclick="saveNotita('${tel}','${numeEnc}',this)">Salvează mențiunea</button><p style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:8px">Istoric</p>${(prog||[]).slice(0,6).map(p=>`<div style="padding:8px 0;border-bottom:1px solid var(--border);font-size:13px">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start">
+    <span style="font-weight:500;color:var(--text)">${p.serviciu}</span>
+    <span class="badge ${p.status==='confirmat'?'confirmat':p.status==='anulat'?'anulat':'asteptare'}" style="font-size:11px">${p.status==='confirmat'?'Confirmat':p.status==='anulat'?'Anulat':'Așteptare'}</span>
+  </div>
+  <span style="color:var(--text2)">${friendlyDate(p.data)} · ${p.ora} · ${p.pret} lei</span>
+  ${p.tips>0?`<span style="display:inline-block;margin-left:6px;color:var(--amber);font-size:12px">+${p.tips} lei tips</span>`:''}
+</div>`).join('')}<button class="close-modal-btn" style="margin-top:1rem" onclick="this.closest('.overlay').remove()">Închide</button></div>`;
+  o.addEventListener('click',e=>{if(e.target===o)o.remove();});document.body.appendChild(o);
+}
+async function saveNotita(tel,numeEnc,btn){
+  const notita=document.getElementById('notita-input').value.trim();
+  const{data:ex}=await sb.from('notite_clienti').select('id').eq('telefon',tel);
+  if(ex&&ex.length)await sb.from('notite_clienti').update({notita}).eq('telefon',tel);
+  else await sb.from('notite_clienti').insert({telefon:tel,nume_client:decodeURIComponent(numeEnc),notita});
+  btn.textContent='Salvat!';setTimeout(()=>btn.textContent='Salvează mențiunea',2000);
+}
+
+// PERIOD CHANGE
+function onPeriodChange(){
+  const period=document.getElementById('rep-period').value;
+  const customDiv=document.getElementById('custom-range');
+  if(period==='custom'){
+    customDiv.style.display='block';
+    const now=new Date();
+    document.getElementById('rep-start').value=now.getFullYear()+'-'+String(now.getMonth()+1).padStart(2,'0')+'-01';
+    document.getElementById('rep-end').value=dk(now);
+  } else {
+    customDiv.style.display='none';
+    loadRapoarte();
+    loadCheltuieli();
+    loadCheltuieliFixe();
+  }
+}
+
+function getRepDates(){
+  const period=document.getElementById('rep-period').value;
+  const now=new Date();
+  let s,e;
+  if(period==='azi'){s=new Date(now.getFullYear(),now.getMonth(),now.getDate());e=new Date(s);}
+  else if(period==='saptamana'){s=getMonday(now);e=new Date(s);e.setDate(e.getDate()+6);}
+  else if(period==='luna'){s=new Date(now.getFullYear(),now.getMonth(),1);e=new Date(now.getFullYear(),now.getMonth()+1,0);}
+  else if(period==='luna-trecuta'){s=new Date(now.getFullYear(),now.getMonth()-1,1);e=new Date(now.getFullYear(),now.getMonth(),0);}
+  else if(period==='an'){s=new Date(now.getFullYear(),0,1);e=new Date(now.getFullYear(),11,31);}
+  else if(period==='custom'){
+    const sv=document.getElementById('rep-start').value;
+    const ev=document.getElementById('rep-end').value;
+    if(!sv||!ev)return null;
+    s=new Date(sv+'T12:00:00');e=new Date(ev+'T12:00:00');
+  }
+  else{s=new Date('2020-01-01');e=new Date('2099-12-31');}
+  return{s,e};
+}
+
+// TIPS
+async function addTips(progId, currentTips){
+  const o=document.createElement('div');o.className='overlay';o.id='tips-overlay';
   o.innerHTML=`<div class="modal">
-    <p class="modal-title">${p.nume}</p>
-    <div style="font-size:14px;color:#666;line-height:1.9;margin-bottom:1rem">
-      ${p.telefon}<br>${p.serviciu}<br>${friendlyDate(p.data)} - ${p.ora}<br>${p.pret} lei - ${durLabel(p.durata)}${p.observatii?'<br>'+p.observatii:''}
-    </div>
-    ${p.status==='in_asteptare'?`<button class="btn btn-success" style="margin-bottom:8px" onclick="updateStatusModal('${p.id}','confirmat','${p.nume}','${p.data}','${p.ora}',this)">Confirma</button>`:''}
-    ${p.status!=='anulat'?`<button class="btn btn-danger" style="margin-bottom:8px" onclick="cancelFromModal('${p.id}',this)">Anuleaza</button>`:''}
-    <button class="close-modal-btn" onclick="this.closest('.overlay').remove()">Inchide</button>
+    <p class="modal-title">Adaugă Tips</p>
+    <label>Suma tips (lei)</label>
+    <input type="number" id="tips-sum" placeholder="ex: 20" min="0" value="${currentTips||''}">
+    <button class="btn btn-success" onclick="submitTips('${progId}')">Salvează</button>
+    <button class="close-modal-btn" style="margin-top:8px" onclick="document.getElementById('tips-overlay').remove()">Anulează</button>
   </div>`;
   document.body.appendChild(o);
+  o.addEventListener('click',e=>{if(e.target===o)o.remove();});
+  setTimeout(()=>document.getElementById('tips-sum')?.focus(),100);
 }
 
-async function updateStatusModal(id,status,nume,data,ora,btn){
-  await sb.from('programari').update({status}).eq('id',id);
-  btn.closest('.overlay').remove();
-  showMsgModal(`Programarea ta la Naomi Stanciu a fost CONFIRMATA pentru ${friendlyDate(data)} la ${ora}.`,'Confirmare');
-  loadCalendar();loadAzi();
+async function submitTips(progId){
+  const sum=parseFloat(document.getElementById('tips-sum').value);
+  if(isNaN(sum)||sum<0){alert('Sumă invalidă.');return;}
+  await sb.from('programari').update({tips:sum}).eq('id',progId);
+  document.getElementById('tips-overlay').remove();
+  showNotif('Tips salvat!','ok');
+  // Nu reincarcam programarile - schimbarea e salvata discret in baza de date
 }
 
-async function cancelFromModal(id,btn){
-  if(!confirm('Anulezi?'))return;
-  await sb.from('programari').update({status:'anulat'}).eq('id',id);
-  btn.closest('.overlay').remove();
-  loadCalendar();loadAzi();
+// CHELTUIELI
+function openAddChelt(){
+  const today=dk(new Date());
+  const o=document.createElement('div');o.className='overlay';o.id='chelt-overlay';
+  o.innerHTML=`<div class="modal"><p class="modal-title">Adaugă cheltuială</p><label>Produs / Descriere</label><input type="text" id="ch-prod" placeholder="ex: Geluri OPI, Mănuși..."><label>Sumă (lei)</label><input type="number" id="ch-sum" placeholder="ex: 150" min="0"><label>Data</label><input type="date" id="ch-data" value="${today}"><button class="btn" onclick="submitChelt()">Salvează</button><button class="close-modal-btn" style="margin-top:8px" onclick="document.getElementById('chelt-overlay').remove()">Anulează</button></div>`;
+  document.body.appendChild(o);o.addEventListener('click',e=>{if(e.target===o)o.remove();});
+}
+
+async function submitChelt(){
+  const prod=document.getElementById('ch-prod').value.trim();
+  const sum=parseFloat(document.getElementById('ch-sum').value);
+  const data=document.getElementById('ch-data').value;
+  if(!prod||!sum||!data){alert('Completează toate câmpurile.');return;}
+  const{error}=await sb.from('cheltuieli').insert({produs:prod,suma:sum,data});
+  if(error){
+    // Tabelul nu exista inca
+    alert('Tabelul cheltuieli nu există. Rulează SQL-ul din instrucțiuni.');return;
+  }
+  document.getElementById('chelt-overlay').remove();
+  showNotif('Cheltuială salvată!','ok');loadCheltuieli();loadRapoarte();
+}
+
+async function loadCheltuieli(){
+  const dates=getRepDates();if(!dates)return;
+  const{s,e}=dates;
+  try{
+    const{data}=await sb.from('cheltuieli').select('*').gte('data',dk(s)).lte('data',dk(e)).order('data',{ascending:false});
+    const list=document.getElementById('chelt-list');
+    const totalEl=document.getElementById('chelt-total');
+    if(!data||!data.length){list.innerHTML=`<div style="font-size:13px;color:var(--text2);padding:8px 0">Nicio cheltuială înregistrată.</div>`;totalEl.textContent='';return 0;}
+    const total=data.reduce((s,c)=>s+c.suma,0);
+    list.innerHTML=data.map(c=>`<div class="chelt-card"><div><div class="chelt-name">${c.produs}</div><div class="chelt-meta">${friendlyDate(c.data)}</div></div><div style="display:flex;align-items:center;gap:8px"><div class="chelt-sum">-${c.suma} lei</div><button style="background:none;border:none;color:var(--text2);cursor:pointer;font-size:16px" onclick="stergeChelt('${c.id}')">×</button></div></div>`).join('');
+    totalEl.textContent=`Total: ${total} lei`;
+    return total;
+  }catch(e2){
+    document.getElementById('chelt-list').innerHTML=`<div style="font-size:13px;color:var(--text2)">Rulează SQL-ul pentru tabelul cheltuieli.</div>`;
+    return 0;
+  }
+}
+
+async function stergeChelt(id){
+  if(!confirm('Ștergi cheltuiala?'))return;
+  await sb.from('cheltuieli').delete().eq('id',id);
+  loadCheltuieli();updateProfit();
+}
+
+async function loadCheltuieliFixe(){
+  try{
+    const{data}=await sb.from('cheltuieli_fixe').select('*').eq('activa',true).order('denumire');
+    const list=document.getElementById('chelt-fixe-list');
+    const totalEl=document.getElementById('chelt-fixe-total');
+    if(!data||!data.length){list.innerHTML=`<div style="font-size:13px;color:var(--text2);padding:8px 0">Nicio cheltuială fixă.</div>`;totalEl.textContent='';return 0;}
+    const total=data.reduce((s,c)=>s+c.suma,0);
+    list.innerHTML=data.map(c=>`<div class="chelt-card"><div><div class="chelt-name">${c.denumire}</div><div class="chelt-meta">Lunar</div></div><div style="display:flex;align-items:center;gap:8px"><div class="chelt-sum">-${c.suma} lei/lună</div><button style="background:none;border:none;color:var(--text2);cursor:pointer;font-size:16px" onclick="stergeCheltFixa('${c.id}')">×</button></div></div>`).join('');
+    totalEl.textContent=`Total fix lunar: ${total} lei`;
+    return total;
+  }catch(e){
+    document.getElementById('chelt-fixe-list').innerHTML=`<div style="font-size:13px;color:var(--text2)">Rulează SQL-ul pentru tabelul cheltuieli_fixe.</div>`;
+    return 0;
+  }
+}
+
+async function stergeCheltFixa(id){
+  if(!confirm('Ștergi cheltuiala fixă?'))return;
+  await sb.from('cheltuieli_fixe').delete().eq('id',id);
+  loadCheltuieliFixe();updateProfit();
+}
+
+function openAddCheltFixa(){
+  const o=document.createElement('div');o.className='overlay';o.id='chelt-fixa-overlay';
+  o.innerHTML=`<div class="modal"><p class="modal-title">Cheltuială fixă lunară</p><label>Denumire</label><input type="text" id="cf-den" placeholder="ex: Carte de muncă, Chirie..."><label>Sumă lunară (lei)</label><input type="number" id="cf-sum" placeholder="ex: 500" min="0"><button class="btn" onclick="submitCheltFixa()">Salvează</button><button class="close-modal-btn" style="margin-top:8px" onclick="document.getElementById('chelt-fixa-overlay').remove()">Anulează</button></div>`;
+  document.body.appendChild(o);o.addEventListener('click',e=>{if(e.target===o)o.remove();});
+}
+
+async function submitCheltFixa(){
+  const den=document.getElementById('cf-den').value.trim();
+  const sum=parseFloat(document.getElementById('cf-sum').value);
+  if(!den||isNaN(sum)){alert('Completează toate câmpurile.');return;}
+  const{error}=await sb.from('cheltuieli_fixe').insert({denumire:den,suma:sum,activa:true});
+  if(error){alert('Eroare: '+error.message);return;}
+  document.getElementById('chelt-fixa-overlay').remove();
+  showNotif('Cheltuială fixă salvată!','ok');
+  loadCheltuieliFixe();updateProfit();
+}
+
+async function updateProfit(){
+  // recalculate profit box
+  const dates=getRepDates();if(!dates)return;
+  const{s,e}=dates;
+  const{data:prog}=await sb.from('programari').select('pret,tips').eq('status','confirmat').gte('data',dk(s)).lte('data',dk(e));
+  const incasari=(prog||[]).reduce((acc,p)=>acc+p.pret,0);
+  const tips=(prog||[]).reduce((acc,p)=>acc+(p.tips||0),0);
+  
+  let cheltVar=0;
+  try{const{data:chv}=await sb.from('cheltuieli').select('suma').gte('data',dk(s)).lte('data',dk(e));cheltVar=(chv||[]).reduce((a,c)=>a+c.suma,0);}catch(e){}
+  
+  let cheltFix=0;
+  try{const{data:chf}=await sb.from('cheltuieli_fixe').select('suma').eq('activa',true);cheltFix=(chf||[]).reduce((a,c)=>a+c.suma,0);}catch(e){}
+  
+  const totalChelt=cheltVar+cheltFix;
+  const profit=incasari-totalChelt;
+  const profitColor=profit>=0?'var(--green)':'var(--red)';
+  
+  const box=document.getElementById('rep-profit-box');
+  if(box){
+    box.innerHTML=`<div style="margin-top:1rem;border-top:1px solid var(--border);padding-top:1rem">
+      <div style="display:flex;justify-content:space-between;font-size:14px;padding:5px 0;color:var(--text)"><span style="color:var(--text2)">Încasări</span><span style="color:var(--green)">+${incasari} lei</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:14px;padding:5px 0;color:var(--text)"><span style="color:var(--text2)">Tips</span><span style="color:var(--green)">+${tips} lei</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:14px;padding:5px 0;color:var(--text)"><span style="color:var(--text2)">Cheltuieli variabile</span><span style="color:var(--red)">-${cheltVar} lei</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:14px;padding:5px 0;color:var(--text)"><span style="color:var(--text2)">Cheltuieli fixe (lunar)</span><span style="color:var(--red)">-${cheltFix} lei</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:16px;font-weight:600;padding:10px 0 4px;border-top:1px solid var(--border);margin-top:6px"><span>Profit net</span><span style="color:${profitColor}">${profit>=0?'+':''}${profit} lei</span></div>
+    </div>`;
+  }
 }
 
 // RAPOARTE
 async function loadRapoarte(){
-  const period=document.getElementById('rep-period').value;
-  const now=new Date();let startDate,endDate;
-  if(period==='luna'){startDate=new Date(now.getFullYear(),now.getMonth(),1);endDate=new Date(now.getFullYear(),now.getMonth()+1,0);}
-  else if(period==='luna-trecuta'){startDate=new Date(now.getFullYear(),now.getMonth()-1,1);endDate=new Date(now.getFullYear(),now.getMonth(),0);}
-  else if(period==='an'){startDate=new Date(now.getFullYear(),0,1);endDate=new Date(now.getFullYear(),11,31);}
-  else{startDate=new Date('2020-01-01');endDate=new Date('2099-12-31');}
-  const{data}=await sb.from('programari').select('*').eq('status','confirmat').gte('data',toDateKey(startDate)).lte('data',toDateKey(endDate));
-  const repData=data||[];
-  const total=repData.reduce((s,p)=>s+p.pret,0);
-  const cnt=repData.length;
-  const med=cnt>0?Math.round(total/cnt):0;
+  const dates=getRepDates();if(!dates)return;
+  const{s,e}=dates;
+  const{data}=await sb.from('programari').select('*').eq('status','confirmat').gte('data',dk(s)).lte('data',dk(e));
+  const rd=data||[];
+  const total=rd.reduce((acc,p)=>acc+p.pret,0);
+  const totalTips=rd.reduce((acc,p)=>acc+(p.tips||0),0);
+  
   document.getElementById('rep-stats').innerHTML=
-    `<div class="stat-card"><div class="stat-label">Total incasari</div><div class="stat-value">${total} lei</div></div>`+
-    `<div class="stat-card"><div class="stat-label">Programari</div><div class="stat-value">${cnt}</div><div class="stat-sub">~${med} lei/prog</div></div>`;
-  const alb=repData.filter(p=>(p.tip||'alb')==='alb');
-  const negru=repData.filter(p=>p.tip==='negru');
-  document.getElementById('rep-alb-negru').innerHTML=
-    `<div class="report-row"><span>Alb (clientele mele)</span><span>${alb.length} prog - ${alb.reduce((s,p)=>s+p.pret,0)} lei</span></div>`+
-    `<div class="report-row"><span>Negru (clientele sefei)</span><span>${negru.length} prog - ${negru.reduce((s,p)=>s+p.pret,0)} lei</span></div>`;
-  const galerie=repData.filter(p=>p.sursa==='galerie');
-  const clasic=repData.filter(p=>p.sursa!=='galerie');
-  document.getElementById('rep-sursa').innerHTML=
-    `<div class="report-row"><span>Din galerie foto</span><span>${galerie.length} programari</span></div>`+
-    `<div class="report-row"><span>Clasic (lista servicii)</span><span>${clasic.length} programari</span></div>`;
-  const sm={};repData.forEach(p=>{if(!sm[p.serviciu])sm[p.serviciu]={cnt:0,total:0};sm[p.serviciu].cnt++;sm[p.serviciu].total+=p.pret;});
-  const sa=Object.entries(sm).sort((a,b)=>b[1].cnt-a[1].cnt);
-  document.getElementById('rep-servicii').innerHTML=sa.length?sa.map(([n,v])=>`<div class="report-row"><span>${n}</span><span>${v.cnt}x - ${v.total} lei</span></div>`).join(''):`<div style="color:#888;font-size:14px">Nicio data.</div>`;
-  const cm={};repData.forEach(p=>{if(!cm[p.nume])cm[p.nume]={cnt:0,total:0};cm[p.nume].cnt++;cm[p.nume].total+=p.pret;});
-  const ca=Object.entries(cm).sort((a,b)=>b[1].cnt-a[1].cnt).slice(0,10);
-  document.getElementById('rep-clienti').innerHTML=ca.length?ca.map(([n,v])=>`<div class="report-row"><span>${n}</span><span>${v.cnt} prog - ${v.total} lei</span></div>`).join(''):`<div style="color:#888;font-size:14px">Nicio data.</div>`;
+    `<div class="stat-card"><div class="stat-label">Încasări</div><div class="stat-value">${total} lei</div></div>`+
+    `<div class="stat-card"><div class="stat-label">Programări</div><div class="stat-value">${rd.length}</div><div class="stat-sub">${rd.length>0?Math.round(total/rd.length)+' lei/medie':''}</div></div>`;
+  
+  // TIPS section
+  const tipsMap={};
+  rd.filter(p=>p.tips>0).forEach(p=>{
+    if(!tipsMap[p.nume])tipsMap[p.nume]={total:0,cnt:0,maxTip:0};
+    tipsMap[p.nume].total+=p.tips;
+    tipsMap[p.nume].cnt++;
+    tipsMap[p.nume].maxTip=Math.max(tipsMap[p.nume].maxTip,p.tips);
+  });
+  const tipsSorted=Object.entries(tipsMap).sort((a,b)=>b[1].total-a[1].total);
+  const tipsEl=document.getElementById('rep-tips');
+  if(totalTips>0){
+    tipsEl.innerHTML=`<div style="display:flex;justify-content:space-between;font-size:14px;padding:6px 0;border-bottom:1px solid var(--border);margin-bottom:8px"><span style="color:var(--text2)">Total tips</span><span style="color:var(--green);font-weight:600">+${totalTips} lei</span></div>`+
+    `<p style="font-size:12px;color:var(--text2);margin-bottom:8px">TOP clientă tips</p>`+
+    tipsSorted.slice(0,5).map(([n,v],i)=>
+      `<div style="display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:5px 0;border-bottom:1px solid var(--border)">
+        <span style="color:var(--text)">${i===0?'🥇 ':''}${n}</span>
+        <span style="color:var(--amber)">${v.total} lei (max ${v.maxTip} lei)</span>
+      </div>`).join('');
+  } else {
+    tipsEl.innerHTML=`<div style="font-size:13px;color:var(--text2)">Niciun tips înregistrat în această perioadă.</div>`;
+  }
+  
+  const sm={};rd.forEach(p=>{if(!sm[p.serviciu])sm[p.serviciu]={cnt:0,total:0};sm[p.serviciu].cnt++;sm[p.serviciu].total+=p.pret;});
+  document.getElementById('rep-servicii').innerHTML=Object.entries(sm).sort((a,b)=>b[1].cnt-a[1].cnt).map(([n,v])=>`<div class="report-row"><span>${n}</span><span>${v.cnt}x · ${v.total} lei</span></div>`).join('')||`<div style="color:var(--text2);font-size:14px">Nicio dată.</div>`;
+  const cm={};rd.forEach(p=>{if(!cm[p.nume])cm[p.nume]={cnt:0,total:0};cm[p.nume].cnt++;cm[p.nume].total+=p.pret;});
+  document.getElementById('rep-clienti').innerHTML=Object.entries(cm).sort((a,b)=>b[1].cnt-a[1].cnt).slice(0,10).map(([n,v])=>`<div class="report-row"><span>${n}</span><span>${v.cnt} prog · ${v.total} lei</span></div>`).join('')||`<div style="color:var(--text2);font-size:14px">Nicio dată.</div>`;
+  
+  await loadCheltuieli();
+  await loadCheltuieliFixe();
+  await updateProfit();
 }
 
 async function exportExcel(){
   const period=document.getElementById('rep-period').value;
-  const now=new Date();let startDate,endDate;
-  if(period==='luna'){startDate=new Date(now.getFullYear(),now.getMonth(),1);endDate=new Date(now.getFullYear(),now.getMonth()+1,0);}
-  else if(period==='luna-trecuta'){startDate=new Date(now.getFullYear(),now.getMonth()-1,1);endDate=new Date(now.getFullYear(),now.getMonth(),0);}
-  else if(period==='an'){startDate=new Date(now.getFullYear(),0,1);endDate=new Date(now.getFullYear(),11,31);}
-  else{startDate=new Date('2020-01-01');endDate=new Date('2099-12-31');}
-  const{data}=await sb.from('programari').select('*').gte('data',toDateKey(startDate)).lte('data',toDateKey(endDate)).order('data').order('ora');
-  if(!data||!data.length){alert('Nu exista date pentru export.');return;}
+  const now=new Date();let s,e;
+  if(period==='azi'){s=new Date(now.getFullYear(),now.getMonth(),now.getDate());e=s;}
+  else if(period==='saptamana'){s=getMonday(now);e=new Date(s);e.setDate(e.getDate()+6);}
+  else if(period==='luna'){s=new Date(now.getFullYear(),now.getMonth(),1);e=new Date(now.getFullYear(),now.getMonth()+1,0);}
+  else if(period==='luna-trecuta'){s=new Date(now.getFullYear(),now.getMonth()-1,1);e=new Date(now.getFullYear(),now.getMonth(),0);}
+  else if(period==='an'){s=new Date(now.getFullYear(),0,1);e=new Date(now.getFullYear(),11,31);}
+  else{s=new Date('2020-01-01');e=new Date('2099-12-31');}
+  const{data}=await sb.from('programari').select('*').gte('data',dk(s)).lte('data',dk(e)).order('data').order('ora');
+  if(!data||!data.length){alert('Nu există date.');return;}
   const wb=XLSX.utils.book_new();
-  const all=data.map(p=>({'Data':p.data,'Ora':p.ora,'Nume':p.nume,'Telefon':p.telefon,'Serviciu':p.serviciu,'Durata':durLabel(p.durata),'Pret (lei)':p.pret,'Status':p.status,'Tip':p.tip||'alb','Sursa':p.sursa||'clasic','Observatii':p.observatii||''}));
-  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(all),'Toate programarile');
-  const albD=data.filter(p=>(p.tip||'alb')==='alb'&&p.status==='confirmat').map(p=>({'Data':p.data,'Ora':p.ora,'Nume':p.nume,'Telefon':p.telefon,'Serviciu':p.serviciu,'Pret (lei)':p.pret}));
-  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(albD),'Alb');
-  const negruD=data.filter(p=>p.tip==='negru'&&p.status==='confirmat').map(p=>({'Data':p.data,'Ora':p.ora,'Nume':p.nume,'Telefon':p.telefon,'Serviciu':p.serviciu,'Pret (lei)':p.pret}));
-  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(negruD),'Negru');
-  const confirmate=data.filter(p=>p.status==='confirmat');
-  const sumar=[
-    {'Categorie':'Total confirmate','Programari':confirmate.length,'Incasari (lei)':confirmate.reduce((s,p)=>s+p.pret,0)},
-    {'Categorie':'Alb','Programari':confirmate.filter(p=>(p.tip||'alb')==='alb').length,'Incasari (lei)':confirmate.filter(p=>(p.tip||'alb')==='alb').reduce((s,p)=>s+p.pret,0)},
-    {'Categorie':'Negru','Programari':confirmate.filter(p=>p.tip==='negru').length,'Incasari (lei)':confirmate.filter(p=>p.tip==='negru').reduce((s,p)=>s+p.pret,0)},
-  ];
-  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(sumar),'Sumar');
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(data.map(p=>({'Data':p.data,'Ora':p.ora,'Nume':p.nume,'Telefon':p.telefon,'Serviciu':p.serviciu,'Durată':durLabel(p.durata),'Preț (lei)':p.pret,'Status':p.status}))),'Programări');
   XLSX.writeFile(wb,`naomi-${period}-${new Date().toISOString().slice(0,10)}.xlsx`);
 }
 
