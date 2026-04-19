@@ -2,12 +2,15 @@
 <html lang="ro">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Naomi Stanciu Nails</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root{--cream:#FDF5F7;--gold:#1a1a1a;--gold-light:#F9E8ED;--rose:#C4788A;--rose-light:#FEF0F3;--dark:#1a1a1a;--muted:#8A6070;--border:#EDD6DC;--white:#FFFFFF;--green:#6B9E82;--red:#D97070;--accent:#C4788A}
+body.dark{--cream:#141414;--gold:#F0F0F0;--gold-light:#2A2020;--rose:#E8A0B0;--rose-light:rgba(232,160,176,0.15);--dark:#F0F0F0;--muted:#A08090;--border:#2E2E2E;--white:#1E1E1E;--green:#6B9E82;--red:#E57373}
+.theme-toggle{background:none;border:1px solid var(--border);border-radius:20px;padding:6px 12px;cursor:pointer;font-size:16px;color:var(--dark);display:flex;align-items:center;gap:6px;font-family:'Jost',sans-serif;font-size:13px;color:var(--muted)}
+.theme-toggle:hover{border-color:var(--rose)}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Jost',system-ui,sans-serif;background:var(--cream);color:var(--dark);min-height:100vh}
 .page{display:none}.page.active{display:block}
@@ -73,7 +76,7 @@ textarea{height:80px;resize:none}
 .badge{display:inline-block;padding:3px 12px;border-radius:20px;font-size:12px;font-weight:500;margin-top:6px}
 .badge.asteptare{background:#FFF8E6;color:#B8860B}
 .badge.confirmat{background:#F0FBF4;color:#3D8B5E}
-.badge.anulat{background:#FEF0F0;color:var(--red)}
+.badge.anulat{background:#FEF0F0;color:#D97070}
 .hist-card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:1rem 1.25rem;margin-bottom:10px}
 .tab-bar{display:flex;margin-bottom:1.5rem;border-bottom:1px solid var(--border)}
 .tab-btn{flex:1;padding:10px;text-align:center;font-size:13px;cursor:pointer;color:var(--muted);background:none;border:none;font-family:'Jost',sans-serif;border-bottom:2px solid transparent;margin-bottom:-1px}
@@ -82,7 +85,16 @@ textarea{height:80px;resize:none}
 .hero{padding:2.5rem 1.5rem 2rem;text-align:center;background:linear-gradient(180deg,var(--white) 0%,var(--cream) 100%)}
 .hero-tag{font-size:11px;letter-spacing:2px;color:var(--rose);text-transform:uppercase;margin-bottom:10px}
 .hero h1{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:500;color:var(--dark);line-height:1.2;margin-bottom:8px}
-.hero h1 em{font-style:italic;color:var(--gold)}
+.hero h1 em{font-style:italic;color:var(--rose)}
+.gel-text{
+  font-style:italic;
+  color:transparent;
+  background:linear-gradient(135deg,#E8A0B0 0%,#C4788A 30%,#F5C0CC 50%,#C4788A 70%,#A0566A 100%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  filter:drop-shadow(2px 4px 6px rgba(196,120,138,0.4)) drop-shadow(0px 0px 12px rgba(232,160,176,0.3));
+  display:inline-block;
+}
 .hero p{font-size:14px;color:var(--muted);line-height:1.7;margin-bottom:1.5rem}
 .hero-btns{display:flex;gap:10px;justify-content:center}
 .btn-gold-hero{padding:12px 28px;background:var(--dark);color:var(--white);border:none;border-radius:25px;font-size:14px;font-weight:500;cursor:pointer;font-family:'Jost',sans-serif}
@@ -95,9 +107,9 @@ textarea{height:80px;resize:none}
 .gal-item{border-radius:12px;overflow:hidden;cursor:pointer;position:relative;aspect-ratio:3/4}
 .gal-img{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:40px;transition:transform 0.3s;background-size:cover;background-position:center}
 .gal-item:hover .gal-img{transform:scale(1.03)}
-.gal-ov{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(30,14,8,0.75));padding:1rem 0.75rem 0.75rem;color:var(--white)}
-.gal-ov-name{font-size:13px;font-weight:500}
-.gal-ov-price{font-size:12px;color:var(--gold-light)}
+.gal-ov{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(0,0,0,0.7));padding:1rem 0.75rem 0.75rem;color:#fff}
+.gal-ov-name{font-size:13px;font-weight:500;color:#fff}
+.gal-ov-price{display:none}
 .svc-list-section{padding:1.5rem}
 .svc-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border)}
 .svc-row:last-child{border-bottom:none}
@@ -118,7 +130,7 @@ textarea{height:80px;resize:none}
   <div class="auth-wrap">
     <div class="auth-logo">
       <h1>Naomi Stanciu</h1>
-      <p class="sub">Programari online</p>
+      <p class="sub">Programări online</p>
     </div>
     <!-- LOGIN -->
     <div id="view-login">
@@ -126,12 +138,12 @@ textarea{height:80px;resize:none}
         <button class="auth-tab active" onclick="switchTab('login')">Cont existent</button>
         <button class="auth-tab" onclick="switchTab('register')">Cont nou</button>
       </div>
-      <label>Email sau numar de telefon</label>
+      <label>Email sau număr de telefon</label>
       <input type="text" id="l-id" placeholder="email sau 0712345678" autocomplete="username">
       <label>Parola</label>
       <input type="password" id="l-pw" placeholder="parola ta" autocomplete="current-password">
       <div id="l-err" class="error-msg" style="display:none"></div>
-      <button class="btn" onclick="doLogin()">Intra in cont</button>
+      <button class="btn" onclick="doLogin()">Intră în cont</button>
       <button class="btn-link" onclick="switchView('forgot')">Am uitat parola</button>
     </div>
     <!-- REGISTER -->
@@ -140,20 +152,20 @@ textarea{height:80px;resize:none}
         <button class="auth-tab" onclick="switchTab('login')">Cont existent</button>
         <button class="auth-tab active">Cont nou</button>
       </div>
-      <label>Nume si prenume</label>
+      <label>Nume și prenume</label>
       <input type="text" id="r-name" placeholder="ex: Maria Popescu" autocomplete="name">
-      <label>Numar de telefon</label>
+      <label>Număr de telefon</label>
       <input type="tel" id="r-phone" placeholder="ex: 0712 345 678" autocomplete="tel">
-      <label>Email</label>
+      <label>Email <span style="font-size:11px;color:var(--muted);font-weight:400">(opțional — util dacă uiți parola)</span></label>
       <input type="email" id="r-email" placeholder="adresa@email.com" autocomplete="email">
       <label>Parola</label>
       <input type="password" id="r-pw" placeholder="minim 6 caractere" autocomplete="new-password">
       <div id="r-err" class="error-msg" style="display:none"></div>
-      <button class="btn" onclick="doRegister()">Creeaza cont</button>
+      <button class="btn" onclick="doRegister()">Creează cont</button>
     </div>
     <!-- FORGOT -->
     <div id="view-forgot" style="display:none">
-      <p style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:var(--dark);margin-bottom:8px">Resetare parola</p>
+      <p style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:var(--dark);margin-bottom:8px">Resetare parolă</p>
       <label>Email-ul contului</label>
       <input type="email" id="f-email" placeholder="adresa@email.com">
       <div id="f-err" class="error-msg" style="display:none"></div>
@@ -163,13 +175,13 @@ textarea{height:80px;resize:none}
     </div>
     <!-- RESET -->
     <div id="view-reset" style="display:none">
-      <p style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:var(--dark);margin-bottom:8px">Parola noua</p>
-      <label>Parola noua</label>
+      <p style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:var(--dark);margin-bottom:8px">Parolă nouă</p>
+      <label>Parolă nouă</label>
       <input type="password" id="rp1" placeholder="minim 6 caractere">
       <label>Confirma parola</label>
       <input type="password" id="rp2">
       <div id="rp-err" class="error-msg" style="display:none"></div>
-      <button class="btn" onclick="doReset()">Salveaza</button>
+      <button class="btn" onclick="doReset()">Salvează</button>
     </div>
   </div>
 </div>
@@ -177,44 +189,53 @@ textarea{height:80px;resize:none}
 <!-- HOME -->
 <div class="page" id="phome">
   <nav class="nav">
-    <div class="nav-logo">Naomi<span>Stanciu</span></div>
+    <div class="nav-logo" onclick="showPage('phome')" style="cursor:pointer">Naomi<span>Stanciu</span></div>
     <div class="nav-right">
+      <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn">🌑 Dark</button>
       <a href="https://www.instagram.com/stanciu.naomi.nails" target="_blank" class="nav-ig">
         <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
       </a>
-      <span class="nav-user-name" id="nav-name"></span>
-      <button class="btn-logout" onclick="doLogout()">Iesi</button>
+      <div style="position:relative">
+        <button class="btn-logout" onclick="toggleUserMenu()" id="user-menu-btn" style="display:flex;align-items:center;gap:8px;padding:4px 12px 4px 4px">
+          <div id="nav-avatar" style="width:28px;height:28px;border-radius:50%;background:var(--rose-light);border:1.5px solid var(--rose);display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--rose);overflow:hidden;flex-shrink:0"></div>
+          <span id="nav-name" style="font-size:13px"></span> ▾
+        </button>
+        <div id="user-dropdown" style="display:none;position:absolute;right:0;top:40px;background:var(--white);border:1px solid var(--border);border-radius:12px;padding:8px;min-width:160px;z-index:200;box-shadow:0 4px 20px rgba(0,0,0,0.15)">
+          <button onclick="showProfile();toggleUserMenu()" style="display:block;width:100%;padding:10px 14px;background:none;border:none;text-align:left;font-size:14px;color:var(--dark);cursor:pointer;border-radius:8px;font-family:'Jost',sans-serif">👤 Profilul meu</button>
+          <button onclick="doLogout();toggleUserMenu()" style="display:block;width:100%;padding:10px 14px;background:none;border:none;text-align:left;font-size:14px;color:var(--red);cursor:pointer;border-radius:8px;font-family:'Jost',sans-serif">Ieși din cont</button>
+        </div>
+      </div>
     </div>
   </nav>
   <div class="hero">
     <p class="hero-tag">Nail Artist · Suceava</p>
-    <h1>Hai sa te ajut sa ai<br><em>unghii perfecte</em></h1>
-    <p>Fiecare set de unghii este creat special pentru tine, cu grija si pasiune.</p>
+    <h1>Hai să dăm formă<br><em class="gel-text">unghiilor la care visezi</em></h1>
+    <p>Fiecare set de unghii este creat special pentru tine, cu grijă și pasiune.</p>
     <div class="hero-btns">
-      <button class="btn-gold-hero" onclick="startBooking()">Programeaza-te</button>
-      <button class="btn-outline-hero" onclick="showHistory()">Programarile mele</button>
+      <button class="btn-gold-hero" onclick="startBooking()">Programează-te</button>
+      <button class="btn-outline-hero" onclick="showHistory()">Programările mele</button>
     </div>
   </div>
   <div class="section" id="galerie-section">
-    <p class="section-title">Lucrari & Inspiratie</p>
-    <p class="section-sub">Apasa pe o poza pentru a programa direct</p>
+    <p class="section-title">Lucrări & Inspirație</p>
+    <p class="section-sub">Apasă pe poză pentru a selecta data dorită</p>
     <div class="gallery-grid" id="gallery-grid"></div>
   </div>
   <div class="svc-list-section">
-    <p class="section-title">Servicii</p>
+    <p class="section-title">Lista servicii</p>
     <div id="svc-list-home"></div>
-    <button style="background:var(--dark);color:var(--white);border:none;margin-top:1.5rem;display:block;width:100%;border-radius:25px;padding:13px;font-size:15px;font-family:'Jost',sans-serif;cursor:pointer" onclick="startBooking()">Rezerva acum</button>
+    <button style="background:var(--dark);color:var(--white);border:none;margin-top:1.5rem;display:block;width:100%;border-radius:25px;padding:13px;font-size:15px;font-family:'Jost',sans-serif;cursor:pointer" onclick="startBooking()">Programează-te</button>
   </div>
 
   <!-- FOOTER -->
   <div style="background:var(--white);border-top:1px solid var(--border);padding:2rem 1.5rem;margin-top:1rem">
     <!-- Harta -->
-    <p style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:var(--dark);margin-bottom:4px">Locatia noastra</p>
-    <p style="font-size:13px;color:var(--muted);margin-bottom:1rem">Te asteptam la salon!</p>
-    <a href="https://www.google.com/maps/search/Strada+Mihai+Eminescu+nr+34+Suceava" target="_blank" style="display:block;text-decoration:none;margin-bottom:1rem">
+    <p style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:var(--dark);margin-bottom:4px">Locația mea</p>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:1rem">Te aștept la salon!</p>
+    <a href="https://www.google.com/maps/search/Strada+Mihai+Eminescu+34+Suceava+Romania" target="_blank" style="display:block;text-decoration:none;margin-bottom:1rem">
       <div style="border-radius:14px;overflow:hidden;border:1px solid var(--border)">
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2649.8!2d26.3175!3d47.6520!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDfCsDM5JzA3LjIiTiAyNsKwMTknMDMuMCJF!5e0!3m2!1sro!2sro!4v1"
+          src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d332.9198725287653!2d26.252157948244008!3d47.64461674537301!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sro!2sro!4v1776545887242!5m2!1sro!2sro"
           width="100%" height="200" style="border:0;display:block" allowfullscreen="" loading="lazy">
         </iframe>
       </div>
@@ -230,13 +251,13 @@ textarea{height:80px;resize:none}
 
     <!-- Instagram contact -->
     <div style="background:var(--gold-light);border-radius:14px;padding:1.25rem;margin-top:1rem;border:1px solid var(--border)">
-      <p style="font-size:14px;font-weight:500;color:var(--dark);margin-bottom:6px">Ai intrebari sau doresti o programare personalizata?</p>
-      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Trimite-mi un mesaj pe Instagram si iti raspund cu drag!</p>
+      <p style="font-size:14px;font-weight:500;color:var(--dark);margin-bottom:6px">Ai întrebări sau dorești o programare personalizată?</p>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:12px">Trimite-mi un mesaj pe Instagram!</p>
       <a href="https://www.instagram.com/stanciu.naomi.nails" target="_blank" style="display:flex;align-items:center;gap:10px;text-decoration:none;background:var(--white);border-radius:10px;padding:10px 14px;border:1px solid var(--border)">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="#C4788A"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C4788A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
         <div>
           <p style="font-size:14px;font-weight:500;color:var(--dark)">@stanciu.naomi.nails</p>
-          <p style="font-size:12px;color:var(--muted)">Raspund la mesaje directe</p>
+          <p style="font-size:12px;color:var(--muted)">Încerc să răspund cât de repede pot ❤️</p>
         </div>
         <span style="margin-left:auto;font-size:13px;color:var(--rose);font-weight:500">↗</span>
       </a>
@@ -248,7 +269,7 @@ textarea{height:80px;resize:none}
 
 <!-- STEP 1: Servicii -->
 <div class="page" id="p1">
-  <nav class="nav"><div class="nav-logo">Naomi<span>Stanciu</span></div><button class="btn-logout" onclick="showPage('phome')">Inapoi</button></nav>
+  <nav class="nav"><div class="nav-logo" onclick="showPage('phome')" style="cursor:pointer">Naomi<span>Stanciu</span></div><button class="btn-logout" onclick="showPage('phome')">Inapoi</button></nav>
   <div class="steps-wrap"><div class="step-indicator"><div class="step-dot done"></div><div class="step-dot"></div><div class="step-dot"></div><div class="step-dot"></div></div></div>
   <div class="wrap" style="padding-top:0">
     <p class="page-title">Alege serviciul</p>
@@ -259,7 +280,7 @@ textarea{height:80px;resize:none}
 
 <!-- STEP 2: Calendar -->
 <div class="page" id="p2">
-  <nav class="nav"><div class="nav-logo">Naomi<span>Stanciu</span></div><button class="btn-logout" onclick="showPage('p1')">Inapoi</button></nav>
+  <nav class="nav"><div class="nav-logo" onclick="showPage('phome')" style="cursor:pointer">Naomi<span>Stanciu</span></div><button class="btn-logout" onclick="showPage('p1')">Inapoi</button></nav>
   <div class="steps-wrap"><div class="step-indicator"><div class="step-dot done"></div><div class="step-dot done"></div><div class="step-dot"></div><div class="step-dot"></div></div></div>
   <div class="wrap" style="padding-top:0">
     <p class="page-title">Alege data</p>
@@ -276,13 +297,13 @@ textarea{height:80px;resize:none}
 
 <!-- STEP 3: Confirmare -->
 <div class="page" id="p3">
-  <nav class="nav"><div class="nav-logo">Naomi<span>Stanciu</span></div><button class="btn-logout" onclick="showPage('p2')">Inapoi</button></nav>
+  <nav class="nav"><div class="nav-logo" onclick="showPage('phome')" style="cursor:pointer">Naomi<span>Stanciu</span></div><button class="btn-logout" onclick="showPage('p2')">Inapoi</button></nav>
   <div class="steps-wrap"><div class="step-indicator"><div class="step-dot done"></div><div class="step-dot done"></div><div class="step-dot done"></div><div class="step-dot"></div></div></div>
   <div class="wrap" style="padding-top:0">
-    <p class="page-title">Confirma programarea</p>
-    <p class="page-sub">Verifica detaliile</p>
+    <p class="page-title">Confirmă programarea</p>
+    <p class="page-sub">Verifică detaliile</p>
     <div class="summary-card" id="summary"></div>
-    <label>Observatii (optional)</label>
+    <label>Observații (opțional)</label>
     <textarea id="obs" placeholder="ex: prima vizita, preferinte de culoare..."></textarea>
     <button class="btn" id="btn-send" onclick="sendBooking()">Trimite cererea</button>
   </div>
@@ -290,30 +311,82 @@ textarea{height:80px;resize:none}
 
 <!-- STEP 4: Succes -->
 <div class="page" id="p4">
-  <nav class="nav"><div class="nav-logo">Naomi<span>Stanciu</span></div></nav>
+  <nav class="nav"><div class="nav-logo" onclick="showPage('phome')" style="cursor:pointer">Naomi<span>Stanciu</span></div></nav>
   <div class="steps-wrap"><div class="step-indicator"><div class="step-dot done"></div><div class="step-dot done"></div><div class="step-dot done"></div><div class="step-dot done"></div></div></div>
   <div class="wrap" style="padding-top:0;text-align:center">
     <div class="success-icon">✓</div>
-    <p style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:500;color:var(--dark);margin-bottom:8px">Cerere trimisa!</p>
+    <p style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:500;color:var(--dark);margin-bottom:8px">Cerere trimisă!</p>
     <p style="font-size:14px;color:var(--muted);margin-bottom:1.5rem">Vei fi contactata in scurt timp pentru confirmare.</p>
     <div class="summary-card" id="final-summary" style="text-align:left"></div>
-    <button class="btn" onclick="showHistory()">Programarile mele</button>
+    <button class="btn" onclick="showHistory()">Programările mele</button>
     <button class="btn btn-ghost" onclick="showPage('phome')">Inapoi acasa</button>
   </div>
 </div>
 
 <!-- HISTORY -->
 <div class="page" id="phist">
-  <nav class="nav"><div class="nav-logo">Naomi<span>Stanciu</span></div><button class="btn-logout" onclick="showPage('phome')">Inapoi</button></nav>
+  <nav class="nav"><div class="nav-logo" onclick="showPage('phome')" style="cursor:pointer">Naomi<span>Stanciu</span></div><button class="btn-logout" onclick="showPage('phome')">Inapoi</button></nav>
   <div class="wrap">
-    <p class="page-title">Programarile mele</p>
+    <p class="page-title">Programările mele</p>
     <p class="page-sub" id="hist-name"></p>
     <div class="tab-bar">
       <button class="tab-btn active" id="htab-v" onclick="setHistTab('viitoare')">Viitoare</button>
       <button class="tab-btn" id="htab-t" onclick="setHistTab('toate')">Toate</button>
     </div>
     <div id="hist-list"></div>
-    <button class="btn btn-ghost" onclick="startBooking()" style="margin-top:8px">Rezerva programare noua</button>
+    <button class="btn btn-ghost" onclick="startBooking()" style="margin-top:8px">Rezervă programare nouă</button>
+  </div>
+</div>
+
+<!-- PROFILE PAGE -->
+<div class="page" id="pprofile-user">
+  <nav class="nav">
+    <div class="nav-logo" onclick="showPage('phome')" style="cursor:pointer">Naomi<span>Stanciu</span></div>
+    <button class="btn-logout" onclick="showPage('phome')">← Înapoi</button>
+  </nav>
+  <div class="wrap">
+    <p class="page-title">Profilul meu</p>
+    <p class="page-sub" id="profile-user-sub"></p>
+    <div id="profile-view">
+      <!-- Avatar -->
+      <div style="text-align:center;margin-bottom:2rem">
+        <div style="position:relative;width:80px;margin:0 auto 12px">
+          <div id="pv-avatar" style="width:80px;height:80px;border-radius:50%;background:var(--rose-light);border:2px solid var(--rose);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--rose);overflow:hidden"></div>
+          <label for="avatar-upload" style="position:absolute;bottom:0;right:0;width:26px;height:26px;background:var(--rose);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;border:2px solid var(--cream)">
+            <span style="color:#fff;font-size:14px;line-height:1">+</span>
+          </label>
+          <input type="file" id="avatar-upload" accept="image/*" style="display:none" onchange="uploadAvatar(this)">
+        </div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:var(--dark)" id="pv-name"></div>
+        <div id="avatar-uploading" style="display:none;font-size:12px;color:var(--muted);margin-top:4px">Se încarcă...</div>
+      </div>
+      <!-- Date -->
+      <div style="margin-bottom:2rem">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--border)">
+          <span style="font-size:13px;color:var(--muted)">Telefon</span>
+          <span style="font-size:14px;font-weight:500;color:var(--dark)" id="pv-phone"></span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--border)">
+          <span style="font-size:13px;color:var(--muted)">Email</span>
+          <span style="font-size:14px;font-weight:500;color:var(--dark)" id="pv-email"></span>
+        </div>
+      </div>
+      <button class="btn" onclick="showProfileEdit()">Editează datele</button>
+    </div>
+    <div id="profile-edit" style="display:none">
+      <label>Nume și prenume</label>
+      <input type="text" id="pe-name" placeholder="Nume și prenume">
+      <label>Număr de telefon</label>
+      <input type="tel" id="pe-phone" placeholder="Număr de telefon">
+      <label>Email</label>
+      <input type="email" id="pe-email" placeholder="Email">
+      <label>Parolă curentă <span style="font-size:11px;color:var(--muted)">(necesară pentru a salva)</span></label>
+      <input type="password" id="pe-pass" placeholder="Parola ta curentă">
+      <div id="pe-error" class="error-msg" style="display:none"></div>
+      <div id="pe-success" class="success-msg" style="display:none"></div>
+      <button class="btn" onclick="saveProfile()">Salvează modificările</button>
+      <button class="btn btn-ghost" onclick="showProfileView()">Anulează</button>
+    </div>
   </div>
 </div>
 
@@ -332,11 +405,11 @@ const SVCS=[
   {id:7,name:"Man Manicure",dur:0.5,price:60}
 ];
 const GAL=[
-  {id:1,sid:1,name:"Oja Semipermanenta",img:"poze/oja.jpeg"},
-  {id:2,sid:2,name:"Constructie Unghii",img:"poze/constructie.jpeg"},
-  {id:3,sid:3,name:"Intretinere Scurte",img:"poze/intretinere-scurte.jpeg"},
-  {id:4,sid:4,name:"Arhitectura SLIM",img:"poze/arhitectura.jpeg"},
-  {id:5,sid:6,name:"Intretinere Medii",img:"poze/intretinere-medii.jpeg"},
+  {id:1,sid:1,name:"Ojă semipermanentă",img:"poze/oja.jpeg"},
+  {id:2,sid:2,name:"Construcție scurte/medii",img:"poze/constructie.jpeg"},
+  {id:3,sid:3,name:"Întreținere complexă scurte",img:"poze/intretinere-scurte.jpeg"},
+  {id:4,sid:4,name:"Arhitectură <span style='font-weight:200;letter-spacing:2px'>SLIM</span>",img:"poze/arhitectura.jpeg"},
+  {id:5,sid:6,name:"Întreținere complexă medii",img:"poze/intretinere-medii.jpeg"},
   {id:6,sid:7,name:"Man Manicure",img:"poze/manicure.jpeg"}
 ];
 
@@ -393,7 +466,11 @@ async function init(){
 
 async function loadProf(){
   const{data,error}=await sb.from('profiles').select('*').eq('id',cu.id).single();
-  if(!error&&data){cp=data;document.getElementById('nav-name').textContent=cp.nume?cp.nume.split(' ')[0]:'';}
+  if(!error&&data){
+    cp=data;
+    document.getElementById('nav-name').textContent=cp.nume?cp.nume.split(' ')[0]:'';
+    setAvatarEl(document.getElementById('nav-avatar'), cp);
+  }
 }
 
 function showApp(){
@@ -406,12 +483,12 @@ async function doLogin(){
   const id=document.getElementById('l-id').value.trim();
   const pw=document.getElementById('l-pw').value;
   const e=document.getElementById('l-err');e.style.display='none';
-  if(!id||!pw){e.textContent='Completeaza toate campurile.';e.style.display='block';return;}
+  if(!id||!pw){e.textContent='Completează toate câmpurile.';e.style.display='block';return;}
   let em=id;
   if(!isEm(id)){
     const ph=np(id);
     const{data:pr,error:pe}=await sb.from('profiles').select('email').eq('telefon',ph).single();
-    if(pe||!pr){e.textContent='Nu exista cont cu acest numar de telefon.';e.style.display='block';return;}
+    if(pe||!pr){e.textContent='Nu există cont cu acest număr de telefon.';e.style.display='block';return;}
     em=pr.email;
   }
   const{data,error}=await sb.auth.signInWithPassword({email:em,password:pw});
@@ -428,10 +505,10 @@ async function doRegister(){
   const em=document.getElementById('r-email').value.trim();
   const pw=document.getElementById('r-pw').value;
   const e=document.getElementById('r-err');e.style.display='none';
-  if(!nm||!ph||!em||!pw){e.textContent='Completeaza toate campurile.';e.style.display='block';return;}
-  if(pw.length<6){e.textContent='Parola trebuie sa aiba minim 6 caractere.';e.style.display='block';return;}
+  if(!nm||!ph||!em||!pw){e.textContent='Completează toate câmpurile.';e.style.display='block';return;}
+  if(pw.length<6){e.textContent='Parola trebuie să aibă minim 6 caractere.';e.style.display='block';return;}
   const{data:ex}=await sb.from('profiles').select('id').eq('telefon',ph);
-  if(ex&&ex.length>0){e.textContent='Exista deja un cont cu acest numar.';e.style.display='block';return;}
+  if(ex&&ex.length>0){e.textContent='Există deja un cont cu acest număr.';e.style.display='block';return;}
   const{data,error}=await sb.auth.signUp({email:em,password:pw});
   if(error){e.textContent=error.message;e.style.display='block';return;}
   cu=data.user;
@@ -457,7 +534,7 @@ async function doReset(){
   const p1=document.getElementById('rp1').value;
   const p2=document.getElementById('rp2').value;
   const e=document.getElementById('rp-err');e.style.display='none';
-  if(p1.length<6){e.textContent='Parola trebuie sa aiba minim 6 caractere.';e.style.display='block';return;}
+  if(p1.length<6){e.textContent='Parola trebuie să aibă minim 6 caractere.';e.style.display='block';return;}
   if(p1!==p2){e.textContent='Parolele nu coincid.';e.style.display='block';return;}
   const{error}=await sb.auth.updateUser({password:p1});
   if(error){e.textContent=error.message;e.style.display='block';return;}
@@ -479,7 +556,7 @@ function renderHome(){
     const s=SVCS.find(x=>x.id===g.sid);
     return`<div class="gal-item" onclick="startBookingSvc(${g.sid})">
       <div class="gal-img" style="background-image:url(${g.img});background-size:cover;background-position:center bottom"></div>
-      <div class="gal-ov"><div class="gal-ov-name">${g.name}</div><div class="gal-ov-price">${s.price} lei</div></div>
+      <div class="gal-ov"><div class="gal-ov-name">${g.name}</div></div>
     </div>`;
   }).join('');
   // Services list
@@ -656,11 +733,11 @@ async function loadHist(){
     const canAct=p.data>=tk&&p.status!=='anulat';
     return`<div class="hist-card">
       <div style="font-size:15px;font-weight:500;color:var(--dark)">${p.serviciu}</div>
-      <div style="font-size:13px;color:var(--muted);margin-top:4px;line-height:1.7">📅 ${fd(p.data)} - ${p.ora}<br>💰 ${p.pret} lei - ⏱ ${dl(p.durata)}</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:4px;line-height:1.8">${fd(p.data)} · ${p.ora}<br>${p.pret} lei · ${dl(p.durata)}</div>
       <span class="badge ${bc}">${bt}</span>
       ${canAct?`<div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
-        <button style="padding:7px 14px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;font-family:'Jost',sans-serif;background:var(--gold-light);color:var(--gold);border:1px solid var(--gold)" onclick="startReprog('${p.id}','${p.serviciu}')">Reprogrameaza</button>
-        <button style="padding:7px 14px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;font-family:'Jost',sans-serif;background:var(--rose-light);color:var(--red);border:1px solid var(--rose)" onclick="anulProg('${p.id}')">Anuleaza</button>
+        <button style="padding:7px 14px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;font-family:'Jost',sans-serif;background:var(--gold-light);color:var(--gold);border:1px solid var(--gold)" onclick="startReprog('${p.id}','${p.serviciu}')">Reprogramează</button>
+        <button style="padding:7px 14px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;font-family:'Jost',sans-serif;background:var(--rose-light);color:var(--red);border:1px solid var(--rose)" onclick="anulProg('${p.id}')">Anulează</button>
       </div>`:''}
     </div>`;
   }).join('');
@@ -685,6 +762,115 @@ function setHistTab(t){
   loadHist();
 }
 
+// AVATAR UPLOAD
+async function uploadAvatar(input){
+  const file=input.files[0];
+  if(!file)return;
+  const uploading=document.getElementById('avatar-uploading');
+  if(uploading)uploading.style.display='block';
+  const ext=file.name.split('.').pop();
+  const path=cu.id+'/avatar.'+ext;
+  const{error:upErr}=await sb.storage.from('avatars').upload(path,file,{upsert:true});
+  if(upErr){alert('Eroare la încărcare: '+upErr.message);if(uploading)uploading.style.display='none';return;}
+  const{data}=sb.storage.from('avatars').getPublicUrl(path);
+  const url=data.publicUrl+'?t='+Date.now();
+  await sb.from('profiles').update({avatar_url:url}).eq('id',cu.id);
+  cp.avatar_url=url;
+  setAvatarEl(document.getElementById('pv-avatar'), cp);
+  setAvatarEl(document.getElementById('nav-avatar'), cp);
+  if(uploading)uploading.style.display='none';
+}
+
+// USER MENU DROPDOWN
+function toggleUserMenu(){
+  const d=document.getElementById('user-dropdown');
+  if(d)d.style.display=d.style.display==='block'?'none':'block';
+  document.addEventListener('click',function closeMenu(e){
+    const btn=document.getElementById('user-menu-btn');
+    if(!btn||(!btn.contains(e.target)&&!d.contains(e.target))){
+      if(d)d.style.display='none';
+      document.removeEventListener('click',closeMenu);
+    }
+  });
+}
+
+function setAvatarEl(el, profile){
+  if(!el)return;
+  if(profile && profile.avatar_url){
+    el.innerHTML='<img src="'+profile.avatar_url+'" style="width:100%;height:100%;object-fit:cover;border-radius:50%">';
+  } else {
+    const initials=(profile&&profile.nume||'?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+    el.textContent=initials;
+  }
+}
+
+function showProfile(){
+  if(!cp)return;
+  setAvatarEl(document.getElementById('pv-avatar'), cp);
+  document.getElementById('pv-name').textContent=cp.nume||'';
+  document.getElementById('pv-phone').textContent=cp.telefon||'—';
+  document.getElementById('pv-email').textContent=cp.email||'(necompletat)';
+  document.getElementById('profile-user-sub').textContent='';
+  showProfileView();
+  showPage('pprofile-user');
+}
+
+function showProfileView(){
+  document.getElementById('profile-view').style.display='block';
+  document.getElementById('profile-edit').style.display='none';
+}
+
+function showProfileEdit(){
+  document.getElementById('pe-name').value=cp.nume||'';
+  document.getElementById('pe-phone').value=cp.telefon||'';
+  document.getElementById('pe-email').value=cp.email||'';
+  document.getElementById('pe-pass').value='';
+  document.getElementById('pe-error').style.display='none';
+  document.getElementById('pe-success').style.display='none';
+  document.getElementById('profile-view').style.display='none';
+  document.getElementById('profile-edit').style.display='block';
+}
+
+async function saveProfile(){
+  const name=document.getElementById('pe-name').value.trim();
+  const phone=document.getElementById('pe-phone').value.trim();
+  const email=document.getElementById('pe-email').value.trim();
+  const pass=document.getElementById('pe-pass').value;
+  const errEl=document.getElementById('pe-error');
+  const okEl=document.getElementById('pe-success');
+  errEl.style.display='none';okEl.style.display='none';
+  if(!pass){errEl.textContent='Introduceți parola curentă pentru a salva.';errEl.style.display='block';return;}
+  // Verify password
+  const{error:authErr}=await sb.auth.signInWithPassword({email:cp.email||email,password:pass});
+  if(authErr){errEl.textContent='Parola incorectă.';errEl.style.display='block';return;}
+  // Update profile
+  const{error}=await sb.from('profiles').update({nume:name,telefon:phone,email:email}).eq('id',cu.id);
+  if(error){errEl.textContent='Eroare la salvare.';errEl.style.display='block';return;}
+  cp.nume=name;cp.telefon=phone;cp.email=email;
+  document.getElementById('nav-name').textContent=name.split(' ')[0];
+  okEl.textContent='Datele au fost salvate cu succes!';okEl.style.display='block';
+  setTimeout(()=>{showProfileView();document.getElementById('pv-name').textContent=name;document.getElementById('pv-phone').textContent=phone;document.getElementById('pv-email').textContent=email;},1500);
+}
+
+// THEME
+
+function toggleTheme(){
+  const isDark=document.body.classList.toggle('dark');
+  localStorage.setItem('theme',isDark?'dark':'light');
+  const btn=document.getElementById('theme-btn');
+  if(btn)btn.innerHTML=isDark?'☀️ Light':'🌑 Dark';
+}
+function loadTheme(){
+  const saved=localStorage.getItem('theme');
+  const btn=document.getElementById('theme-btn');
+  if(saved==='dark'){
+    document.body.classList.add('dark');
+    if(btn)btn.innerHTML='☀️ Light';
+  } else {
+    if(btn)btn.innerHTML='🌑 Dark';
+  }
+}
+loadTheme();
 init();
 </script>
 </body>
