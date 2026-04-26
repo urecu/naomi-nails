@@ -179,179 +179,275 @@ textarea{height:80px;resize:none}
 
   <!-- RECENZII -->
   <style>
-  .reviews-section { padding: 1.5rem; }
-  .reviews-header { margin-bottom: 1.25rem; }
-  .reviews-header h2 { font-family:'Cormorant Garamond',serif; font-size:24px; font-weight:500; color:var(--dark); }
-  .reviews-header p { font-size:13px; color:var(--muted); margin-top:2px; }
-
-  /* SLIDER */
-  .review-slider-wrap { position:relative; overflow:hidden; border-radius:18px; }
-  .review-slider-track { display:flex; transition:transform 0.5s cubic-bezier(0.4,0,0.2,1); will-change:transform; }
-  .review-slide { min-width:100%; padding:20px; background:var(--white); border:1px solid var(--border); border-radius:18px; box-sizing:border-box; }
-  .review-slide-quote { font-size:32px; color:var(--rose); opacity:0.3; font-family:'Cormorant Garamond',serif; line-height:1; margin-bottom:6px; }
-  .review-slide-text { font-size:15px; color:var(--dark); line-height:1.65; font-style:italic; font-family:'Cormorant Garamond',serif; font-weight:400; }
-  .review-slide-footer { display:flex; align-items:center; gap:10px; margin-top:14px; }
-  .review-slide-avatar { width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:white; font-size:12px; font-weight:600; font-family:'Jost',sans-serif; flex-shrink:0; background:var(--rose); }
-  .review-slide-name { font-size:13px; font-weight:500; color:var(--dark); }
-  .review-slide-stars { display:flex; gap:2px; margin-top:2px; }
-  .review-slide-source { margin-left:auto; font-size:11px; color:var(--muted); }
-
-  /* DOTS */
-  .review-dots { display:flex; justify-content:center; gap:6px; margin-top:12px; }
-  .review-dot { width:6px; height:6px; border-radius:50%; background:var(--border); border:none; cursor:pointer; padding:0; transition:all 0.3s; }
-  .review-dot.active { width:18px; border-radius:3px; background:var(--rose); }
-
-  /* FORM RECENZIE */
-  .review-form-section { margin-top:1.5rem; background:var(--white); border:1px solid var(--border); border-radius:18px; padding:20px; }
-  .review-form-title { font-family:'Cormorant Garamond',serif; font-size:18px; font-weight:500; color:var(--dark); margin-bottom:4px; }
-  .review-form-sub { font-size:13px; color:var(--muted); margin-bottom:14px; }
-  .star-picker { display:flex; gap:6px; margin-bottom:14px; }
-  .star-btn { background:none; border:none; cursor:pointer; padding:0; font-size:26px; color:var(--border); transition:color 0.15s, transform 0.15s; }
-  .star-btn.active { color:#F59E0B; transform:scale(1.1); }
-  .review-input { width:100%; border:1px solid var(--border); border-radius:12px; padding:12px 14px; font-size:14px; font-family:'Jost',sans-serif; color:var(--dark); background:var(--cream); resize:none; outline:none; transition:border 0.2s; }
-  .review-input:focus { border-color:var(--rose); }
-  .review-name-input { width:100%; border:1px solid var(--border); border-radius:12px; padding:11px 14px; font-size:14px; font-family:'Jost',sans-serif; color:var(--dark); background:var(--cream); outline:none; margin-bottom:10px; transition:border 0.2s; }
-  .review-name-input:focus { border-color:var(--rose); }
-  .review-submit-btn { width:100%; background:var(--dark); color:var(--white); border:none; border-radius:25px; padding:13px; font-size:15px; font-family:'Jost',sans-serif; cursor:pointer; margin-top:12px; transition:opacity 0.2s; }
-  .review-submit-btn:active { opacity:0.8; }
-  .review-success { text-align:center; padding:20px; display:none; }
-  .review-success p { font-size:14px; color:var(--muted); margin-top:6px; }
+  .rv-section{padding:1.5rem}
+  .rv-header{margin-bottom:1.25rem}
+  .rv-header h2{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:500;color:var(--dark)}
+  .rv-rating-row{display:flex;align-items:center;gap:6px;margin-top:4px}
+  .rv-rating-star{color:#F59E0B;font-size:16px}
+  .rv-rating-score{font-size:15px;font-weight:600;color:var(--dark)}
+  .rv-rating-count{font-size:13px;color:var(--muted)}
+  .rv-slider-wrap{overflow:hidden;border-radius:18px;touch-action:pan-y}
+  .rv-track{display:flex;transition:transform 0.45s cubic-bezier(0.4,0,0.2,1);align-items:stretch}
+  .rv-slide{flex:0 0 100%;width:100%;padding:20px;background:var(--white);border:1px solid var(--border);border-radius:18px;box-sizing:border-box;min-height:180px;display:flex;flex-direction:column;justify-content:space-between}
+  .rv-quote{font-size:36px;color:var(--rose);opacity:0.25;font-family:'Cormorant Garamond',serif;line-height:1;margin-bottom:4px}
+  .rv-text{font-size:15px;color:var(--dark);line-height:1.65;font-style:italic;font-family:'Cormorant Garamond',serif}
+  .rv-footer{display:flex;align-items:center;gap:10px;margin-top:14px}
+  .rv-avatar{width:34px;height:34px;border-radius:50%;background:var(--rose);display:flex;align-items:center;justify-content:center;color:white;font-size:12px;font-weight:600;font-family:'Jost',sans-serif;flex-shrink:0}
+  .rv-name{font-size:13px;font-weight:500;color:var(--dark)}
+  .rv-stars{display:flex;gap:1px;margin-top:2px}
+  .rv-source{margin-left:auto;font-size:11px;color:var(--muted);background:var(--cream);padding:2px 8px;border-radius:20px;border:1px solid var(--border)}
+  .rv-dots{display:flex;justify-content:center;align-items:center;gap:6px;margin-top:12px}
+  .rv-dot{width:6px;height:6px;border-radius:50%;background:var(--border);border:none;cursor:pointer;padding:0;transition:all 0.3s;flex-shrink:0}
+  .rv-dot.active{width:18px;border-radius:3px;background:var(--rose)}
+  .rv-see-all{font-size:13px;color:var(--rose);background:none;border:none;cursor:pointer;font-family:'Jost',sans-serif;font-weight:500;padding:0;text-decoration:underline;text-underline-offset:3px;white-space:nowrap}
+  .rv-form-box{margin-top:1.5rem;background:var(--white);border:1px solid var(--border);border-radius:18px;padding:20px}
+  .rv-form-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:500;color:var(--dark);margin-bottom:4px}
+  .rv-form-sub{font-size:13px;color:var(--muted);margin-bottom:14px}
+  .rv-star-pick{display:flex;gap:4px;margin-bottom:12px}
+  .rv-star-btn{background:none;border:none;cursor:pointer;padding:0;font-size:28px;color:var(--border);transition:color 0.15s}
+  .rv-star-btn.on{color:#F59E0B}
+  .rv-textarea{width:100%;border:1px solid var(--border);border-radius:12px;padding:12px 14px;font-size:14px;font-family:'Jost',sans-serif;color:var(--dark);background:var(--cream);resize:none;outline:none;margin-bottom:10px}
+  .rv-textarea:focus{border-color:var(--rose)}
+  .rv-select{width:100%;border:1px solid var(--border);border-radius:12px;padding:11px 14px;font-size:14px;font-family:'Jost',sans-serif;color:var(--dark);background:var(--cream);outline:none;margin-bottom:10px;appearance:none;-webkit-appearance:none}
+  .rv-submit{width:100%;background:var(--dark);color:var(--white);border:none;border-radius:25px;padding:13px;font-size:15px;font-family:'Jost',sans-serif;cursor:pointer}
+  .rv-login-prompt{text-align:center;padding:8px 0}
+  .rv-login-prompt p{font-size:14px;color:var(--muted);margin-bottom:12px}
+  .rv-login-prompt button{background:var(--rose);color:white;border:none;border-radius:25px;padding:11px 28px;font-size:14px;font-family:'Jost',sans-serif;cursor:pointer}
+  .rv-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:500;display:none;align-items:flex-end}
+  .rv-modal-overlay.open{display:flex}
+  .rv-modal{background:var(--cream);border-radius:24px 24px 0 0;width:100%;max-height:88vh;display:flex;flex-direction:column;overflow:hidden}
+  .rv-modal-head{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--white);flex-shrink:0}
+  .rv-modal-head h3{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:500;color:var(--dark)}
+  .rv-modal-close{background:var(--cream);border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;font-size:16px;color:var(--muted)}
+  .rv-filters{padding:12px 16px;display:flex;gap:8px;overflow-x:auto;flex-shrink:0;scrollbar-width:none;border-bottom:1px solid var(--border);background:var(--white)}
+  .rv-filters::-webkit-scrollbar{display:none}
+  .rv-chip{padding:7px 14px;border-radius:20px;border:1.5px solid var(--border);background:var(--white);font-size:13px;font-family:'Jost',sans-serif;color:var(--dark);cursor:pointer;white-space:nowrap;transition:all 0.2s;flex-shrink:0}
+  .rv-chip.active{background:var(--rose);color:white;border-color:var(--rose)}
+  .rv-modal-list{overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;flex:1}
+  .rv-card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:16px}
+  .rv-card-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+  .rv-card-av{width:36px;height:36px;border-radius:50%;background:var(--rose);display:flex;align-items:center;justify-content:center;color:white;font-size:13px;font-weight:600;font-family:'Jost',sans-serif;flex-shrink:0}
+  .rv-card-name{font-size:14px;font-weight:500;color:var(--dark)}
+  .rv-card-stars{display:flex;gap:2px;margin-top:2px}
+  .rv-card-text{font-size:14px;color:var(--dark);line-height:1.55}
+  .rv-card-src{margin-left:auto;font-size:11px;color:var(--muted);background:var(--cream);padding:2px 8px;border-radius:20px;border:1px solid var(--border);flex-shrink:0}
   </style>
 
-  <div class="reviews-section">
-    <div class="reviews-header">
+  <div class="rv-section">
+    <div class="rv-header">
       <h2>Recenzii</h2>
-      <p>Verificate de pe Mero</p>
-    </div>
-
-    <div class="review-slider-wrap">
-      <div class="review-slider-track" id="reviewTrack"></div>
-    </div>
-    <div class="review-dots" id="reviewDots"></div>
-
-    <!-- FORM RECENZIE NOUA -->
-    <div class="review-form-section">
-      <p class="review-form-title">Lasă o recenzie</p>
-      <p class="review-form-sub">Experiența ta contează pentru noi</p>
-      <div id="reviewFormWrap">
-        <input class="review-name-input" id="reviewName" type="text" placeholder="Numele tău" maxlength="50">
-        <div class="star-picker" id="starPicker">
-          <button class="star-btn" data-v="1">★</button>
-          <button class="star-btn" data-v="2">★</button>
-          <button class="star-btn" data-v="3">★</button>
-          <button class="star-btn" data-v="4">★</button>
-          <button class="star-btn" data-v="5">★</button>
-        </div>
-        <textarea class="review-input" id="reviewText" rows="4" placeholder="Scrie experiența ta..."></textarea>
-        <button class="review-submit-btn" onclick="submitReview()">Trimite recenzia</button>
+      <div class="rv-rating-row">
+        <span class="rv-rating-star">&#9733;</span>
+        <span class="rv-rating-score">5.0</span>
+        <span class="rv-rating-count" id="rvCount">(465 evaluari)</span>
       </div>
-      <div class="review-success" id="reviewSuccess">
-        <div style="font-size:32px">🌸</div>
-        <p style="font-size:15px;font-weight:500;color:var(--dark);margin-top:8px">Mulțumim pentru recenzie!</p>
-        <p>Recenzia ta a fost trimisă și va fi validată în curând.</p>
+    </div>
+    <div class="rv-slider-wrap" id="rvWrap">
+      <div class="rv-track" id="rvTrack"></div>
+    </div>
+    <div class="rv-dots" id="rvDots"></div>
+    <div class="rv-form-box">
+      <p class="rv-form-title">Lasa o recenzie</p>
+      <p class="rv-form-sub">Experienta ta conteaza</p>
+      <div id="rvLoading" style="font-size:13px;color:var(--muted);padding:4px 0">Se verifica...</div>
+      <div id="rvLoginBox" style="display:none" class="rv-login-prompt">
+        <p>Trebuie sa fii conectata pentru a lasa o recenzie.</p>
+        <button onclick="showLogin()">Conecteaza-te</button>
+      </div>
+      <div id="rvFormBox" style="display:none">
+        <div class="rv-star-pick" id="rvStarPick">
+          <button class="rv-star-btn" data-v="1">&#9733;</button>
+          <button class="rv-star-btn" data-v="2">&#9733;</button>
+          <button class="rv-star-btn" data-v="3">&#9733;</button>
+          <button class="rv-star-btn" data-v="4">&#9733;</button>
+          <button class="rv-star-btn" data-v="5">&#9733;</button>
+        </div>
+        <select class="rv-select" id="rvSvc">
+          <option value="">Serviciu (optional)</option>
+          <option>Oja semipermanenta</option>
+          <option>Constructie unghii scurte/medii</option>
+          <option>Intretinere complexa unghii scurte</option>
+          <option>Intretinere complexa unghii medii</option>
+          <option>Arhitectura SLIM</option>
+          <option>Pachet curatare + demontare</option>
+          <option>Man Manicure</option>
+        </select>
+        <textarea class="rv-textarea" id="rvText" rows="4" placeholder="Scrie experienta ta..."></textarea>
+        <button class="rv-submit" onclick="rvSubmit()">Trimite recenzia</button>
+      </div>
+      <div id="rvSuccessBox" style="display:none;text-align:center;padding:12px 0">
+        <div style="font-size:32px">&#127800;</div>
+        <p style="font-size:15px;font-weight:500;color:var(--dark);margin-top:8px">Multumim pentru recenzie!</p>
+        <p style="font-size:13px;color:var(--muted);margin-top:4px">Recenzia ta va fi vizibila in curand.</p>
       </div>
     </div>
   </div>
 
+  <div class="rv-modal-overlay" id="rvModal">
+    <div class="rv-modal">
+      <div class="rv-modal-head">
+        <h3>Toate recenziile</h3>
+        <button class="rv-modal-close" onclick="rvCloseModal()">&#x2715;</button>
+      </div>
+      <div class="rv-filters">
+        <button class="rv-chip active" onclick="rvFilter('all',this)">Toate</button>
+        <button class="rv-chip" onclick="rvFilter('new',this)">Cele mai noi</button>
+        <button class="rv-chip" onclick="rvFilter('5',this)">5 stele</button>
+        <button class="rv-chip" onclick="rvFilter('4',this)">4 stele</button>
+        <button class="rv-chip" onclick="rvFilter('3',this)">3 stele</button>
+        <button class="rv-chip" onclick="rvFilter('asc',this)">Rating crestator</button>
+        <button class="rv-chip" onclick="rvFilter('desc',this)">Rating descrescator</button>
+      </div>
+      <div class="rv-modal-list" id="rvModalList"></div>
+    </div>
+  </div>
+
   <script>
-  const SLIDER_REVIEWS = [
-    { name: "Violeta Gales", text: "Naomi e o dulce! Foarte atentă la detalii și extrem de perfecționistă când vine vorba de cuticulă. O recomand cu tot dragul!" },
-    { name: "Elena Bălănică", text: "Naomi o super drăguță și o adevărată profesionistă! Foarte atentă la detalii! Manichiura perfectă!" },
-    { name: "Alexandra Ursu", text: "A fost o plăcere să conversez cu Naomi, iar unghiuțele mele arată absolut minunat! Le ador! Mulțumesc!" },
-    { name: "Diana Fărtăiș", text: "Naomi a fost prima cu care am interacționat și pot spune că e un om super fain. Mi-a făcut niște bombonele de unghii. Recomand cu drag!" },
-    { name: "Georgeta Bodnar", text: "Naomi este o fată atât de dulce și pe cât este de dulce pe atât de talentată este! Oferă servicii de calitate și merită să te întorci!" },
-    { name: "Iustina Ungureanu", text: "Foarte mulțumită de Naomi. O prezență caldă și profesionistă. Recomand cu drag!" },
-    { name: "Flaviana Raileanu", text: "Naomi este o prezență plăcută și se dedică întru totul să ajungă la rezultate cât mai spectaculoase." },
-    { name: "Alina Turiceanu", text: "Naomi este foarte atentă la toate solicitările clientei! Bravo ei! Înclinare maximă pentru satisfacerea clientelor!" },
-    { name: "Madalina Popa", text: "Recomand cu încredere! Naomi este o drăguță, a lucrat atent și curat! Sunt foarte mulțumită!" },
-    { name: "Ana Maria Ciobanu", text: "O recomand cu drag pe Naomi! Mi-a făcut niște unghiuțe superbe!" },
-    { name: "Medeea Grigoraș", text: "Unghiuțele mele sunt geniale!!! Îmi plac atât de mult — n-am cuvinte să exprim!" },
-    { name: "Cosmina Lupan", text: "Foarte mulțumită. O fată drăguță și foarte atentă la detalii. Recomand cu drag!" },
-    { name: "Irina Alexandra Coneac", text: "Naomi este foarte drăguță și super atentă la tot ceea ce face." },
-    { name: "Steluta Coca", text: "Recomand cu încredere. Fetele sunt foarte amabile și profesioniste." },
-    { name: "Lorena Balan", text: "Excelent! Naomi este amabilă și profesională." },
-    { name: "Claudia Baban-Mihăilă", text: "Super fată, super manichiură!" }
+  var RV_MERO=[
+    {name:"Violeta Gales",text:"Naomi e o dulce! Foarte atenta la detalii si extrem de perfectionista cand vine vorba de cuticula. O recomand cu tot dragul!",rating:5,mero:true},
+    {name:"Elena Balanica",text:"Naomi o super draguta si o adevarata profesionista! Foarte atenta la detalii! Manichiura perfecta!",rating:5,mero:true},
+    {name:"Alexandra Ursu",text:"A fost o placere sa conversez cu Naomi, iar unghiutele mele arata absolut minunat! Le ador! Multumesc!",rating:5,mero:true},
+    {name:"Diana Fartais",text:"Naomi a fost prima cu care am interactionat si pot spune ca e un om super fain. Mi-a facut niste bombonele de unghii. Recomand cu drag!",rating:5,mero:true},
+    {name:"Georgeta Bodnar",text:"Naomi este o fata atat de dulce si pe cat este de dulce pe atat de talentata este! Ofera servicii de calitate si merita sa te intorci!",rating:5,mero:true},
+    {name:"Iustina Ungureanu",text:"Foarte multumita de Naomi. O prezenta calda si profesionista. Recomand cu drag!",rating:5,mero:true},
+    {name:"Flaviana Raileanu",text:"Naomi este o prezenta placuta si se dedica intru totul sa ajunga la rezultate cat mai spectaculoase.",rating:5,mero:true},
+    {name:"Flaviana Raileanu",text:"Super multumita de Naomi. Face o treaba excelenta!",rating:5,mero:true},
+    {name:"Alina Turiceanu",text:"Naomi este foarte atenta la toate solicitarile clientei! Bravo ei! Inclinare maxima pentru satisfacerea clientelor!",rating:5,mero:true},
+    {name:"Madalina Popa",text:"Recomand cu incredere! Naomi este o draguta, a lucrat atent si curat! Sunt foarte multumita!",rating:5,mero:true},
+    {name:"Cosmina Lupan",text:"Cea mai buna!!!!",rating:5,mero:true},
+    {name:"Cosmina Lupan",text:"Foarte multumita. O fata draguta si foarte atenta la detalii. Recomand cu drag!",rating:5,mero:true},
+    {name:"Ana Maria Ciobanu",text:"O recomand cu drag pe Naomi! Mi-a facut niste unghiute superbe!",rating:5,mero:true},
+    {name:"Medeea Grigoras",text:"Unghiutele mele sunt geniale!!! Imi plac atat de mult - n-am cuvinte sa exprim!",rating:5,mero:true},
+    {name:"Medeea Grigoras",text:"Chiar unghiile sunt pe gustul meu si arata genial!!!",rating:5,mero:true},
+    {name:"Claudia Baban-Mihaila",text:"Super fata, super manichiura!",rating:5,mero:true},
+    {name:"Irina Alexandra Coneac",text:"Naomi este foarte draguta si super atenta la tot ceea ce face.",rating:5,mero:true},
+    {name:"Steluta Coca",text:"Recomand cu incredere. Fetele sunt foarte amabile si profesioniste.",rating:5,mero:true},
+    {name:"Lorena Balan",text:"Excelent! Naomi este amabila si profesionala.",rating:5,mero:true},
+    {name:"Recenzie anonima",text:"Naomi mi-a facut unghiile exceptionale. Iar ea, o draguta de fata! Recomand cu mare drag!",rating:5,mero:true},
+    {name:"Alexandra B",text:"Foarte finuta si atenta la detalii.",rating:5,mero:true},
+    {name:"Alexandra Spoiala",text:"Super draguta Naomi iar manichiura perfecta!",rating:5,mero:true},
+    {name:"Aglaita Mereu",text:"Superba, relaxanta si foarte multumita.",rating:5,mero:true},
+    {name:"Anda Ostrovan",text:"Recomand cu mare drag!",rating:5,mero:true},
+    {name:"Diana Husanu",text:"The best!",rating:5,mero:true},
+    {name:"Iustina Ungureanu",text:"O prezenta calda si profesionista. Recomand cu drag!",rating:5,mero:true},
+    {name:"Georgeta Bodnar",text:"Naomi este o fata atat de dulce si pe atat de talentata este!",rating:5,mero:true},
+    {name:"Lorena Balan",text:"Naomi este amabila si profesionala. Recomand cu drag!",rating:5,mero:true},
+    {name:"Madalina Popa",text:"Naomi este o draguta, a lucrat atent si curat! Sunt foarte multumita!",rating:5,mero:true},
+    {name:"Alina Turiceanu",text:"Naomi este foarte atenta la toate solicitarile clientei! Inclinare maxima!",rating:5,mero:true}
   ];
-
-  function getInitials(name) {
-    return name.split(' ').filter(Boolean).map(w=>w[0]).join('').substring(0,2).toUpperCase();
+  var RV_STAR='<svg width="11" height="11" viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
+  var RV_STAR_E='<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#DDD" stroke-width="2"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
+  function rvInit(n){return n.split(' ').filter(Boolean).map(function(w){return w[0];}).join('').substring(0,2).toUpperCase();}
+  var rvAll=[].concat(RV_MERO),rvCur=0,rvTimer,rvStars=0,rvSiteCount=0,RV_BASE=465,RV_SLIDER=7;
+  function rvLoadSite(){
+    sb.from('recenzii').select('nume_client,rating,descriere').eq('sursa','site').order('id',{ascending:false}).limit(50).then(function(res){
+      var data=res.data;
+      if(data&&data.length){
+        rvSiteCount=data.length;
+        rvAll=data.map(function(r){return{name:r.nume_client,text:r.descriere,rating:r.rating,mero:false};}).concat(RV_MERO);
+        document.getElementById('rvCount').textContent='('+( RV_BASE+rvSiteCount)+' evaluari)';
+        rvBuild();
+      }
+    }).catch(function(){});
   }
-
-  const STAR_SVG = '<svg width="11" height="11" viewBox="0 0 24 24" fill="#F59E0B"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
-
-  let currentSlide = 0;
-  let sliderInterval;
-
-  function buildSlider() {
-    const track = document.getElementById('reviewTrack');
-    const dots = document.getElementById('reviewDots');
-    track.innerHTML = '';
-    dots.innerHTML = '';
-    SLIDER_REVIEWS.forEach((r, i) => {
-      const initials = getInitials(r.name);
-      track.innerHTML += `<div class="review-slide">
-        <div class="review-slide-quote">"</div>
-        <p class="review-slide-text">${r.text}</p>
-        <div class="review-slide-footer">
-          <div class="review-slide-avatar">${initials}</div>
-          <div>
-            <p class="review-slide-name">${r.name}</p>
-            <div class="review-slide-stars">${STAR_SVG.repeat(5)}</div>
-          </div>
-          <span class="review-slide-source">Mero</span>
-        </div>
-      </div>`;
-      const dot = document.createElement('button');
-      dot.className = 'review-dot' + (i===0?' active':'');
-      dot.onclick = () => goToSlide(i);
-      dots.appendChild(dot);
+  function rvBuild(){
+    var track=document.getElementById('rvTrack');
+    var dots=document.getElementById('rvDots');
+    var slides=rvAll.slice(0,RV_SLIDER);
+    track.innerHTML=slides.map(function(r){
+      return '<div class="rv-slide"><div class="rv-quote">"</div><p class="rv-text">'+r.text+'</p><div class="rv-footer"><div class="rv-avatar">'+rvInit(r.name)+'</div><div><p class="rv-name">'+r.name+'</p><div class="rv-stars">'+RV_STAR.repeat(r.rating||5)+'</div></div>'+(r.mero?'<span class="rv-source">Mero</span>':'')+'</div></div>';
+    }).join('');
+    dots.innerHTML='';
+    slides.forEach(function(_,i){
+      var d=document.createElement('button');
+      d.className='rv-dot'+(i===0?' active':'');
+      d.onclick=(function(ii){return function(){rvGo(ii);clearInterval(rvTimer);rvAuto();};})(i);
+      dots.appendChild(d);
     });
+    var sa=document.createElement('button');
+    sa.className='rv-see-all';sa.textContent='Vezi toate';sa.onclick=rvOpenModal;
+    dots.appendChild(sa);
   }
-
-  function goToSlide(n) {
-    currentSlide = (n + SLIDER_REVIEWS.length) % SLIDER_REVIEWS.length;
-    document.getElementById('reviewTrack').style.transform = `translateX(-${currentSlide * 100}%)`;
-    document.querySelectorAll('.review-dot').forEach((d,i) => d.classList.toggle('active', i===currentSlide));
+  function rvGo(n){
+    var slides=rvAll.slice(0,RV_SLIDER);
+    rvCur=(n+slides.length)%slides.length;
+    document.getElementById('rvTrack').style.transform='translateX(-'+(rvCur*100)+'%)';
+    document.querySelectorAll('.rv-dot').forEach(function(d,i){d.classList.toggle('active',i===rvCur);});
   }
-
-  function startAutoSlide() {
-    sliderInterval = setInterval(() => goToSlide(currentSlide + 1), 4000);
-  }
-
-  buildSlider();
-  startAutoSlide();
-
-  // Touch swipe support
-  let touchStartX = 0;
-  const sliderWrap = document.querySelector('.review-slider-wrap');
-  sliderWrap.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; clearInterval(sliderInterval); }, {passive:true});
-  sliderWrap.addEventListener('touchend', e => {
-    const diff = touchStartX - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 40) goToSlide(currentSlide + (diff > 0 ? 1 : -1));
-    startAutoSlide();
-  }, {passive:true});
-
-  // Star picker
-  let selectedStars = 0;
-  document.querySelectorAll('.star-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      selectedStars = parseInt(btn.dataset.v);
-      document.querySelectorAll('.star-btn').forEach((b,i) => b.classList.toggle('active', i < selectedStars));
+  function rvAuto(){clearInterval(rvTimer);rvTimer=setInterval(function(){rvGo(rvCur+1);},4500);}
+  var rvTX=0;
+  document.getElementById('rvWrap').addEventListener('touchstart',function(e){rvTX=e.touches[0].clientX;clearInterval(rvTimer);},{passive:true});
+  document.getElementById('rvWrap').addEventListener('touchend',function(e){var d=rvTX-e.changedTouches[0].clientX;if(Math.abs(d)>40)rvGo(rvCur+(d>0?1:-1));rvAuto();},{passive:true});
+  document.querySelectorAll('.rv-star-btn').forEach(function(b){
+    b.addEventListener('click',function(){
+      rvStars=parseInt(b.dataset.v);
+      document.querySelectorAll('.rv-star-btn').forEach(function(s,i){s.classList.toggle('on',i<rvStars);});
     });
   });
-
-  async function submitReview() {
-    const name = document.getElementById('reviewName').value.trim();
-    const text = document.getElementById('reviewText').value.trim();
-    if (!name) { document.getElementById('reviewName').focus(); return; }
-    if (!selectedStars) { alert('Te rugăm să selectezi un număr de stele.'); return; }
-    if (!text) { document.getElementById('reviewText').focus(); return; }
-    try {
-      await supabase.from('recenzii').insert({ nume_client: name, rating: selectedStars, descriere: text, sursa: 'site' });
-    } catch(e) {}
-    document.getElementById('reviewFormWrap').style.display = 'none';
-    document.getElementById('reviewSuccess').style.display = 'block';
+  function rvCheckAuth(){
+    var done=false;
+    function show(loggedIn){
+      if(done)return; done=true;
+      document.getElementById('rvLoading').style.display='none';
+      if(loggedIn){document.getElementById('rvFormBox').style.display='block';}
+      else{document.getElementById('rvLoginBox').style.display='block';}
+    }
+    setTimeout(function(){show(false);},3000);
+    sb.auth.getSession().then(function(res){
+      show(!!(res&&res.data&&res.data.session));
+    }).catch(function(){show(false);});
   }
+  function rvSubmit(){
+    sb.auth.getSession().then(function(res){
+      var session=res&&res.data&&res.data.session;
+      if(!session)return;
+      if(!rvStars){alert('Te rugam sa selectezi un numar de stele.');return;}
+      var text=document.getElementById('rvText').value.trim();
+      if(!text){document.getElementById('rvText').focus();return;}
+      var svc=document.getElementById('rvSvc').value;
+      sb.from('profiles').select('nume').eq('id',session.user.id).single().then(function(pr){
+        var nume=(pr.data&&pr.data.nume)||session.user.email.split('@')[0]||'Clienta';
+        var descriere=svc?('['+svc+'] '+text):text;
+        sb.from('recenzii').insert({
+          user_id:session.user.id,
+          artist_id:session.user.id,
+          nume_client:nume,
+          rating:rvStars,
+          descriere:descriere,
+          sursa:'site'
+        }).then(function(ins){
+          if(ins.error){alert('Eroare: '+ins.error.message);return;}
+          document.getElementById('rvFormBox').style.display='none';
+          document.getElementById('rvSuccessBox').style.display='block';
+          rvSiteCount++;
+          document.getElementById('rvCount').textContent='('+(RV_BASE+rvSiteCount)+' evaluari)';
+        });
+      });
+    });
+  }
+  function rvOpenModal(){document.getElementById('rvModal').classList.add('open');document.body.style.overflow='hidden';rvRenderModal('all');}
+  function rvCloseModal(){document.getElementById('rvModal').classList.remove('open');document.body.style.overflow='';}
+  document.getElementById('rvModal').addEventListener('click',function(e){if(e.target===document.getElementById('rvModal'))rvCloseModal();});
+  function rvFilter(f,btn){document.querySelectorAll('.rv-chip').forEach(function(c){c.classList.remove('active');});btn.classList.add('active');rvRenderModal(f);}
+  function rvRenderModal(f){
+    var list=rvAll.slice();
+    if(f==='5')list=list.filter(function(r){return(r.rating||5)===5;});
+    else if(f==='4')list=list.filter(function(r){return(r.rating||5)===4;});
+    else if(f==='3')list=list.filter(function(r){return(r.rating||5)===3;});
+    else if(f==='desc')list.sort(function(a,b){return(b.rating||5)-(a.rating||5);});
+    else if(f==='asc')list.sort(function(a,b){return(a.rating||5)-(b.rating||5);});
+    else if(f==='new')list=list.slice().sort(function(a,b){return a.mero?1:-1;});
+    var el=document.getElementById('rvModalList');
+    if(!list.length){el.innerHTML='<p style="text-align:center;color:var(--muted);font-size:14px;padding:20px">Nicio recenzie pentru acest filtru.</p>';return;}
+    el.innerHTML=list.map(function(r){
+      var rt=r.rating||5;
+      return '<div class="rv-card"><div class="rv-card-head"><div class="rv-card-av">'+rvInit(r.name)+'</div><div><p class="rv-card-name">'+r.name+'</p><div class="rv-card-stars">'+RV_STAR.repeat(rt)+RV_STAR_E.repeat(5-rt)+'</div></div>'+(r.mero?'<span class="rv-card-src">Mero</span>':'')+'</div><p class="rv-card-text">'+r.text+'</p></div>';
+    }).join('');
+  }
+  rvBuild();
+  rvAuto();
+  rvLoadSite();
+  rvCheckAuth();
   </script>
 
   <!-- FOOTER -->
