@@ -338,9 +338,7 @@ const DLF=['duminică','luni','marți','miercuri','joi','vineri','sâmbătă'];
 const CAL_START=6,CAL_END=21,PX_MIN=2;
 
 let cu=null;
-let _scrollY=0;
-function openModal(){_scrollY=window.scrollY;openModal();document.body.style.top='-'+_scrollY+'px';}
-function closeModal(){closeModal();document.body.style.top='';window.scrollTo(0,_scrollY);}
+function openModal(){} function closeModal(){}
 let calSelectedDate=new Date();
 let calWeekStart=getMonday(new Date());
 let mpYear=new Date().getFullYear(),mpMonth=new Date().getMonth();
@@ -1028,18 +1026,19 @@ async function updateProfit(){
 async function loadRapoarte(){
   const dates=getRepDates();if(!dates)return;
   const{s,e}=dates;
-  const{data}=await sb.from('programari').select('*').eq('status','confirmat').gte('data',dk(s)).lte('data',dk(e));
-  const rd=data||[];
-  const total=rd.reduce((acc,p)=>acc+p.pret,0);
-  const totalTips=rd.reduce((acc,p)=>acc+(p.tips||0),0);
+  const{data:allData}=await sb.from('programari').select('*').neq('status','anulat').gte('data',dk(s)).lte('data',dk(e));
+  const rd=allData||[];
+  const confirmate=rd.filter(p=>p.status==='confirmat');
+  const total=confirmate.reduce((acc,p)=>acc+p.pret,0);
+  const totalTips=confirmate.reduce((acc,p)=>acc+(p.tips||0),0);
   
   document.getElementById('rep-stats').innerHTML=
     `<div class="stat-card"><div class="stat-label">Încasări</div><div class="stat-value">${total} lei</div></div>`+
-    `<div class="stat-card"><div class="stat-label">Programări</div><div class="stat-value">${rd.length}</div><div class="stat-sub">${rd.length>0?Math.round(total/rd.length)+' lei/medie':''}</div></div>`;
+    `<div class="stat-card"><div class="stat-label">Programări</div><div class="stat-value">${rd.length}</div><div class="stat-sub">${confirmate.length} confirmate</div></div>`;
   
   // TIPS section
   const tipsMap={};
-  rd.filter(p=>p.tips>0).forEach(p=>{
+  confirmate.filter(p=>p.tips>0).forEach(p=>{
     if(!tipsMap[p.nume])tipsMap[p.nume]={total:0,cnt:0,maxTip:0};
     tipsMap[p.nume].total+=p.tips;
     tipsMap[p.nume].cnt++;
@@ -1059,7 +1058,7 @@ async function loadRapoarte(){
     tipsEl.innerHTML=`<div style="font-size:13px;color:var(--text2)">Niciun tips înregistrat în această perioadă.</div>`;
   }
   
-  const sm={};rd.forEach(p=>{if(!sm[p.serviciu])sm[p.serviciu]={cnt:0,total:0};sm[p.serviciu].cnt++;sm[p.serviciu].total+=p.pret;});
+  const sm={};confirmate.forEach(p=>{if(!sm[p.serviciu])sm[p.serviciu]={cnt:0,total:0};sm[p.serviciu].cnt++;sm[p.serviciu].total+=p.pret;});
   document.getElementById('rep-servicii').innerHTML=Object.entries(sm).sort((a,b)=>b[1].cnt-a[1].cnt).map(([n,v])=>`<div class="report-row"><span>${n}</span><span>${v.cnt}x · ${v.total} lei</span></div>`).join('')||`<div style="color:var(--text2);font-size:14px">Nicio dată.</div>`;
   const cm={};rd.forEach(p=>{if(!cm[p.nume])cm[p.nume]={cnt:0,total:0};cm[p.nume].cnt++;cm[p.nume].total+=p.pret;});
   document.getElementById('rep-clienti').innerHTML=Object.entries(cm).sort((a,b)=>b[1].cnt-a[1].cnt).slice(0,10).map(([n,v])=>`<div class="report-row"><span>${n}</span><span>${v.cnt} prog · ${v.total} lei</span></div>`).join('')||`<div style="color:var(--text2);font-size:14px">Nicio dată.</div>`;
