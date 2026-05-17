@@ -223,14 +223,21 @@ h2{font-size:17px;font-weight:500;color:var(--text);margin-bottom:1rem}
           <option value="confirmat">Confirmate</option>
           <option value="anulat">Anulate</option>
         </select>
-        <select id="filt-period" onchange="loadProgramari()">
+        <select id="filt-period" onchange="onProgPeriodChange()">
           <option value="viitoare">Viitoare</option>
           <option value="azi">Azi</option>
           <option value="maine">Mâine</option>
           <option value="saptamana">Săptămâna</option>
           <option value="luna">Luna</option>
           <option value="toate">Toate</option>
+          <option value="custom">Interval personalizat</option>
         </select>
+      </div>
+      <div id="prog-custom-range" style="display:none;display:none;margin-bottom:1rem">
+        <div style="display:flex;gap:8px;align-items:center">
+          <div style="flex:1"><label style="font-size:12px;color:var(--text2);margin-bottom:4px;display:block">De la</label><input type="date" id="prog-start" style="margin-bottom:0" onchange="loadProgramari()"></div>
+          <div style="flex:1"><label style="font-size:12px;color:var(--text2);margin-bottom:4px;display:block">Până la</label><input type="date" id="prog-end" style="margin-bottom:0" onchange="loadProgramari()"></div>
+        </div>
       </div>
       <div id="prog-list"></div>
       <button class="fab fab-green" onclick="openAddProgModal()">+</button>
@@ -262,6 +269,12 @@ h2{font-size:17px;font-weight:500;color:var(--text);margin-bottom:1rem}
           </select>
           <button class="btn-sm btn-success" onclick="exportExcel()" style="padding:10px 14px;flex-shrink:0">Export</button>
         </div>
+        <div style="display:flex;gap:6px;margin-top:10px">
+          <button id="rep-btn-confirmat" onclick="setRepStatus('confirmat')" style="flex:1;padding:9px;font-size:13px;border-radius:8px;border:none;cursor:pointer;font-family:inherit;background:var(--green-light);color:var(--green)">✓ Confirmate</button>
+          <button id="rep-btn-asteptare" onclick="setRepStatus('in_asteptare')" style="flex:1;padding:9px;font-size:13px;border-radius:8px;border:none;cursor:pointer;font-family:inherit;background:var(--amber-light);color:var(--amber)">⏳ Așteptare</button>
+          <button id="rep-btn-toate" onclick="setRepStatus('toate')" style="flex:1;padding:9px;font-size:13px;border-radius:8px;border:none;cursor:pointer;font-family:inherit;background:var(--bg3);color:var(--text2)">Toate</button>
+        </div>
+        <div id="rep-status-label" style="font-size:12px;color:var(--text2);margin-top:6px;text-align:center"></div>
         <div id="custom-range" style="display:none;display:none">
           <div style="display:flex;gap:8px;align-items:center">
             <div style="flex:1"><label style="margin-bottom:4px">De la</label><input type="date" id="rep-start" style="margin-bottom:0" onchange="loadRapoarte()"></div>
@@ -338,6 +351,16 @@ const DLF=['duminică','luni','marți','miercuri','joi','vineri','sâmbătă'];
 const CAL_START=6,CAL_END=21,PX_MIN=2;
 
 let cu=null;
+let repStatus='confirmat';
+function setRepStatus(s){
+  repStatus=s;
+  document.getElementById('rep-btn-confirmat').style.opacity=s==='confirmat'?'1':'0.4';
+  document.getElementById('rep-btn-asteptare').style.opacity=s==='in_asteptare'?'1':'0.4';
+  document.getElementById('rep-btn-toate').style.opacity=s==='toate'?'1':'0.4';
+  var labels={'confirmat':'Incasari confirmate','in_asteptare':'Venituri estimate (in asteptare)','toate':'Toate programarile'};
+  document.getElementById('rep-status-label').textContent=labels[s]||'';
+  loadRapoarte();
+}
 let _sy=0;
 let calSelectedDate=new Date();
 let calWeekStart=getMonday(new Date());
@@ -411,6 +434,20 @@ async function loadHome(){
 }
 
 // PROGRAMARI
+function onProgPeriodChange(){
+  const period=document.getElementById('filt-period').value;
+  const customDiv=document.getElementById('prog-custom-range');
+  if(period==='custom'){
+    customDiv.style.display='block';
+    const now=new Date();
+    document.getElementById('prog-start').value=dk(now);
+    document.getElementById('prog-end').value=dk(new Date(now.getFullYear(),now.getMonth()+1,0));
+  } else {
+    customDiv.style.display='none';
+    loadProgramari();
+  }
+}
+
 async function loadProgramari(){
   const status=document.getElementById('filt-status').value;
   const period=document.getElementById('filt-period').value;
@@ -423,6 +460,12 @@ async function loadProgramari(){
   else if(period==='viitoare')q=q.gte('data',todayKey);
   else if(period==='saptamana'){const mon=getMonday(now);const sun=new Date(mon);sun.setDate(sun.getDate()+6);q=q.gte('data',dk(mon)).lte('data',dk(sun));}
   else if(period==='luna'){const f=new Date(now.getFullYear(),now.getMonth(),1);const l=new Date(now.getFullYear(),now.getMonth()+1,0);q=q.gte('data',dk(f)).lte('data',dk(l));}
+  else if(period==='custom'){
+    const sv=document.getElementById('prog-start').value;
+    const ev=document.getElementById('prog-end').value;
+    if(!sv||!ev)return;
+    q=q.gte('data',sv).lte('data',ev);
+  }
   const{data}=await q;
   if(!data||!data.length){document.getElementById('prog-list').innerHTML=`<div class="loading-txt">Nicio programare.</div>`;return;}
   document.getElementById('prog-list').innerHTML=data.map(p=>progCard(p,true)).join('');
@@ -466,7 +509,7 @@ function showReminderMsg(n,d,o,tel){showMsgModal(buildReminderMsg(n,d,o),'Remind
 function showMsgModal(msg,title,tel){
   const o=document.createElement('div');o.className='overlay';
   _sy=window.scrollY;document.body.classList.add('modal-open');
-  o.addEventListener('remove',()=>document.body.classList.remove('modal-open');window.scrollTo(0,_sy));
+  o.addEventListener('remove',()=>{document.body.classList.remove('modal-open');window.scrollTo(0,_sy);});
   o.innerHTML=`<div class="modal"><p class="modal-title">${title}</p><div class="msg-box">${msg}</div><button class="copy-btn" id="cbtn">Copiază mesajul</button>${tel?`<a href="${waLink(tel,msg)}" target="_blank" style="display:block;padding:12px;background:#25D366;color:#fff;border-radius:10px;text-align:center;text-decoration:none;font-weight:500;margin-bottom:8px">WhatsApp</a>`:''}<button class="close-modal-btn" onclick="this.closest('.overlay').remove();document.body.classList.remove('modal-open');window.scrollTo(0,_sy)">Închide</button></div>`;
   document.body.appendChild(o);
   document.getElementById('cbtn').onclick=function(){navigator.clipboard.writeText(msg).then(()=>{this.textContent='Copiat!';setTimeout(()=>this.textContent='Copiază mesajul',2000);});};
@@ -1026,14 +1069,18 @@ async function updateProfit(){
 async function loadRapoarte(){
   const dates=getRepDates();if(!dates)return;
   const{s,e}=dates;
-  const{data}=await sb.from('programari').select('*').eq('status','confirmat').gte('data',dk(s)).lte('data',dk(e));
+  let q=sb.from('programari').select('*').neq('status','anulat').gte('data',dk(s)).lte('data',dk(e));
+  if(repStatus!=='toate')q=q.eq('status',repStatus);
+  const{data}=await q;
   const rd=data||[];
   const total=rd.reduce((acc,p)=>acc+p.pret,0);
   const totalTips=rd.reduce((acc,p)=>acc+(p.tips||0),0);
+  const incLabel=repStatus==='in_asteptare'?'Venituri estimate':repStatus==='toate'?'Total':'Încasări';
+  const progLabel=repStatus==='in_asteptare'?'În așteptare':repStatus==='toate'?'Toate':'Confirmate';
   
   document.getElementById('rep-stats').innerHTML=
-    `<div class="stat-card"><div class="stat-label">Încasări</div><div class="stat-value">${total} lei</div></div>`+
-    `<div class="stat-card"><div class="stat-label">Programări</div><div class="stat-value">${rd.length}</div><div class="stat-sub">${rd.length>0?Math.round(total/rd.length)+' lei/medie':''}</div></div>`;
+    `<div class="stat-card"><div class="stat-label">${incLabel}</div><div class="stat-value" style="color:${repStatus==='in_asteptare'?'var(--amber)':'var(--text)'}">${total} lei</div></div>`+
+    `<div class="stat-card"><div class="stat-label">${progLabel}</div><div class="stat-value">${rd.length}</div><div class="stat-sub">${rd.length>0?Math.round(total/rd.length)+' lei/medie':''}</div></div>`;
   
   // TIPS section
   const tipsMap={};
