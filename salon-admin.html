@@ -487,7 +487,7 @@ function showMsgModal(msg,title,tel){
   o.innerHTML=`<div class="modal"><p class="modal-title">${title}</p><div class="msg-box">${msg}</div><button class="copy-btn" id="cbtn">Copiază mesajul</button>${tel?`<a href="${waLink(tel,msg)}" target="_blank" style="display:block;padding:12px;background:#25D366;color:#fff;border-radius:10px;text-align:center;text-decoration:none;font-weight:500;margin-bottom:8px">WhatsApp</a>`:''}<button class="close-modal-btn" onclick="this.closest('.overlay').remove();document.body.classList.remove('modal-open')">Închide</button></div>`;
   document.body.appendChild(o);
   document.getElementById('cbtn').onclick=function(){navigator.clipboard.writeText(msg).then(()=>{this.textContent='Copiat!';setTimeout(()=>this.textContent='Copiază mesajul',2000);});};
-  o.addEventListener('click',e=>{if(e.target===o)o.remove();});
+  o.addEventListener('click',e=>{if(e.target===o){o.remove();document.body.classList.remove('modal-open');}});
 }
 
 // CALENDAR - WEEK STRIP
@@ -563,7 +563,7 @@ function renderMonthPicker(){
   }
   html+=`</div><button class="close-modal-btn" style="margin-top:1rem" onclick="document.getElementById('month-picker-overlay').remove()">Închide</button></div>`;
   o.innerHTML=html;
-  o.addEventListener('click',e=>{if(e.target===o)o.remove();});
+  o.addEventListener('click',e=>{if(e.target===o){o.remove();document.body.classList.remove('modal-open');}});
   document.body.appendChild(o);
 }
 
@@ -713,7 +713,7 @@ function openAddProgModal(){
     <button class="close-modal-btn" style="margin-top:8px" onclick="document.getElementById('add-prog-overlay').remove()">Anulează</button>
   </div>`;
   document.body.appendChild(o);
-  o.addEventListener('click',e=>{if(e.target===o)o.remove();});
+  o.addEventListener('click',e=>{if(e.target===o){o.remove();document.body.classList.remove('modal-open');}});
   document.getElementById('ap-ora').addEventListener('change',checkOverlap);
   document.getElementById('ap-data').addEventListener('change',checkOverlap);
   document.getElementById('ap-svc').addEventListener('change',checkOverlap);
@@ -785,7 +785,7 @@ function openBlocareModal(){
   const dateStr=dk(calSelectedDate);
   const o=document.createElement('div');o.className='overlay';o.id='blocare-overlay';
   o.innerHTML=`<div class="modal"><p class="modal-title">Blochează timp</p><label>Data</label><input type="date" id="bl-data" value="${dateStr}"><label>Ora început</label><input type="time" id="bl-start" value="10:00"><label>Ora sfârșit</label><input type="time" id="bl-end" value="12:00"><label>Motiv</label><input type="text" id="bl-motiv" placeholder="ex: Pauză, Personal..."><button class="btn" onclick="submitBlocare()">Blochează</button><button class="close-modal-btn" style="margin-top:8px" onclick="document.getElementById('blocare-overlay').remove()">Anulează</button></div>`;
-  document.body.appendChild(o);o.addEventListener('click',e=>{if(e.target===o)o.remove();});
+  document.body.appendChild(o);o.addEventListener('click',e=>{if(e.target===o){o.remove();document.body.classList.remove('modal-open');}});
 }
 
 async function submitBlocare(){
@@ -911,7 +911,7 @@ async function addTips(progId, currentTips){
     <button class="close-modal-btn" style="margin-top:8px" onclick="document.getElementById('tips-overlay').remove()">Anulează</button>
   </div>`;
   document.body.appendChild(o);
-  o.addEventListener('click',e=>{if(e.target===o)o.remove();});
+  o.addEventListener('click',e=>{if(e.target===o){o.remove();document.body.classList.remove('modal-open');}});
   setTimeout(()=>document.getElementById('tips-sum')?.focus(),100);
 }
 
@@ -929,7 +929,7 @@ function openAddChelt(){
   const today=dk(new Date());
   const o=document.createElement('div');o.className='overlay';o.id='chelt-overlay';
   o.innerHTML=`<div class="modal"><p class="modal-title">Adaugă cheltuială</p><label>Produs / Descriere</label><input type="text" id="ch-prod" placeholder="ex: Geluri OPI, Mănuși..."><label>Sumă (lei)</label><input type="number" id="ch-sum" placeholder="ex: 150" min="0"><label>Data</label><input type="date" id="ch-data" value="${today}"><button class="btn" onclick="submitChelt()">Salvează</button><button class="close-modal-btn" style="margin-top:8px" onclick="document.getElementById('chelt-overlay').remove()">Anulează</button></div>`;
-  document.body.appendChild(o);o.addEventListener('click',e=>{if(e.target===o)o.remove();});
+  document.body.appendChild(o);o.addEventListener('click',e=>{if(e.target===o){o.remove();document.body.classList.remove('modal-open');}});
 }
 
 async function submitChelt(){
@@ -995,7 +995,7 @@ async function stergeCheltFixa(id){
 function openAddCheltFixa(){
   const o=document.createElement('div');o.className='overlay';o.id='chelt-fixa-overlay';
   o.innerHTML=`<div class="modal"><p class="modal-title">Cheltuială fixă lunară</p><label>Denumire</label><input type="text" id="cf-den" placeholder="ex: Carte de muncă, Chirie..."><label>Sumă lunară (lei)</label><input type="number" id="cf-sum" placeholder="ex: 500" min="0"><button class="btn" onclick="submitCheltFixa()">Salvează</button><button class="close-modal-btn" style="margin-top:8px" onclick="document.getElementById('chelt-fixa-overlay').remove()">Anulează</button></div>`;
-  document.body.appendChild(o);o.addEventListener('click',e=>{if(e.target===o)o.remove();});
+  document.body.appendChild(o);o.addEventListener('click',e=>{if(e.target===o){o.remove();document.body.classList.remove('modal-open');}});
 }
 
 async function submitCheltFixa(){
