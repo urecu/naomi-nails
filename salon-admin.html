@@ -701,7 +701,7 @@ function openEditProg(id, oraEnc, statusEnc){
     <label>Serviciu</label>
     <select id="ep-svc" style="margin-bottom:1rem"><option value="">Același serviciu</option>${SERVICES.map(s=>`<option value="${s.id}">${s.name}</option>`).join('')}</select>
     <label>Ora</label>
-    <input type="time" id="ep-ora" value="${ora}" style="margin-bottom:1rem">
+    <input type="time" id="ep-ora" value="${ora}" style="margin-bottom:1rem;width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:10px;font-size:16px;color:var(--text);background:var(--bg2);outline:none;font-family:inherit;text-align:left">
     <label>Status</label>
     <select id="ep-status" style="margin-bottom:1rem">
       <option value="in_asteptare" ${status==='in_asteptare'?'selected':''}>În așteptare</option>
