@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>Naomi Pro · Admin</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
@@ -1186,6 +1188,21 @@ async function submitAddClient(){
 }
 
 initAuth();
+
+// Fix notch/safe area dynamically
+(function(){
+  var top = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sat')||'0')||0;
+  if(top === 0){
+    // Fallback: detect by screen height ratios for known notch phones
+    var r = window.screen.height / window.screen.width;
+    if(r > 2.1) top = 44; // XS Max, 11 Pro Max etc
+    else if(r > 1.9) top = 34; // iPhone X, XS
+  }
+  if(top > 0){
+    var h = document.querySelector('.admin-header');
+    if(h) h.style.paddingTop = (top + 12) + 'px';
+  }
+})();
 </script>
 </body>
 </html>
