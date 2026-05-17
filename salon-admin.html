@@ -688,8 +688,46 @@ async function renderDayView(){
 function showProgDetailCal(id,tel,numeEnc,data,ora,status){
   const nume=decodeURIComponent(numeEnc);
   const o=document.createElement('div');o.className='overlay';
-  o.innerHTML=`<div class="modal"><p class="modal-title">${nume}</p><div style="font-size:14px;color:var(--text2);line-height:1.9;margin-bottom:1rem">${tel}<br>${friendlyDate(data)} · ${ora}</div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem"><a href="${waLink(tel,'')}" target="_blank" style="padding:8px 14px;background:#25D366;color:#fff;border-radius:8px;text-decoration:none;font-size:13px;font-weight:500">WhatsApp</a>${status==='in_asteptare'?`<button class="btn-sm btn-success" onclick="confirmFromCal('${id}','${nume}','${data}','${ora}','${tel}',this)">Confirmă</button>`:''}<button class="btn-sm btn-amber" onclick="this.closest('.overlay').remove();showReminderMsg('${nume}','${data}','${ora}','${tel}')">Reminder</button><button class="btn-sm btn-danger" onclick="cancelFromCal('${id}',this)">Anulează</button></div><button class="close-modal-btn" onclick="this.closest('.overlay').remove();document.body.classList.remove('modal-open');window.scrollTo(0,_sy)">Închide</button></div>`;
-  o.addEventListener('click',e=>{if(e.target===o){o.remove();document.body.classList.remove('modal-open');window.scrollTo(0,_sy);}});_sy=window.scrollY;document.body.classList.add('modal-open');document.body.appendChild(o);
+  o.innerHTML=`<div class="modal"><p class="modal-title">${nume}</p><div style="font-size:14px;color:var(--text2);line-height:1.9;margin-bottom:1rem">${tel}<br>${friendlyDate(data)} · ${ora}</div><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:1rem"><a href="${waLink(tel,'')}" target="_blank" style="padding:8px 14px;background:#25D366;color:#fff;border-radius:8px;text-decoration:none;font-size:13px;font-weight:500">WhatsApp</a>${status==='in_asteptare'?`<button class="btn-sm btn-success" onclick="confirmFromCal('${id}','${nume}','${data}','${ora}','${tel}',this)">Confirmă</button>`:''}<button class="btn-sm btn-amber" onclick="this.closest('.overlay').remove();document.body.classList.remove('modal-open');window.scrollTo(0,_sy);showReminderMsg('${nume}','${data}','${ora}','${tel}')">Reminder</button><button class="btn-sm" style="background:var(--rose-light);color:var(--rose);border:1px solid var(--rose-border)" onclick="this.closest('.overlay').remove();document.body.classList.remove('modal-open');window.scrollTo(0,_sy);openEditProg('${id}','${encodeURIComponent(ora)}','${encodeURIComponent(status)}')">✏️ Editează</button><button class="btn-sm btn-danger" onclick="cancelFromCal('${id}',this)">Anulează</button></div><button class="close-modal-btn" onclick="this.closest('.overlay').remove();document.body.classList.remove('modal-open');window.scrollTo(0,_sy)">Închide</button></div>`;
+  o.addEventListener('click',e=>{if(e.target===o){o.remove();document.body.classList.remove('modal-open');window.scrollTo(0,_sy);}});__sy=window.scrollY;document.body.classList.add('modal-open');document.body.appendChild(o);
+}
+
+function openEditProg(id, oraEnc, statusEnc){
+  const ora=decodeURIComponent(oraEnc);
+  const status=decodeURIComponent(statusEnc);
+  const o=document.createElement('div');o.className='overlay';o.id='edit-prog-overlay';
+  o.innerHTML=`<div class="modal">
+    <p class="modal-title">Editează programarea</p>
+    <label>Serviciu</label>
+    <select id="ep-svc" style="margin-bottom:1rem"><option value="">Același serviciu</option>${SERVICES.map(s=>`<option value="${s.id}">${s.name}</option>`).join('')}</select>
+    <label>Ora</label>
+    <input type="time" id="ep-ora" value="${ora}" style="margin-bottom:1rem">
+    <label>Status</label>
+    <select id="ep-status" style="margin-bottom:1rem">
+      <option value="in_asteptare" ${status==='in_asteptare'?'selected':''}>În așteptare</option>
+      <option value="confirmat" ${status==='confirmat'?'selected':''}>Confirmat</option>
+    </select>
+    <button class="btn" onclick="submitEditProg('${id}')">Salvează</button>
+    <button class="close-modal-btn" style="margin-top:8px" onclick="document.getElementById('edit-prog-overlay').remove();document.body.classList.remove('modal-open');window.scrollTo(0,_sy)">Anulează</button>
+  </div>`;
+  o.addEventListener('click',e=>{if(e.target===o){o.remove();document.body.classList.remove('modal-open');window.scrollTo(0,_sy);}});
+  _sy=window.scrollY;document.body.classList.add('modal-open');document.body.appendChild(o);
+}
+
+async function submitEditProg(id){
+  const svcId=parseInt(document.getElementById('ep-svc').value);
+  const svc=SERVICES.find(s=>s.id===svcId);
+  const ora=document.getElementById('ep-ora').value;
+  const status=document.getElementById('ep-status').value;
+  const updates={ora,status};
+  if(svc){updates.serviciu=svc.name;updates.durata=svc.dur;updates.pret=svc.price;}
+  const{error}=await sb.from('programari').update(updates).eq('id',id);
+  if(error){alert('Eroare: '+error.message);return;}
+  document.getElementById('edit-prog-overlay').remove();
+  document.body.classList.remove('modal-open');window.scrollTo(0,_sy);
+  showNotif('Programare actualizată!','ok');
+  renderDayView();
+  loadHome();
 }
 
 function showBlocareDetail(id,motivEnc,start,end){
