@@ -2,7 +2,7 @@
 <html lang="ro">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Naomi Stanciu Nails</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -13,7 +13,7 @@ body.dark{--cream:#141414;--dark:#F0F0F0;--gold-light:#2A2020;--rose:#E8A0B0;--r
 body{font-family:'Jost',system-ui,sans-serif;background:var(--cream);color:var(--dark);min-height:100vh;transition:background 0.3s,color 0.3s}
 .page{display:none}.page.active{display:block}
 /* NAV */
-.nav{display:flex;justify-content:space-between;align-items:center;padding:1rem 1.5rem;background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:calc(env(safe-area-inset-top,0px) + 1rem) 1.5rem 1rem;background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
 .nav-logo{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--dark);cursor:pointer}.nav-logo span{color:var(--rose)}
 .nav-right{display:flex;align-items:center;gap:10px}
 .nav-ig{width:34px;height:34px;border-radius:50%;background:var(--gold-light);display:flex;align-items:center;justify-content:center;text-decoration:none;flex-shrink:0}
@@ -252,7 +252,7 @@ textarea{height:80px;resize:none}
       <div id="rvLoading" style="font-size:13px;color:var(--muted);padding:4px 0">Se verifica...</div>
       <div id="rvLoginBox" style="display:none" class="rv-login-prompt">
         <p>Trebuie sa fii conectata pentru a lasa o recenzie.</p>
-        <button onclick="showLogin()">Conecteaza-te</button>
+        <button onclick="showLoginModal()">Conecteaza-te</button>
       </div>
       <div id="rvFormBox" style="display:none">
         <div class="rv-star-pick" id="rvStarPick">
@@ -385,8 +385,11 @@ textarea{height:80px;resize:none}
     });
   });
   function rvCheckAuth(){
+    // Reset state
     document.getElementById('rvLoading').style.display='none';
-    // Verifica sesiunea din memoria locala inainte de orice request
+    document.getElementById('rvFormBox').style.display='none';
+    document.getElementById('rvLoginBox').style.display='none';
+    document.getElementById('rvSuccessBox').style.display='none';
     sb.auth.getSession().then(function(res){
       var session=res&&res.data&&res.data.session;
       if(session){
@@ -411,10 +414,10 @@ textarea{height:80px;resize:none}
         var descriere=svc?('['+svc+'] '+text):text;
         sb.from('recenzii').insert({
           user_id:session.user.id,
-          artist_id:session.user.id,
+          artist_id:'360925df-6f66-462e-9d69-24321086fb7f',
           nume_client:nume,
           rating:rvStars,
-          descriere:descriere,
+          descriere:descriere||'',
           sursa:'site'
         }).then(function(ins){
           if(ins.error){alert('Eroare: '+ins.error.message);return;}
@@ -453,7 +456,6 @@ textarea{height:80px;resize:none}
   }
   rvBuild();
   rvAuto();
-  rvLoadSite();
   </script>
 
   <!-- FOOTER -->
@@ -595,6 +597,7 @@ textarea{height:80px;resize:none}
 const SB_URL='https://jijvszvsqnmtcqhcqtyo.supabase.co';
 const SB_KEY='sb_publishable_PBs1sC8MYRAlLCqAM5I6MA_jZVc5r7v';
 const sb=supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+rvLoadSite();
 rvCheckAuth();
 
 const SVCS=[
@@ -800,6 +803,7 @@ async function doLogin(){
   if(error){e.textContent='Email/telefon sau parolă greșită.';e.style.display='block';return;}
   cu=data.user;await loadProf();
   closeLoginModal();
+  rvCheckAuth();
   if(window._afterLogin){const fn=window._afterLogin;window._afterLogin=null;fn();}
 }
 
@@ -830,6 +834,7 @@ async function doRegister(){
   await sb.from('profiles').insert({id:cu.id,nume:nm,telefon:ph,email:em||null,rol:'client'});
   await loadProf();
   closeLoginModal();
+  rvCheckAuth();
   if(window._afterLogin){const fn=window._afterLogin;window._afterLogin=null;fn();}
 }
 
@@ -868,7 +873,14 @@ async function doReset(){
   alert('Parola schimbată cu succes!');
 }
 
-async function doLogout(){await sb.auth.signOut();cu=null;cp=null;updNav();}
+async function doLogout(){
+  await sb.auth.signOut();
+  cu=null;cp=null;
+  updNav();
+  rvCheckAuth();
+  // Daca e pe pagina de profil sau programari, du-l la home
+  showPage('p0');
+}
 
 // HOME
 function renderHome(){
