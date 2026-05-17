@@ -701,7 +701,14 @@ function openEditProg(id, oraEnc, statusEnc){
     <label>Serviciu</label>
     <select id="ep-svc" style="margin-bottom:1rem"><option value="">Același serviciu</option>${SERVICES.map(s=>`<option value="${s.id}">${s.name}</option>`).join('')}</select>
     <label>Ora</label>
-    <input type="time" id="ep-ora" value="${ora}" style="margin-bottom:1rem;width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:10px;font-size:16px;color:var(--text);background:var(--bg2);outline:none;font-family:inherit;text-align:left">
+    <div style="display:flex;gap:8px;margin-bottom:1rem">
+      <select id="ep-ora-h" style="flex:1;padding:12px 14px;border:1px solid var(--border);border-radius:10px;font-size:16px;color:var(--text);background:var(--bg2);outline:none;font-family:inherit">
+        ${Array.from({length:13},(_,i)=>i+7).map(h=>`<option value="${String(h).padStart(2,'0')}" ${ora.split(':')[0]===String(h).padStart(2,'0')?'selected':''}>${String(h).padStart(2,'0')}</option>`).join('')}
+      </select>
+      <select id="ep-ora-m" style="flex:1;padding:12px 14px;border:1px solid var(--border);border-radius:10px;font-size:16px;color:var(--text);background:var(--bg2);outline:none;font-family:inherit">
+        ${['00','15','30','45'].map(m=>`<option value="${m}" ${ora.split(':')[1]===m?'selected':''}>${m}</option>`).join('')}
+      </select>
+    </div>
     <label>Status</label>
     <select id="ep-status" style="margin-bottom:1rem">
       <option value="in_asteptare" ${status==='in_asteptare'?'selected':''}>În așteptare</option>
@@ -717,7 +724,7 @@ function openEditProg(id, oraEnc, statusEnc){
 async function submitEditProg(id){
   const svcId=parseInt(document.getElementById('ep-svc').value);
   const svc=SERVICES.find(s=>s.id===svcId);
-  const ora=document.getElementById('ep-ora').value;
+  const oraH=document.getElementById('ep-ora-h').value;const oraM=document.getElementById('ep-ora-m').value;const ora=oraH+':'+oraM;
   const status=document.getElementById('ep-status').value;
   const updates={ora,status};
   if(svc){updates.serviciu=svc.name;updates.durata=svc.dur;updates.pret=svc.price;}
