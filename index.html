@@ -272,13 +272,13 @@ textarea{height:80px;resize:none}
           <option>Pachet curatare + demontare</option>
           <option>Man Manicure</option>
         </select>
-        <textarea class="rv-textarea" id="rvText" rows="4" placeholder="Scrie experienta ta..."></textarea>
+        <textarea class="rv-textarea" id="rvText" rows="4" placeholder="Scrie experienta ta... (optional)"></textarea>
         <button class="rv-submit" onclick="rvSubmit()">Trimite recenzia</button>
       </div>
       <div id="rvSuccessBox" style="display:none;text-align:center;padding:12px 0">
         <div style="font-size:32px">&#127800;</div>
         <p style="font-size:15px;font-weight:500;color:var(--dark);margin-top:8px">Multumim pentru recenzie!</p>
-        <p style="font-size:13px;color:var(--muted);margin-top:4px">Recenzia ta va fi vizibila in curand.</p>
+        <p style="font-size:13px;color:var(--muted);margin-top:4px">Recenzia ta a fost publicata!</p>
       </div>
     </div>
   </div>
@@ -420,8 +420,14 @@ textarea{height:80px;resize:none}
           if(ins.error){alert('Eroare: '+ins.error.message);return;}
           document.getElementById('rvFormBox').style.display='none';
           document.getElementById('rvSuccessBox').style.display='block';
+          // Adauga recenzia imediat in slider si actualizeaza contorul
+          rvAll.unshift({name:nume,text:descriere,rating:rvStars,mero:false});
           rvSiteCount++;
           document.getElementById('rvCount').textContent='('+(RV_BASE+rvSiteCount)+' evaluari)';
+          clearInterval(rvTimer);
+          rvCur=0;
+          rvBuild();
+          rvAuto();
         });
       });
     });
