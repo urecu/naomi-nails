@@ -385,17 +385,18 @@ textarea{height:80px;resize:none}
     });
   });
   function rvCheckAuth(){
-    var done=false;
-    function show(loggedIn){
-      if(done)return;done=true;
-      document.getElementById('rvLoading').style.display='none';
-      if(loggedIn){document.getElementById('rvFormBox').style.display='block';}
-      else{document.getElementById('rvLoginBox').style.display='block';}
-    }
-    setTimeout(function(){show(false);},1500);
+    document.getElementById('rvLoading').style.display='none';
+    // Verifica sesiunea din memoria locala inainte de orice request
     sb.auth.getSession().then(function(res){
-      show(!!(res&&res.data&&res.data.session));
-    }).catch(function(){show(false);});
+      var session=res&&res.data&&res.data.session;
+      if(session){
+        document.getElementById('rvFormBox').style.display='block';
+      } else {
+        document.getElementById('rvLoginBox').style.display='block';
+      }
+    }).catch(function(){
+      document.getElementById('rvLoginBox').style.display='block';
+    });
   }
   function rvSubmit(){
     sb.auth.getSession().then(function(res){
@@ -447,7 +448,6 @@ textarea{height:80px;resize:none}
   rvBuild();
   rvAuto();
   rvLoadSite();
-  rvCheckAuth();
   </script>
 
   <!-- FOOTER -->
@@ -589,6 +589,7 @@ textarea{height:80px;resize:none}
 const SB_URL='https://jijvszvsqnmtcqhcqtyo.supabase.co';
 const SB_KEY='sb_publishable_PBs1sC8MYRAlLCqAM5I6MA_jZVc5r7v';
 const sb=supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+rvCheckAuth();
 
 const SVCS=[
   {id:1,name:"Ojă semipermanentă",dur:1.5,price:130},
