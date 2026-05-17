@@ -332,7 +332,7 @@ h2{font-size:17px;font-weight:500;color:var(--text);margin-bottom:1rem}
 <script>
 const SB_URL='https://jijvszvsqnmtcqhcqtyo.supabase.co';
 const SB_KEY='sb_publishable_PBs1sC8MYRAlLCqAM5I6MA_jZVc5r7v';
-const ADMIN_EMAIL='stanciuflavius00@gmail.com';
+const ADMIN_EMAILS=['stanciuflavius00@gmail.com','temneanunaomi09@gmail.com'];
 const sb=supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true}});
 
 const SERVICES=[
@@ -380,13 +380,13 @@ function getMonday(d){const dt=new Date(d);const day=dt.getDay();dt.setDate(dt.g
 // AUTH
 async function initAuth(){
   const{data:{session}}=await sb.auth.getSession();
-  if(session&&session.user.email===ADMIN_EMAIL){cu=session.user;showDash();}
+  if(session&&ADMIN_EMAILS.includes(session.user.email)){cu=session.user;showDash();}
 }
 async function doLogin(){
   const email=document.getElementById('auth-email').value.trim();
   const pass=document.getElementById('auth-pass').value;
   const e=document.getElementById('auth-error');e.style.display='none';
-  if(email!==ADMIN_EMAIL){e.textContent='Acces interzis.';e.style.display='block';return;}
+  if(!ADMIN_EMAILS.includes(email)){e.textContent='Acces interzis.';e.style.display='block';return;}
   const{data,error}=await sb.auth.signInWithPassword({email,password:pass});
   if(error){e.textContent='Email sau parolă greșită.';e.style.display='block';return;}
   cu=data.user;showDash();
@@ -502,7 +502,11 @@ async function cancelProg(id){if(!confirm('Anulezi?'))return;await sb.from('prog
 
 // MESAJE
 function buildConfirmMsg(n,d,o){return`Programarea ta la Naomi Stanciu a fost CONFIRMATĂ pentru ${friendlyDate(d)} la ora ${o}.`;}
-function buildReminderMsg(n,d,o){return`Naomi Stanciu îți reamintește că ai programare ${friendlyDate(d)} la ora ${o}.`;}
+function buildReminderMsg(n,d,o){return`Naomi Stanciu îți reamintește că ai programare ${friendlyDate(d)} la ora ${o}.
+
+Confirmi programarea?
+✅ Da, confirm
+❌ Nu pot ajunge`;}
 function waLink(tel,msg){return`https://wa.me/40${normPhone(tel)}?text=${encodeURIComponent(msg)}`;}
 function showConfirmMsg(n,d,o,tel){showMsgModal(buildConfirmMsg(n,d,o),'Confirmare',tel);}
 function showReminderMsg(n,d,o,tel){showMsgModal(buildReminderMsg(n,d,o),'Reminder',tel);}
