@@ -392,7 +392,7 @@ textarea{height:80px;resize:none}
       if(loggedIn){document.getElementById('rvFormBox').style.display='block';}
       else{document.getElementById('rvLoginBox').style.display='block';}
     }
-    setTimeout(function(){show(false);},3000);
+    setTimeout(function(){show(false);},1500);
     sb.auth.getSession().then(function(res){
       show(!!(res&&res.data&&res.data.session));
     }).catch(function(){show(false);});
