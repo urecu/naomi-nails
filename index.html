@@ -425,8 +425,8 @@ textarea{height:80px;resize:none}
       });
     });
   }
-  function rvOpenModal(){document.getElementById('rvModal').classList.add('open');document.body.style.overflow='hidden';rvRenderModal('all');}
-  function rvCloseModal(){document.getElementById('rvModal').classList.remove('open');document.body.style.overflow='';}
+  function rvOpenModal(){document.getElementById('rvModal').classList.add('open');rvRenderModal('all');}
+  function rvCloseModal(){document.getElementById('rvModal').classList.remove('open');}
   document.getElementById('rvModal').addEventListener('click',function(e){if(e.target===document.getElementById('rvModal'))rvCloseModal();});
   function rvFilter(f,btn){document.querySelectorAll('.rv-chip').forEach(function(c){c.classList.remove('active');});btn.classList.add('active');rvRenderModal(f);}
   function rvRenderModal(f){
