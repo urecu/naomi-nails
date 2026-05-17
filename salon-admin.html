@@ -2,7 +2,7 @@
 <html lang="ro">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Naomi Pro · Admin</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
@@ -29,13 +29,13 @@ textarea{height:70px;resize:none}
 .btn-success{background:var(--green-light);color:var(--green);border:1px solid rgba(76,175,125,0.3)}
 .btn-amber{background:var(--amber-light);color:var(--amber);border:1px solid rgba(245,166,35,0.3)}
 .error-msg{background:var(--red-light);color:var(--red);border-radius:8px;padding:10px 12px;font-size:13px;margin-bottom:1rem}
-.admin-header{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.admin-header{display:flex;align-items:center;justify-content:space-between;padding:calc(env(safe-area-inset-top,0px) + 0.75rem) 1.25rem 0.75rem;background:var(--bg2);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
 .header-logo{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:500;color:var(--text)}
 .header-logo span{color:var(--rose)}
 .hamburger{background:none;border:none;cursor:pointer;padding:4px;display:flex;flex-direction:column;gap:5px}
 .hamburger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px}
 .sidebar-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:200;display:none}
-.sidebar{position:fixed;top:0;left:-280px;width:280px;height:100vh;background:var(--bg2);border-right:1px solid var(--border);z-index:201;transition:left 0.3s;padding:2rem 1.25rem;display:flex;flex-direction:column}
+.sidebar{position:fixed;top:0;left:-280px;width:280px;height:100vh;background:var(--bg2);border-right:1px solid var(--border);z-index:201;transition:left 0.3s;padding:calc(env(safe-area-inset-top,0px) + 2rem) 1.25rem 2rem;display:flex;flex-direction:column}
 .sidebar.open{left:0}
 .sidebar-logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:var(--text);margin-bottom:2rem}
 .sidebar-logo span{color:var(--rose)}
@@ -506,7 +506,8 @@ function buildReminderMsg(n,d,o){return`Naomi Stanciu îți reamintește că ai 
 
 Confirmi programarea?
 ✅ Da, confirm
-❌ Nu pot ajunge`;}
+❌ Nu pot ajunge
+`;}
 function waLink(tel,msg){return`https://wa.me/40${normPhone(tel)}?text=${encodeURIComponent(msg)}`;}
 function showConfirmMsg(n,d,o,tel){showMsgModal(buildConfirmMsg(n,d,o),'Confirmare',tel);}
 function showReminderMsg(n,d,o,tel){showMsgModal(buildReminderMsg(n,d,o),'Reminder',tel);}
