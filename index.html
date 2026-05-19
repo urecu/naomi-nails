@@ -2,7 +2,7 @@
 <html lang="ro">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Naomi Stanciu Nails</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -13,7 +13,7 @@ body.dark{--cream:#141414;--dark:#F0F0F0;--gold-light:#2A2020;--rose:#E8A0B0;--r
 body{font-family:'Jost',system-ui,sans-serif;background:var(--cream);color:var(--dark);min-height:100vh;transition:background 0.3s,color 0.3s}
 .page{display:none}.page.active{display:block}
 /* NAV */
-.nav{display:flex;justify-content:space-between;align-items:center;padding:calc(env(safe-area-inset-top,0px) + 0.5rem) 1.25rem 0.5rem;background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.nav{display:flex;justify-content:space-between;align-items:center;padding:1rem 1.5rem;background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
 .nav-logo{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:var(--dark);cursor:pointer}.nav-logo span{color:var(--rose)}
 .nav-right{display:flex;align-items:center;gap:10px}
 .nav-ig{width:34px;height:34px;border-radius:50%;background:var(--gold-light);display:flex;align-items:center;justify-content:center;text-decoration:none;flex-shrink:0}
@@ -932,9 +932,9 @@ function renderCal(){
   const dim=new Date(vy,vm+1,0).getDate();
   for(let i=0;i<sd;i++)g.innerHTML+=`<div class="cal-day empty"></div>`;
   for(let d=1;d<=dim;d++){
-    const dt=new Date(vy,vm,d);const isSun=dt.getDay()===0;
+    const dt=new Date(vy,vm,d);const isSun=dt.getDay()===0;const isSat=dt.getDay()===6;
     const isPast=dt<new Date(tod.getFullYear(),tod.getMonth(),tod.getDate());
-    const dis=isPast||isSun;
+    const dis=isPast||isSun||isSat;
     const isT=dt.toDateString()===tod.toDateString();
     const isSel=selDate&&dt.toDateString()===selDate.toDateString();
     let cls='cal-day';
