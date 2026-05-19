@@ -486,7 +486,9 @@ textarea{height:80px;resize:none}
         <span style="margin-left:auto;font-size:13px;color:var(--rose)">↗</span>
       </a>
     </div>
-    <p style="font-size:12px;color:var(--muted);text-align:center;margin-top:1.5rem">© 2025 Naomi Stanciu Nails · Suceava</p>
+    <p style="font-size:12px;color:var(--muted);text-align:center;margin-top:1.5rem">Email: <a href="mailto:contact@naomistanciu.ro" style="color:var(--muted)">contact@naomistanciu.ro</a></p>
+    <p style="font-size:12px;color:var(--muted);text-align:center;margin-top:0.75rem"><a href="/termeni.html" style="color:var(--muted)">Termeni și Condiții</a> · <a href="/confidentialitate.html" style="color:var(--muted)">Politică de Confidențialitate</a></p>
+    <p style="font-size:12px;color:var(--muted);text-align:center;margin-top:0.5rem">© 2026 Naomi Stanciu Nails · SN Therapy SRL</p>
   </div>
 </div>
 
@@ -759,6 +761,7 @@ function showLoginModal(afterFn){
       <label>Email <span style="font-size:11px;color:var(--muted);font-weight:400">(opțional — util dacă uiți parola)</span></label>
       <input type="email" id="lm-email" placeholder="adresa@email.com" autocomplete="email">
       <label>Parolă</label><input type="password" id="lm-regpw" placeholder="minim 6 caractere" autocomplete="new-password">
+      <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:1rem"><input type="checkbox" id="lm-terms" style="margin-top:3px;width:auto;accent-color:var(--rose)"><label for="lm-terms" style="font-size:13px;color:var(--muted);font-weight:400;margin-bottom:0">Am citit și sunt de acord cu <a href="/termeni.html" target="_blank" style="color:var(--rose)">Termenii și Condițiile</a> și <a href="/confidentialitate.html" target="_blank" style="color:var(--rose)">Politica de Confidențialitate</a></label></div>
       <div id="lm-reg-err" class="error-msg" style="display:none"></div>
       <button class="btn" onclick="doRegister()">Creează cont</button>
     </div>
@@ -813,6 +816,8 @@ async function doRegister(){
   const em=document.getElementById('lm-email').value.trim();
   const pw=document.getElementById('lm-regpw').value;
   const e=document.getElementById('lm-reg-err');e.style.display='none';
+  const terms=document.getElementById('lm-terms');
+  if(!terms.checked){e.textContent='Trebuie să accepți Termenii și Politica de Confidențialitate.';e.style.display='block';return;}
   if(!nm||!ph||!pw){e.textContent='Completează câmpurile obligatorii.';e.style.display='block';return;}
   if(pw.length<6){e.textContent='Parola trebuie să aibă minim 6 caractere.';e.style.display='block';return;}
   const{data:exProfile}=await sb.from('profiles').select('id,email').eq('telefon',ph);
