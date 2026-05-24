@@ -126,7 +126,7 @@ body.app-mode .page.active{display:flex!important;flex-direction:column;height:1
 
 /* HEADER */
 .ah{position:relative;background:var(--white);border-bottom:1px solid var(--border);flex-shrink:0}
-.ah-safe{height:env(safe-area-inset-top,50px)}
+.ah-safe{height:env(safe-area-inset-top,44px)}
 .ah-row{display:flex;align-items:center;justify-content:space-between;padding:10px 18px 12px}
 .ah-logo{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:var(--dark);line-height:1}
 .ah-logo span{color:var(--rose)}
@@ -137,7 +137,7 @@ body.app-mode .page.active{display:flex!important;flex-direction:column;height:1
 .ah-dot{width:8px;height:8px;background:var(--rose);border-radius:50%;position:absolute;top:4px;right:4px;border:2px solid var(--white);display:none}
 
 /* BACK HEADER */
-.bh{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;padding-top:calc(env(safe-area-inset-top,50px) + 10px);background:var(--white);border-bottom:1px solid var(--border);flex-shrink:0}
+.bh{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;padding-top:calc(env(safe-area-inset-top,44px) + 10px);background:var(--white);border-bottom:1px solid var(--border);flex-shrink:0}
 .bh-btn{width:38px;height:38px;border-radius:50%;background:var(--gold-light);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer}
 .bh-btn svg{width:18px;height:18px;stroke:var(--rose);fill:none;stroke-width:1.5;stroke-linecap:round}
 .bh-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:500;color:var(--dark)}
@@ -233,7 +233,7 @@ body.app-mode .page.active{display:flex!important;flex-direction:column;height:1
 .id-like.on svg{fill:var(--rose)}
 
 /* PROFIL APP */
-.ap-head{padding:14px 18px;padding-top:calc(env(safe-area-inset-top,50px)+14px);background:var(--white);border-bottom:1px solid var(--border);flex-shrink:0}
+.ap-head{padding:14px 18px;padding-top:calc(env(safe-area-inset-top,44px)+14px);background:var(--white);border-bottom:1px solid var(--border);flex-shrink:0}
 .ap-row{display:flex;align-items:center;gap:14px}
 .ap-av{width:54px;height:54px;border-radius:50%;background:var(--rose-light);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:500;color:var(--rose);overflow:hidden;flex-shrink:0}
 .ap-av img{width:100%;height:100%;object-fit:cover}
@@ -273,7 +273,7 @@ body.app-mode .page.active{display:flex!important;flex-direction:column;height:1
 .np.on{right:0}
 .np-ov{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:599;display:none;pointer-events:none}
 .np-ov.on{display:block;pointer-events:all}
-.np-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;padding-top:calc(env(safe-area-inset-top,50px) + 14px);border-bottom:1px solid var(--border)}
+.np-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;padding-top:calc(env(safe-area-inset-top,44px) + 14px);border-bottom:1px solid var(--border)}
 .np-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:500;color:var(--dark)}
 .np-close{width:30px;height:30px;display:flex;align-items:center;justify-content:center;background:var(--gold-light);border-radius:50%;border:none;cursor:pointer}
 .np-close svg{width:13px;height:13px;stroke:var(--rose);fill:none;stroke-width:2;stroke-linecap:round}
@@ -282,14 +282,14 @@ body.app-mode .page.active{display:flex!important;flex-direction:column;height:1
 /* BOOKING IN APP - ascunde nav, adauga back */
 body.app-mode #p1 .nav,body.app-mode #p2 .nav,body.app-mode #p3 .nav,body.app-mode #p4 .nav,
 body.app-mode #phist .nav,body.app-mode #pprofile .nav{display:none}
-.bk-hd{display:none;align-items:center;justify-content:space-between;padding:10px 18px;padding-top:calc(env(safe-area-inset-top,50px)+10px);background:var(--white);border-bottom:1px solid var(--border);flex-shrink:0}
+.bk-hd{display:none;align-items:center;justify-content:space-between;padding:10px 18px;padding-top:calc(env(safe-area-inset-top,44px)+10px);background:var(--white);border-bottom:1px solid var(--border);flex-shrink:0}
 body.app-mode .bk-hd{display:flex}
 body.app-mode #p1 .wrap,body.app-mode #p2 .wrap,body.app-mode #p3 .wrap,body.app-mode #p4 .wrap,
 body.app-mode #phist .wrap,body.app-mode #pprofile .profile-view-wrap{padding-bottom:30px}
 body.app-mode #pprofile{display:flex;flex-direction:column;height:100vh;overflow:hidden}
 body.app-mode #pprofile .profile-view-wrap{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 body.app-mode #pprofile .profile-view-wrap::-webkit-scrollbar{display:none}
-body.app-mode #pprofile input{width:100%!important}
+body.app-mode #pprofile input,body.app-mode #pprofile textarea,body.app-mode #pprofile select{width:100%!important;box-sizing:border-box!important;max-width:100%!important}
 </style>
 </head>
 <body>
@@ -339,29 +339,23 @@ body.app-mode #pprofile input{width:100%!important}
       </div>
       <div class="arv-footer">
         <div class="arv-dots" id="arv-dots"></div>
-        <button class="arv-seeall" onclick="rvOpenModal()">Vezi toate</button>
+        <div style="display:flex;gap:10px;align-items:center">
+          <button class="arv-seeall" onclick="appRvAdd()">+ Recenzie</button>
+          <button class="arv-seeall" onclick="rvOpenModal()">Vezi toate</button>
+        </div>
       </div>
     </div>
 
     <div class="a-sec">Locație</div>
-    <div class="a-card" onclick="window.open('https://www.google.com/maps/search/Strada+Mihai+Eminescu+34+Suceava+Romania','_blank')" style="cursor:pointer">
-      <div style="background:linear-gradient(135deg,var(--gold-light) 0%,var(--rose-light) 100%);height:110px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden">
-        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0.15">
-          <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="var(--rose)" stroke-width="0.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        </div>
-        <div style="text-align:center;z-index:1">
-          <div style="width:48px;height:48px;background:var(--rose);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;box-shadow:0 4px 16px rgba(196,120,138,0.4)">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          </div>
-          <div style="font-size:12px;color:var(--rose);font-weight:500">Apasă pentru direcții</div>
-        </div>
+    <div onclick="window.open('https://www.google.com/maps/search/Strada+Mihai+Eminescu+34+Suceava+Romania','_blank')" style="margin:0 18px 10px;background:var(--white);border:1px solid var(--border);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:14px;cursor:pointer">
+      <div style="width:42px;height:42px;background:var(--gold-light);border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--rose)" stroke-width="1.8" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
       </div>
-      <div style="display:flex;align-items:center;gap:10px;padding:12px 16px;border-top:1px solid var(--border)">
-        <div>
-          <div style="font-size:13px;font-weight:500;color:var(--dark)">Strada Mihai Eminescu, nr.34</div>
-          <div style="font-size:11px;color:var(--muted);margin-top:1px">Suceava · Deschide în Maps →</div>
-        </div>
+      <div style="flex:1">
+        <div style="font-size:14px;font-weight:500;color:var(--dark)">Strada Mihai Eminescu, nr.34</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px">Suceava · Deschide în Maps</div>
       </div>
+      <span style="font-size:18px;color:var(--rose)">↗</span>
     </div>
 
     <div class="a-sec">Contact</div>
@@ -458,7 +452,7 @@ body.app-mode #pprofile input{width:100%!important}
       <div class="ap-sec-title">Istoric</div>
       <div id="ap-ist"></div>
     </div>
-    <button class="ap-logout" onclick="appLogout()">Deconectare</button>
+    <button onclick="appLogout()" style="display:block;width:calc(100% - 36px);margin:16px 18px;padding:14px;text-align:center;background:var(--white);border:1.5px solid var(--border);border-radius:14px;cursor:pointer;font-size:14px;color:var(--red);font-family:'Jost',sans-serif;font-weight:400">Deconectare</button>
     <div style="display:flex;justify-content:center;gap:16px;padding:8px 18px 4px">
       <a href="https://naomistanciu.ro/termeni.html" target="_blank" style="font-size:11px;color:var(--muted);text-decoration:underline;text-underline-offset:3px">Termeni și Condiții</a>
       <span style="font-size:11px;color:var(--border)">·</span>
@@ -646,24 +640,7 @@ body.app-mode #pprofile input{width:100%!important}
     </div>
   </div>
 
-  <div class="rv-modal-overlay" id="rvModal">
-    <div class="rv-modal">
-      <div class="rv-modal-head">
-        <h3>Toate recenziile</h3>
-        <button class="rv-modal-close" onclick="rvCloseModal()">&#x2715;</button>
-      </div>
-      <div class="rv-filters">
-        <button class="rv-chip active" onclick="rvFilter('all',this)">Toate</button>
-        <button class="rv-chip" onclick="rvFilter('new',this)">Cele mai noi</button>
-        <button class="rv-chip" onclick="rvFilter('5',this)">5 stele</button>
-        <button class="rv-chip" onclick="rvFilter('4',this)">4 stele</button>
-        <button class="rv-chip" onclick="rvFilter('3',this)">3 stele</button>
-        <button class="rv-chip" onclick="rvFilter('asc',this)">Rating crescator</button>
-        <button class="rv-chip" onclick="rvFilter('desc',this)">Rating descrescator</button>
-      </div>
-      <div class="rv-modal-list" id="rvModalList"></div>
-    </div>
-  </div>
+  
 
   <script>
   var RV_MERO=[
@@ -1753,6 +1730,69 @@ async function init() {
   updNav(); renderHome(); showPage('phome');
 }
 
+function appRvAdd() {
+  if (!cu) { showLoginModal(appRvAdd); return; }
+  // Deschide modalul de recenzii cu formularul vizibil
+  rvCheckAuth();
+  // Scroll la formularul de recenzie
+  document.getElementById('rvModal').classList.remove('open');
+  // Arata un mesaj ca poate lasa recenzie pe site sau deschide direct
+  const o = document.createElement('div');
+  o.className = 'login-modal-overlay'; o.id = 'rv-add-overlay';
+  o.innerHTML = `<div class="login-modal" style="padding:1.5rem">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem">
+      <p style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:500;color:var(--dark)">Lasă o recenzie</p>
+      <button onclick="document.getElementById('rv-add-overlay').remove()" style="background:none;border:none;font-size:20px;cursor:pointer;color:var(--muted)">✕</button>
+    </div>
+    <div class="rv-star-pick" id="rv-add-stars">
+      <button class="rv-star-btn" data-v="1">&#9733;</button>
+      <button class="rv-star-btn" data-v="2">&#9733;</button>
+      <button class="rv-star-btn" data-v="3">&#9733;</button>
+      <button class="rv-star-btn" data-v="4">&#9733;</button>
+      <button class="rv-star-btn" data-v="5">&#9733;</button>
+    </div>
+    <textarea class="rv-textarea" id="rv-add-text" rows="4" placeholder="Experiența ta (opțional)..." style="margin-top:10px"></textarea>
+    <div id="rv-add-err" style="color:var(--red);font-size:13px;display:none;margin-bottom:8px"></div>
+    <button onclick="submitAppRv()" style="width:100%;background:var(--dark);color:white;border:none;border-radius:25px;padding:13px;font-size:15px;font-family:'Jost',sans-serif;cursor:pointer">Trimite recenzia</button>
+  </div>`;
+  document.body.appendChild(o);
+  let rvS = 0;
+  o.querySelectorAll('.rv-star-btn').forEach(b => {
+    b.addEventListener('click', () => {
+      rvS = parseInt(b.dataset.v);
+      o.querySelectorAll('.rv-star-btn').forEach((s,i)=>s.classList.toggle('on',i<rvS));
+    });
+  });
+  o._stars = () => rvS;
+  o.addEventListener('click', e => { if(e.target===o) o.remove(); });
+}
+
+async function submitAppRv() {
+  const overlay = document.getElementById('rv-add-overlay');
+  if (!overlay) return;
+  const stars = overlay._stars();
+  const text = document.getElementById('rv-add-text')?.value.trim();
+  const err = document.getElementById('rv-add-err');
+  if (!stars) { err.textContent='Selectează un număr de stele.'; err.style.display='block'; return; }
+  if (!text) { err.textContent='Scrie câteva cuvinte.'; err.style.display='block'; return; }
+  const {data:pr} = await sb.from('profiles').select('nume').eq('id',cu.id).single();
+  const nume = pr?.nume || 'Clientă';
+  const {error} = await sb.from('recenzii').insert({
+    user_id:cu.id, artist_id:'360925df-6f66-462e-9d69-24321086fb7f',
+    nume_client:nume, rating:stars, descriere:text, sursa:'site'
+  });
+  if (error) { err.textContent='Eroare: '+error.message; err.style.display='block'; return; }
+  overlay.remove();
+  // Adaugă în slider
+  if (typeof rvAll !== 'undefined') {
+    rvAll.unshift({name:nume, text:text, rating:stars, mero:false});
+    document.getElementById('arv-track').innerHTML='';
+    document.getElementById('arv-dots').innerHTML='';
+    _rvCur=0; _buildRv();
+  }
+  alert('Mulțumim pentru recenzie! 🌸');
+}
+
 // OVERRIDE showPage - în app mode toate paginile prin _pg
 const _sp = showPage;
 function showPage(id) {
@@ -1768,5 +1808,23 @@ function goHome() {
 
 init();
 </script>
+<div class="rv-modal-overlay" id="rvModal">
+    <div class="rv-modal">
+      <div class="rv-modal-head">
+        <h3>Toate recenziile</h3>
+        <button class="rv-modal-close" onclick="rvCloseModal()">&#x2715;</button>
+      </div>
+      <div class="rv-filters">
+        <button class="rv-chip active" onclick="rvFilter('all',this)">Toate</button>
+        <button class="rv-chip" onclick="rvFilter('new',this)">Cele mai noi</button>
+        <button class="rv-chip" onclick="rvFilter('5',this)">5 stele</button>
+        <button class="rv-chip" onclick="rvFilter('4',this)">4 stele</button>
+        <button class="rv-chip" onclick="rvFilter('3',this)">3 stele</button>
+        <button class="rv-chip" onclick="rvFilter('asc',this)">Rating crescator</button>
+        <button class="rv-chip" onclick="rvFilter('desc',this)">Rating descrescator</button>
+      </div>
+      <div class="rv-modal-list" id="rvModalList"></div>
+    </div>
+  </div>
 </body>
 </html>
