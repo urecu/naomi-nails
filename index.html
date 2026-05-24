@@ -121,6 +121,7 @@ textarea{height:80px;resize:none}
 /* ===== APP MODE ===== */
 body.app-mode{overflow:hidden}
 body.app-mode .page{display:none!important}
+body.app-mode #phome{display:none!important}
 body.app-mode .page.active{display:flex!important;flex-direction:column;height:100vh;overflow:hidden}
 
 /* HEADER */
@@ -270,8 +271,8 @@ body.app-mode .page.active{display:flex!important;flex-direction:column;height:1
 /* NOTIF PANEL */
 .np{position:fixed;top:0;right:-100%;width:82%;max-width:310px;height:100vh;background:var(--white);border-left:1px solid var(--border);z-index:600;transition:right .3s}
 .np.on{right:0}
-.np-ov{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:599;display:none}
-.np-ov.on{display:block}
+.np-ov{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:599;display:none;pointer-events:none}
+.np-ov.on{display:block;pointer-events:all}
 .np-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;padding-top:calc(env(safe-area-inset-top,50px) + 14px);border-bottom:1px solid var(--border)}
 .np-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:500;color:var(--dark)}
 .np-close{width:30px;height:30px;display:flex;align-items:center;justify-content:center;background:var(--gold-light);border-radius:50%;border:none;cursor:pointer}
@@ -484,7 +485,7 @@ body.app-mode #pprofile input{width:100%!important}
 
 
 <!-- HOME PAGE -->
-<div class="page active" id="phome">
+<div class="page" id="phome">
   <nav class="nav">
     <div class="nav-logo" onclick="goHome()">Naomi<span>Stanciu</span></div>
     <div class="nav-right">
@@ -575,8 +576,8 @@ body.app-mode #pprofile input{width:100%!important}
   .rv-login-prompt{text-align:center;padding:8px 0}
   .rv-login-prompt p{font-size:14px;color:var(--muted);margin-bottom:12px}
   .rv-login-prompt button{background:var(--rose);color:white;border:none;border-radius:25px;padding:11px 28px;font-size:14px;font-family:'Jost',sans-serif;cursor:pointer}
-  .rv-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:500;display:none;align-items:flex-end}
-  .rv-modal-overlay.open{display:flex}
+  .rv-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:500;display:flex;align-items:flex-end;visibility:hidden;pointer-events:none;opacity:0;transition:opacity 0.3s}
+  .rv-modal-overlay.open{visibility:visible;pointer-events:all;opacity:1}
   .rv-modal{background:var(--cream);border-radius:24px 24px 0 0;width:100%;max-height:88vh;display:flex;flex-direction:column;overflow:hidden}
   .rv-modal-head{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--white);flex-shrink:0}
   .rv-modal-head h3{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:500;color:var(--dark)}
