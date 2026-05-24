@@ -125,7 +125,7 @@ body.app-mode{overflow-x:hidden}
 
 /* APP HEADER */
 .app-header{position:sticky;top:0;z-index:100;background:var(--white);border-bottom:1px solid var(--border);transition:all 0.3s ease;overflow:hidden}
-.app-header-safe{height:env(safe-area-inset-top,44px);background:var(--white)}
+.app-header-safe{height:max(env(safe-area-inset-top),50px);background:var(--white)}
 .app-header-inner{padding:0}
 .app-header-main{display:flex;align-items:center;justify-content:space-between;padding:10px 18px 10px}
 .app-header-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:11px;color:var(--muted);text-align:left;max-height:20px;transition:max-height 0.3s ease,opacity 0.3s ease;overflow:hidden;margin-top:1px}
@@ -146,7 +146,11 @@ body.app-mode{overflow-x:hidden}
 .app-fab svg{width:26px;height:26px;stroke:white;fill:none;stroke-width:2;stroke-linecap:round}
 
 /* APP HOME */
-.app-home-scroll{flex:1;overflow-y:auto;padding-bottom:100px;-webkit-overflow-scrolling:touch}
+body.app-mode #app-home{height:100vh;overflow:hidden;display:flex;flex-direction:column}
+.app-home-scroll{flex:1;overflow-y:scroll;padding-bottom:100px;-webkit-overflow-scrolling:touch;scroll-behavior:smooth}
+.app-home-scroll::-webkit-scrollbar{display:none}
+.app-scroll-content::-webkit-scrollbar{display:none}
+.app-scroll-content{-webkit-overflow-scrolling:touch;scroll-behavior:smooth;scrollbar-width:none}
 .app-greeting{padding:16px 18px 8px}
 .app-greeting h2{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:500;color:var(--dark);line-height:1.3}
 .app-greeting p{font-size:13px;color:var(--rose);margin-top:2px}
@@ -181,11 +185,11 @@ body.app-mode{overflow-x:hidden}
 .app-info-sub{font-size:11px;color:var(--muted);margin-top:1px}
 
 /* APP BACK HEADER */
-.app-back-header{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;padding-top:calc(env(safe-area-inset-top,44px) + 10px);background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.app-back-header{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;padding-top:calc(max(env(safe-area-inset-top),50px) + 10px);background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
 .app-back-btn{width:38px;height:38px;display:flex;align-items:center;justify-content:center;background:var(--gold-light);border-radius:50%;cursor:pointer;border:none}
 .app-back-btn svg{width:18px;height:18px;stroke:var(--rose);fill:none;stroke-width:1.5;stroke-linecap:round}
 .app-page-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:500;color:var(--dark)}
-.app-scroll-content{flex:1;overflow-y:auto;padding-bottom:100px;-webkit-overflow-scrolling:touch}
+.app-scroll-content{flex:1;overflow-y:scroll;padding-bottom:100px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 
 /* BOOKING in app mode - ascunde nav, adauga back btn */
 body.app-mode #p1 .nav,body.app-mode #p2 .nav,body.app-mode #p3 .nav,body.app-mode #p4 .nav,body.app-mode #phist .nav,body.app-mode #pprofile .nav{display:none}
@@ -227,7 +231,7 @@ body.app-mode #p1 .wrap,body.app-mode #p2 .wrap,body.app-mode #p3 .wrap,body.app
 .btn-like-inspo.liked svg{fill:var(--rose)}
 
 /* APP PROFILE */
-.app-profile-header{padding:14px 18px 12px;padding-top:calc(env(safe-area-inset-top,44px)+14px);background:var(--white);border-bottom:1px solid var(--border)}
+.app-profile-header{padding:14px 18px 14px;padding-top:calc(env(safe-area-inset-top,50px)+14px);background:var(--white);border-bottom:1px solid var(--border)}
 .app-profile-avatar-row{display:flex;align-items:center;gap:14px}
 .app-profile-avatar{width:56px;height:56px;border-radius:50%;background:var(--rose-light);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:500;color:var(--rose);overflow:hidden;flex-shrink:0}
 .app-profile-avatar img{width:100%;height:100%;object-fit:cover}
@@ -287,6 +291,39 @@ body.app-mode #p1 .wrap,body.app-mode #p2 .wrap,body.app-mode #p3 .wrap,body.app
 .app-notif-close{width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:var(--gold-light);border-radius:50%;border:none;cursor:pointer}
 .app-notif-close svg{width:14px;height:14px;stroke:var(--rose);fill:none;stroke-width:2;stroke-linecap:round}
 .app-notif-empty{padding:40px 18px;text-align:center;color:var(--muted);font-size:13px}
+
+/* PROFIL ÎN APP MODE - fix layout */
+body.app-mode #pprofile{display:flex;flex-direction:column;height:100vh;overflow:hidden}
+body.app-mode #pprofile .profile-view-wrap{flex:1;overflow-y:scroll;-webkit-overflow-scrolling:touch;scrollbar-width:none;max-width:100%;padding:1.25rem 1.5rem 100px}
+body.app-mode #pprofile .profile-view-wrap::-webkit-scrollbar{display:none}
+body.app-mode #pprofile .page-title{text-align:center;font-size:22px}
+body.app-mode #pprofile input{width:100%;max-width:100%}
+body.app-mode #pprofile .btn{max-width:100%}
+
+/* APP REVIEW SLIDER */
+.app-rv-wrap{margin:0 18px 8px;background:var(--white);border:1px solid var(--border);border-radius:16px;overflow:hidden;padding:16px}
+.app-rv-overflow{overflow:hidden;border-radius:10px}
+.app-rv-track{display:flex;transition:transform 0.45s cubic-bezier(0.4,0,0.2,1)}
+.app-rv-slide{flex:0 0 100%;padding:4px 0}
+.app-rv-quote{font-size:30px;color:var(--rose);opacity:0.25;font-family:'Cormorant Garamond',serif;line-height:1;margin-bottom:4px}
+.app-rv-text{font-size:14px;color:var(--dark);line-height:1.65;font-style:italic;font-family:'Cormorant Garamond',serif;margin-bottom:10px}
+.app-rv-author{font-size:12px;font-weight:500;color:var(--dark)}
+.app-rv-stars{color:#F59E0B;font-size:11px;margin-top:2px}
+.app-rv-footer{display:flex;align-items:center;justify-content:space-between;margin-top:12px;padding-top:10px;border-top:1px solid var(--border)}
+.app-rv-dots{display:flex;gap:5px;align-items:center}
+.app-rv-dot{width:6px;height:6px;border-radius:50%;background:var(--border);border:none;padding:0;cursor:pointer;transition:all 0.3s}
+.app-rv-dot.active{width:16px;border-radius:3px;background:var(--rose)}
+.app-rv-see-all{font-size:12px;color:var(--rose);background:none;border:none;cursor:pointer;font-family:'Jost',sans-serif;font-weight:500;text-decoration:underline;text-underline-offset:3px}
+
+/* APP MAP CARD */
+.app-map-card{margin:0 18px 8px;background:var(--white);border:1px solid var(--border);border-radius:14px;overflow:hidden;cursor:pointer}
+.app-map-iframe{width:100%;height:140px;border:0;display:block;pointer-events:none}
+.app-map-footer{display:flex;align-items:center;gap:10px;padding:10px 14px}
+.app-map-icon{width:30px;height:30px;background:var(--gold-light);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.app-map-icon svg{width:15px;height:15px;stroke:var(--rose);fill:none;stroke-width:1.5;stroke-linecap:round}
+.app-ig-card{margin:0 18px 8px;background:var(--white);border:1px solid var(--border);border-radius:14px;padding:12px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;text-decoration:none}
+.app-ig-icon{width:38px;height:38px;background:var(--gold-light);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.app-ig-icon svg{width:18px;height:18px;stroke:var(--rose);fill:none;stroke-width:1.5;stroke-linecap:round}
 </style>
 </head>
 <body>
@@ -329,38 +366,35 @@ body.app-mode #p1 .wrap,body.app-mode #p2 .wrap,body.app-mode #p3 .wrap,body.app
     <div class="app-section-title">Servicii</div>
     <div class="app-svc-card" id="app-svc-list"></div>
 
-    <div class="app-section-title">Recenzii</div>
-    <div style="margin:0 18px 8px;background:var(--white);border:1px solid var(--border);border-radius:14px;padding:16px" id="app-rv-preview">
-      <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px">
-        <span style="color:#F59E0B;font-size:14px">★★★★★</span>
-        <span style="font-size:13px;font-weight:500;color:var(--dark)">5.0</span>
-        <span style="font-size:12px;color:var(--muted)">(465+ evaluări)</span>
+    <div class="app-section-title" style="display:flex;align-items:center;justify-content:space-between;padding-right:18px">
+      <span>Recenzii</span>
+      <span style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--muted);text-transform:none;letter-spacing:0;font-weight:400"><span style="color:#F59E0B">★</span>5.0 · 465+</span>
+    </div>
+    <div class="app-rv-wrap">
+      <div class="app-rv-overflow" id="app-rv-wrap">
+        <div class="app-rv-track" id="app-rv-track"></div>
       </div>
-      <div id="app-rv-text" style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:var(--dark);line-height:1.6;margin-bottom:10px"></div>
-      <div id="app-rv-author" style="font-size:12px;color:var(--muted)"></div>
+      <div class="app-rv-footer">
+        <div class="app-rv-dots" id="app-rv-dots"></div>
+        <button class="app-rv-see-all" onclick="appRvOpenModal()">Vezi toate</button>
+      </div>
     </div>
 
-    <div class="app-section-title">Locație & Contact</div>
-    <div class="app-info-card">
-      <a href="https://www.google.com/maps/search/Strada+Mihai+Eminescu+34+Suceava+Romania" target="_blank" style="text-decoration:none">
-        <div class="app-info-row">
-          <div class="app-info-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-          <div><div class="app-info-text">Strada Mihai Eminescu, nr.34</div><div class="app-info-sub">Suceava · Deschide Maps</div></div>
-        </div>
-      </a>
-      <a href="https://www.instagram.com/stanciu.naomi.nails" target="_blank" style="text-decoration:none">
-        <div class="app-info-row">
-          <div class="app-info-icon"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>
-          <div><div class="app-info-text">@stanciu.naomi.nails</div><div class="app-info-sub">Instagram</div></div>
-        </div>
-      </a>
-      <a href="mailto:contact@naomistanciu.ro" style="text-decoration:none">
-        <div class="app-info-row">
-          <div class="app-info-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
-          <div><div class="app-info-text">contact@naomistanciu.ro</div><div class="app-info-sub">Email</div></div>
-        </div>
-      </a>
-    </div>
+    <div class="app-section-title">Locație</div>
+    <a href="https://www.google.com/maps/search/Strada+Mihai+Eminescu+34+Suceava+Romania" target="_blank" class="app-map-card">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d332.9198725287653!2d26.252157948244008!3d47.64461674537301!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sro!2sro!4v1776545887242!5m2!1sro!2sro" class="app-map-iframe" loading="lazy"></iframe>
+      <div class="app-map-footer">
+        <div class="app-map-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <div><div style="font-size:13px;font-weight:500;color:var(--dark)">Strada Mihai Eminescu, nr.34</div><div style="font-size:11px;color:var(--muted);margin-top:1px">Suceava · Deschide în Maps →</div></div>
+      </div>
+    </a>
+
+    <div class="app-section-title">Contact</div>
+    <a href="https://www.instagram.com/stanciu.naomi.nails" target="_blank" class="app-ig-card">
+      <div class="app-ig-icon"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>
+      <div style="flex:1"><div style="font-size:13px;font-weight:500;color:var(--dark)">@stanciu.naomi.nails</div><div style="font-size:11px;color:var(--muted);margin-top:1px">Deschide Instagram</div></div>
+      <span style="font-size:13px;color:var(--rose)">↗</span>
+    </a>
     <div style="height:20px"></div>
   </div>
   <div class="app-tabbar">
@@ -922,6 +956,7 @@ body.app-mode #p1 .wrap,body.app-mode #p2 .wrap,body.app-mode #p3 .wrap,body.app
 
 <!-- PROFILE -->
 <div class="page" id="pprofile">
+  <div class="app-booking-back"><button class="app-back-btn" onclick="goHome()"><svg viewBox="0 0 24 24" fill="none" stroke="var(--rose)" stroke-width="1.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></button><span class="app-page-title">Profilul meu</span><div style="width:38px"></div></div>
   <nav class="nav"><div class="nav-logo" onclick="goHome()">Naomi<span>Stanciu</span></div><button class="btn-back" onclick="goHome()">← Înapoi</button></nav>
   <div class="profile-view-wrap">
     <p class="page-title">Profilul meu</p>
@@ -1435,6 +1470,75 @@ async function uploadAvatar(input){
 }
 
 
+
+// Helper: optimizare imagini Supabase
+function imgUrl(url, w, q) {
+  if (!url) return url;
+  q = q || 70;
+  try {
+    return url.replace('/storage/v1/object/public/', '/storage/v1/render/image/public/') + '?width=' + w + '&quality=' + q + '&format=webp';
+  } catch(e) { return url; }
+}
+
+
+// ===== APP REVIEW SLIDER =====
+let appRvCur = 0;
+let appRvTimer = null;
+const APP_RV_COUNT = 7;
+
+function appRvBuild() {
+  const allRv = typeof rvAll !== 'undefined' ? rvAll : [];
+  if (!allRv.length) return;
+  const slides = allRv.slice(0, APP_RV_COUNT);
+  const track = document.getElementById('app-rv-track');
+  const dots = document.getElementById('app-rv-dots');
+  if (!track || !dots) return;
+  track.innerHTML = slides.map(r => `
+    <div class="app-rv-slide">
+      <div class="app-rv-quote">"</div>
+      <div class="app-rv-text">${r.text}</div>
+      <div class="app-rv-author">${r.name}</div>
+      <div class="app-rv-stars">${'★'.repeat(r.rating||5)}</div>
+    </div>`).join('');
+  dots.innerHTML = '';
+  slides.forEach((_, i) => {
+    const d = document.createElement('button');
+    d.className = 'app-rv-dot' + (i===0?' active':'');
+    d.onclick = () => { appRvGo(i); clearInterval(appRvTimer); appRvAuto(); };
+    dots.appendChild(d);
+  });
+  // touch swipe
+  const wrap = document.getElementById('app-rv-wrap');
+  if (wrap) {
+    let tx = 0;
+    wrap.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
+    wrap.addEventListener('touchend', e => {
+      const d = tx - e.changedTouches[0].clientX;
+      if (Math.abs(d) > 40) appRvGo(appRvCur + (d>0?1:-1));
+    }, {passive:true});
+  }
+}
+
+function appRvGo(n) {
+  const allRv = typeof rvAll !== 'undefined' ? rvAll : [];
+  const count = Math.min(allRv.length, APP_RV_COUNT);
+  appRvCur = (n + count) % count;
+  const track = document.getElementById('app-rv-track');
+  if (track) track.style.transform = `translateX(-${appRvCur*100}%)`;
+  document.querySelectorAll('.app-rv-dot').forEach((d,i) => d.classList.toggle('active', i===appRvCur));
+}
+
+function appRvAuto() {
+  clearInterval(appRvTimer);
+  appRvTimer = setInterval(() => appRvGo(appRvCur+1), 4500);
+}
+
+function appRvOpenModal() {
+  // Refolosim modalul existent din site
+  if (typeof rvOpenModal === 'function') rvOpenModal();
+}
+
+// Fix initApp - adaugă build review după ce rvAll e disponibil
 // ===== APP MODE JS =====
 const IS_APP = window.Capacitor !== undefined || navigator.userAgent.includes('Capacitor') || window.location.protocol === 'capacitor:';
 
@@ -1454,7 +1558,7 @@ function showAppHome() {
   showAppPage('app-home');
   renderAppHome();
   loadInspoPreview();
-  loadAppRvPreview();
+  if(typeof rvAll!=='undefined'&&rvAll.length&&!document.querySelector('.app-rv-slide')){appRvBuild();appRvAuto();}
 }
 
 async function initApp() {
@@ -1475,7 +1579,9 @@ async function initApp() {
   showAppPage('app-home');
   setupHeaderScroll();
   loadInspoPreview();
-  loadAppRvPreview();
+  // Asteapta ca rvAll sa fie disponibil, apoi build slider
+  const _buildRv = () => { if(typeof rvAll!=='undefined'&&rvAll.length){appRvBuild();appRvAuto();}else setTimeout(_buildRv,200); };
+  setTimeout(_buildRv, 300);
   if (cu) loadUserLikes();
 }
 
@@ -1509,22 +1615,14 @@ async function loadInspoPreview() {
   const grid = document.getElementById('inspo-preview-grid');
   if (!grid) return;
   const imgs = data.map(d=>d.imagine_url);
-  grid.innerHTML = `<div class="inspo-big">${imgs[0]?`<img src="${imgs[0]}" style="width:100%;height:100%;object-fit:cover">`:''}</div>
+  grid.innerHTML = `<div class="inspo-big">${imgs[0]?`<img src="${imgUrl(imgs[0],300,65)}" style="width:100%;height:100%;object-fit:cover" loading="lazy">`:''}</div>
     <div class="inspo-small-col">
-      <div class="inspo-small">${imgs[1]?`<img src="${imgs[1]}" style="width:100%;height:100%;object-fit:cover">`:''}</div>
-      <div class="inspo-small">${imgs[2]?`<img src="${imgs[2]}" style="width:100%;height:100%;object-fit:cover">`:''}</div>
+      <div class="inspo-small">${imgs[1]?`<img src="${imgUrl(imgs[1],200,60)}" style="width:100%;height:100%;object-fit:cover" loading="lazy">`:''}</div>
+      <div class="inspo-small">${imgs[2]?`<img src="${imgUrl(imgs[2],200,60)}" style="width:100%;height:100%;object-fit:cover" loading="lazy">`:''}</div>
     </div>`;
 }
 
-async function loadAppRvPreview() {
-  const rvs = typeof rvAll !== 'undefined' ? rvAll : [];
-  if (!rvs.length) return;
-  const r = rvs[Math.floor(Math.random()*Math.min(rvs.length,10))];
-  const t = document.getElementById('app-rv-text');
-  const a = document.getElementById('app-rv-author');
-  if (t) t.textContent = '„' + r.text + '"';
-  if (a) a.textContent = '— ' + r.name;
-}
+// loadAppRvPreview inlocuit de appRvBuild
 
 async function loadInspoCategories() {
   showAppPage('app-inspo-cats');
@@ -1569,7 +1667,7 @@ async function loadInspoGallery(categorie) {
   if (!data?.length) { grid.innerHTML='<div style="text-align:center;padding:30px;color:var(--muted);font-size:13px">Nicio poză adăugată.</div>'; return; }
   grid.innerHTML = data.map(item => `
     <div class="inspo-gallery-item" onclick="showInspoDetail(${JSON.stringify(JSON.stringify(item))})">
-      <img src="${item.imagine_url}" loading="lazy" onerror="this.parentElement.style.display='none'">
+      <img src="${imgUrl(item.imagine_url,500,75)}" loading="lazy" onerror="this.parentElement.style.display='none'">
     </div>`).join('');
 }
 
@@ -1578,7 +1676,7 @@ function showInspoDetail(itemJson) {
   currentInspoItem = item;
   const img = document.getElementById('inspo-detail-img-el');
   const ph = document.getElementById('inspo-detail-img-ph');
-  img.src = item.imagine_url; img.style.display='block'; ph.style.display='none';
+  img.src = imgUrl(item.imagine_url, 900, 85); img.style.display='block'; ph.style.display='none';
   img.onerror = () => { img.style.display='none'; ph.style.display='block'; };
   document.getElementById('inspo-detail-title').textContent = item.titlu||'';
   document.getElementById('inspo-detail-desc').textContent = item.descriere||'';
@@ -1619,6 +1717,7 @@ function bookFromInspo() {
 
 async function showAppProfile() {
   if (!cu||!cp) { showLoginModal(showAppProfile); return; }
+  document.getElementById('app-profile')?.classList.remove('was-active');
   showAppPage('app-profile');
   const av = document.getElementById('app-pv-avatar');
   if (cp.avatar_url) setAvatarEl(av,cp);
@@ -1630,7 +1729,11 @@ async function showAppProfile() {
 }
 
 function showAppEditProfile() {
-  showProfilePage(); // deschide pagina de profil existentă
+  if (!cu||!cp) return;
+  // Marchează că am venit din app-profile
+  document.getElementById('app-profile')?.classList.add('was-active');
+  showProfilePage();
+  setTimeout(()=>{ const el=document.querySelector('#pprofile .profile-view-wrap'); if(el)el.scrollTop=0; },100);
 }
 
 function getMonthShort(ds) {
@@ -1721,9 +1824,13 @@ function showPage(id) {
 }
 
 // Override goHome
-const _origGoHome = goHome;
 function goHome() {
-  if (IS_APP) { showAppHome(); return; }
+  if (IS_APP) {
+    // Dacă suntem pe pprofile (venind din app-profile editare), întoarce la app-profile
+    const fromProfile = document.getElementById('app-profile')?.classList.contains('was-active');
+    if (fromProfile) { showAppProfile(); return; }
+    showAppHome(); return;
+  }
   renderHome(); showPage('phome');
 }
 
