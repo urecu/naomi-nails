@@ -192,12 +192,7 @@ body.app-mode .page.active{display:flex!important;flex-direction:column;height:1
 .arv-seeall{font-size:12px;color:var(--rose);background:none;border:none;cursor:pointer;font-family:'Jost',sans-serif;font-weight:500;text-decoration:underline;text-underline-offset:3px}
 
 /* MAP - fara iframe, cu overlay */
-.a-map-card{margin:0 18px 10px;border-radius:14px;overflow:hidden;border:1px solid var(--border);background:var(--white);cursor:pointer;position:relative}
-.a-map-img{width:100%;height:140px;object-fit:cover;display:block;pointer-events:none}
-.a-map-overlay{position:absolute;inset:0}
-.a-map-footer{display:flex;align-items:center;gap:10px;padding:12px 14px;border-top:1px solid var(--border)}
-.a-map-ico{width:32px;height:32px;background:var(--gold-light);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.a-map-ico svg{width:15px;height:15px;stroke:var(--rose);fill:none;stroke-width:1.5;stroke-linecap:round}
+/* map card foloseste .a-card */
 
 /* CONTACT CARD */
 .a-ig-card{margin:0 18px 10px;background:var(--white);border:1px solid var(--border);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer}
@@ -273,11 +268,11 @@ body.app-mode .page.active{display:flex!important;flex-direction:column;height:1
 .ap-logout{margin:16px 18px;padding:14px;text-align:center;background:var(--white);border:1px solid var(--border);border-radius:14px;cursor:pointer;font-size:14px;color:var(--red);font-family:'Jost',sans-serif}
 
 /* NOTIF PANEL */
-.np{position:fixed;top:0;right:-100%;width:82%;max-width:310px;height:100vh;background:var(--white);border-left:1px solid var(--border);z-index:600;transition:right .3s;padding-top:env(safe-area-inset-top,50px)}
+.np{position:fixed;top:0;right:-100%;width:82%;max-width:310px;height:100vh;background:var(--white);border-left:1px solid var(--border);z-index:600;transition:right .3s}
 .np.on{right:0}
 .np-ov{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:599;display:none}
 .np-ov.on{display:block}
-.np-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--border)}
+.np-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;padding-top:calc(env(safe-area-inset-top,50px) + 14px);border-bottom:1px solid var(--border)}
 .np-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:500;color:var(--dark)}
 .np-close{width:30px;height:30px;display:flex;align-items:center;justify-content:center;background:var(--gold-light);border-radius:50%;border:none;cursor:pointer}
 .np-close svg{width:13px;height:13px;stroke:var(--rose);fill:none;stroke-width:2;stroke-linecap:round}
@@ -348,14 +343,22 @@ body.app-mode #pprofile input{width:100%!important}
     </div>
 
     <div class="a-sec">Locație</div>
-    <div class="a-map-card" onclick="window.open('https://www.google.com/maps/search/Strada+Mihai+Eminescu+34+Suceava+Romania','_blank')">
-      <img class="a-map-img" src="https://maps.googleapis.com/maps/api/staticmap?center=47.6446,26.2522&zoom=17&size=600x280&maptype=roadmap&markers=color:red%7C47.6446,26.2522&key=AIzaSyD-9tSrke72NouzeaKD3b3fv4OTpFqKlsM" onerror="this.src='';this.style.height='80px';this.style.background='var(--gold-light)'" alt="Hartă salon">
-      <div class="a-map-overlay"></div>
-      <div class="a-map-footer">
-        <div class="a-map-ico"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+    <div class="a-card" onclick="window.open('https://www.google.com/maps/search/Strada+Mihai+Eminescu+34+Suceava+Romania','_blank')" style="cursor:pointer">
+      <div style="background:linear-gradient(135deg,var(--gold-light) 0%,var(--rose-light) 100%);height:110px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden">
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0.15">
+          <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="var(--rose)" stroke-width="0.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div style="text-align:center;z-index:1">
+          <div style="width:48px;height:48px;background:var(--rose);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;box-shadow:0 4px 16px rgba(196,120,138,0.4)">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div style="font-size:12px;color:var(--rose);font-weight:500">Apasă pentru direcții</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;padding:12px 16px;border-top:1px solid var(--border)">
         <div>
           <div style="font-size:13px;font-weight:500;color:var(--dark)">Strada Mihai Eminescu, nr.34</div>
-          <div style="font-size:11px;color:var(--muted);margin-top:1px">Suceava · Apasă pentru indicații →</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:1px">Suceava · Deschide în Maps →</div>
         </div>
       </div>
     </div>
@@ -455,6 +458,11 @@ body.app-mode #pprofile input{width:100%!important}
       <div id="ap-ist"></div>
     </div>
     <button class="ap-logout" onclick="appLogout()">Deconectare</button>
+    <div style="display:flex;justify-content:center;gap:16px;padding:8px 18px 4px">
+      <a href="https://naomistanciu.ro/termeni.html" target="_blank" style="font-size:11px;color:var(--muted);text-decoration:underline;text-underline-offset:3px">Termeni și Condiții</a>
+      <span style="font-size:11px;color:var(--border)">·</span>
+      <a href="https://naomistanciu.ro/confidentialitate.html" target="_blank" style="font-size:11px;color:var(--muted);text-decoration:underline;text-underline-offset:3px">Confidențialitate</a>
+    </div>
     <div style="height:16px"></div>
   </div>
   <div class="atb">
@@ -818,7 +826,7 @@ body.app-mode #pprofile input{width:100%!important}
     <p style="font-size:13px;color:var(--muted);margin-bottom:1rem">Te aștept la salon!</p>
     <a href="https://www.google.com/maps/search/Strada+Mihai+Eminescu+34+Suceava+Romania" target="_blank" style="display:block;text-decoration:none;margin-bottom:1rem">
       <div style="border-radius:14px;overflow:hidden;border:1px solid var(--border)">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d332.9198725287653!2d26.252157948244008!3d47.64461674537301!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sro!2sro!4v1776545887242!5m2!1sro!2sro" width="100%" height="180" style="border:0;display:block" allowfullscreen="" loading="lazy"></iframe>
+        
       </div>
       <div style="display:flex;align-items:center;gap:8px;margin-top:10px;padding:12px 14px;background:var(--gold-light);border-radius:10px;border:1px solid var(--border)">
         <span style="font-size:18px">📍</span>
