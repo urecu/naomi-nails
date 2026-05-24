@@ -118,35 +118,35 @@ textarea{height:80px;resize:none}
 /* FOOTER */
 .footer-section{background:var(--white);border-top:1px solid var(--border);padding:2rem 1.5rem;margin-top:1rem}
 
-/* ============ APP MODE (Capacitor native) ============ */
+/* ============ APP MODE ============ */
 body.app-mode .page{display:none}
 body.app-mode .page.active{display:flex;flex-direction:column;min-height:100vh}
 body.app-mode{overflow-x:hidden}
 
 /* APP HEADER */
 .app-header{position:sticky;top:0;z-index:100;background:var(--white);border-bottom:1px solid var(--border);transition:all 0.3s ease;overflow:hidden}
-.app-header-inner{padding:env(safe-area-inset-top,0) 0 0}
-.app-header-main{display:flex;align-items:center;justify-content:space-between;padding:12px 18px 8px}
-.app-header-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:12px;color:var(--muted);text-align:center;padding-bottom:8px;transition:all 0.3s ease;overflow:hidden}
-.app-header.collapsed .app-header-sub{max-height:0;padding-bottom:0;opacity:0}
-.app-header.collapsed .app-header-main{padding:10px 18px}
-.app-logo-text{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:var(--dark);letter-spacing:0.5px}
+.app-header-safe{height:env(safe-area-inset-top,44px);background:var(--white)}
+.app-header-inner{padding:0}
+.app-header-main{display:flex;align-items:center;justify-content:space-between;padding:10px 18px 10px}
+.app-header-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:11px;color:var(--muted);text-align:left;max-height:20px;transition:max-height 0.3s ease,opacity 0.3s ease;overflow:hidden;margin-top:1px}
+.app-header.collapsed .app-header-sub{max-height:0;opacity:0}
+.app-logo-text{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;color:var(--dark);letter-spacing:0.5px;line-height:1.1}
 .app-logo-text span{color:var(--rose)}
-.app-bell{position:relative;width:36px;height:36px;display:flex;align-items:center;justify-content:center;cursor:pointer;background:var(--gold-light);border-radius:50%}
-.app-bell svg{width:17px;height:17px;stroke:var(--rose);fill:none;stroke-width:1.5;stroke-linecap:round}
-.app-bell-dot{width:7px;height:7px;background:var(--rose);border-radius:50%;position:absolute;top:5px;right:5px;border:1.5px solid var(--white)}
+.app-bell{position:relative;width:40px;height:40px;display:flex;align-items:center;justify-content:center;cursor:pointer;background:var(--gold-light);border-radius:50%}
+.app-bell svg{width:18px;height:18px;stroke:var(--rose);fill:none;stroke-width:1.5;stroke-linecap:round}
+.app-bell-dot{width:8px;height:8px;background:var(--rose);border-radius:50%;position:absolute;top:4px;right:4px;border:2px solid var(--white)}
 
 /* APP TABBAR */
-.app-tabbar{position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:1px solid var(--border);display:flex;align-items:flex-end;justify-content:space-around;padding:8px 0 calc(env(safe-area-inset-bottom,0px) + 8px);z-index:100}
-.app-tab{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:9px;color:var(--muted);width:80px;cursor:pointer;letter-spacing:0.3px}
+.app-tabbar{position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:1px solid var(--border);display:flex;align-items:flex-end;justify-content:space-around;padding:10px 0 calc(env(safe-area-inset-bottom,0px) + 10px);z-index:100}
+.app-tab{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;color:var(--muted);width:80px;cursor:pointer;letter-spacing:0.3px}
 .app-tab.active{color:var(--rose)}
-.app-tab svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
-.app-fab-wrap{display:flex;flex-direction:column;align-items:center;margin-top:-24px}
-.app-fab{width:54px;height:54px;border-radius:50%;background:var(--rose);display:flex;align-items:center;justify-content:center;border:3px solid var(--white);box-shadow:0 4px 16px rgba(196,120,138,0.4)}
-.app-fab svg{width:22px;height:22px;stroke:white;fill:none;stroke-width:2;stroke-linecap:round}
+.app-tab svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.app-fab-wrap{display:flex;flex-direction:column;align-items:center;margin-top:-28px}
+.app-fab{width:62px;height:62px;border-radius:50%;background:var(--rose);display:flex;align-items:center;justify-content:center;border:4px solid var(--white);box-shadow:0 4px 20px rgba(196,120,138,0.45)}
+.app-fab svg{width:26px;height:26px;stroke:white;fill:none;stroke-width:2;stroke-linecap:round}
 
-/* APP HOME PAGE */
-.app-home-scroll{flex:1;overflow-y:auto;padding-bottom:90px}
+/* APP HOME */
+.app-home-scroll{flex:1;overflow-y:auto;padding-bottom:100px;-webkit-overflow-scrolling:touch}
 .app-greeting{padding:16px 18px 8px}
 .app-greeting h2{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:500;color:var(--dark);line-height:1.3}
 .app-greeting p{font-size:13px;color:var(--rose);margin-top:2px}
@@ -163,22 +163,37 @@ body.app-mode{overflow-x:hidden}
 .inspo-fog{position:absolute;right:0;top:0;bottom:0;width:30%;background:linear-gradient(to right,transparent,var(--white) 70%);display:flex;align-items:center;justify-content:flex-end;padding-right:12px}
 .inspo-fog-text{font-size:11px;color:var(--rose);text-align:right;line-height:1.5;font-weight:500}
 
-/* SERVICES LIST */
+/* SERVICES LIST APP */
 .app-svc-card{background:var(--white);border:1px solid var(--border);border-radius:14px;margin:0 18px 8px;overflow:hidden}
 .app-svc-row{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border)}
 .app-svc-row:last-child{border-bottom:none}
-.app-svc-name{font-size:13px;color:var(--dark);font-weight:400}
+.app-svc-name{font-size:13px;color:var(--dark)}
 .app-svc-dur{font-size:11px;color:var(--muted);margin-top:2px}
 .app-svc-price{font-size:13px;color:var(--rose);font-weight:500;white-space:nowrap;margin-left:8px}
 
+/* APP INFO SECTION */
+.app-info-card{margin:0 18px 8px;background:var(--white);border:1px solid var(--border);border-radius:14px;padding:14px 16px}
+.app-info-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
+.app-info-row:last-child{border-bottom:none}
+.app-info-icon{width:32px;height:32px;background:var(--gold-light);border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.app-info-icon svg{width:16px;height:16px;stroke:var(--rose);fill:none;stroke-width:1.5;stroke-linecap:round}
+.app-info-text{font-size:13px;color:var(--dark)}
+.app-info-sub{font-size:11px;color:var(--muted);margin-top:1px}
+
 /* APP BACK HEADER */
-.app-back-header{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;padding-top:calc(env(safe-area-inset-top,0px) + 10px);background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
-.app-back-btn{width:36px;height:36px;display:flex;align-items:center;justify-content:center;background:var(--gold-light);border-radius:50%;cursor:pointer;border:none}
+.app-back-header{display:flex;align-items:center;justify-content:space-between;padding:10px 18px;padding-top:calc(env(safe-area-inset-top,44px) + 10px);background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.app-back-btn{width:38px;height:38px;display:flex;align-items:center;justify-content:center;background:var(--gold-light);border-radius:50%;cursor:pointer;border:none}
 .app-back-btn svg{width:18px;height:18px;stroke:var(--rose);fill:none;stroke-width:1.5;stroke-linecap:round}
 .app-page-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:500;color:var(--dark)}
-.app-scroll-content{flex:1;overflow-y:auto;padding-bottom:90px}
+.app-scroll-content{flex:1;overflow-y:auto;padding-bottom:100px;-webkit-overflow-scrolling:touch}
 
-/* INSPO CATEGORIES PAGE */
+/* BOOKING in app mode - ascunde nav, adauga back btn */
+body.app-mode #p1 .nav,body.app-mode #p2 .nav,body.app-mode #p3 .nav,body.app-mode #p4 .nav,body.app-mode #phist .nav,body.app-mode #pprofile .nav{display:none}
+.app-booking-back{display:none;align-items:center;gap:12px;padding:10px 18px;padding-top:calc(env(safe-area-inset-top,44px)+10px);background:var(--white);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+body.app-mode .app-booking-back{display:flex}
+body.app-mode #p1 .wrap,body.app-mode #p2 .wrap,body.app-mode #p3 .wrap,body.app-mode #p4 .wrap,body.app-mode #phist .wrap,body.app-mode #pprofile .profile-view-wrap{padding-bottom:100px}
+
+/* INSPO CATEGORIES */
 .inspo-cat-card{margin:0 18px 12px;background:var(--white);border:1px solid var(--border);border-radius:16px;overflow:hidden;cursor:pointer}
 .inspo-cat-photos{display:flex;gap:3px;padding:6px;height:100px}
 .inspo-cat-photo-big{flex:0 0 42%;border-radius:10px;overflow:hidden;background:var(--gold-light)}
@@ -192,9 +207,9 @@ body.app-mode{overflow-x:hidden}
 .inspo-cat-btn span{font-size:11px;color:var(--rose)}
 .inspo-cat-btn svg{width:12px;height:12px;stroke:var(--rose);fill:none;stroke-width:2;stroke-linecap:round}
 
-/* INSPO GALLERY (masonry) */
+/* INSPO GALLERY masonry */
 .inspo-gallery{padding:8px 18px 20px;columns:2;column-gap:8px}
-.inspo-gallery-item{break-inside:avoid;margin-bottom:8px;border-radius:12px;overflow:hidden;cursor:pointer;position:relative;background:var(--gold-light)}
+.inspo-gallery-item{break-inside:avoid;margin-bottom:8px;border-radius:12px;overflow:hidden;cursor:pointer;background:var(--gold-light)}
 .inspo-gallery-item img{width:100%;display:block}
 
 /* INSPO DETAIL */
@@ -207,12 +222,12 @@ body.app-mode{overflow-x:hidden}
 .inspo-tag{background:var(--rose-light);color:var(--rose);border:1px solid var(--border);border-radius:20px;font-size:11px;padding:3px 10px}
 .inspo-detail-actions{display:flex;gap:10px;padding:0 18px 20px}
 .btn-book-inspo{flex:1;background:var(--rose);color:white;border:none;border-radius:14px;padding:13px;font-size:14px;font-weight:500;cursor:pointer;font-family:'Jost',sans-serif}
-.btn-like-inspo{width:48px;height:48px;background:var(--white);border:1px solid var(--border);border-radius:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
-.btn-like-inspo svg{width:20px;height:20px;stroke:var(--rose);fill:none;stroke-width:1.5;stroke-linecap:round;transition:fill 0.2s}
+.btn-like-inspo{width:50px;height:50px;background:var(--white);border:1px solid var(--border);border-radius:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
+.btn-like-inspo svg{width:22px;height:22px;stroke:var(--rose);fill:none;stroke-width:1.5;stroke-linecap:round;transition:fill 0.2s}
 .btn-like-inspo.liked svg{fill:var(--rose)}
 
-/* APP PROFILE PAGE */
-.app-profile-header{padding:16px 18px 12px;padding-top:calc(env(safe-area-inset-top,0px) + 16px);background:var(--white);border-bottom:1px solid var(--border)}
+/* APP PROFILE */
+.app-profile-header{padding:14px 18px 12px;padding-top:calc(env(safe-area-inset-top,44px)+14px);background:var(--white);border-bottom:1px solid var(--border)}
 .app-profile-avatar-row{display:flex;align-items:center;gap:14px}
 .app-profile-avatar{width:56px;height:56px;border-radius:50%;background:var(--rose-light);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:500;color:var(--rose);overflow:hidden;flex-shrink:0}
 .app-profile-avatar img{width:100%;height:100%;object-fit:cover}
@@ -223,41 +238,47 @@ body.app-mode{overflow-x:hidden}
 /* PROFILE SECTIONS */
 .app-profile-section{margin:14px 18px 0}
 .app-profile-section-title{font-size:10px;letter-spacing:0.1em;color:var(--muted);text-transform:uppercase;margin-bottom:8px;font-weight:500}
-.app-prog-card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px}
+.app-prog-card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px}
 .app-prog-card.green{background:#F0FBF4;border-color:#C3E6CB}
+.app-prog-card.amber{background:#FFFBF0;border-color:#FFE082}
 .app-prog-card.red{background:#FEF0F0;border-color:#F5C6CB}
-.app-prog-card.grey{background:var(--white);border-color:var(--border);opacity:0.7}
+.app-prog-card.grey{background:var(--white);border-color:var(--border);opacity:0.75}
 .app-prog-date{width:38px;height:38px;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0}
 .app-prog-date.green{background:#C3E6CB}
+.app-prog-date.amber{background:#FFE082}
 .app-prog-date.red{background:#F5C6CB}
 .app-prog-date.grey{background:#E0E0E0}
 .app-prog-month{font-size:8px;letter-spacing:0.05em;font-weight:500}
 .app-prog-month.green{color:#155724}
+.app-prog-month.amber{color:#856404}
 .app-prog-month.red{color:#721c24}
 .app-prog-month.grey{color:#666}
 .app-prog-day{font-size:15px;font-weight:600;line-height:1}
 .app-prog-day.green{color:#155724}
+.app-prog-day.amber{color:#856404}
 .app-prog-day.red{color:#721c24}
 .app-prog-day.grey{color:#666}
-.app-prog-svc{font-size:13px;font-weight:500;color:var(--dark)}
+.app-prog-info{flex:1;min-width:0}
+.app-prog-svc{font-size:13px;font-weight:500;color:var(--dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .app-prog-card.grey .app-prog-svc{color:#888}
+.app-prog-card.red .app-prog-svc{color:#888}
 .app-prog-time{font-size:11px;color:var(--muted);margin-top:2px}
-.app-prog-card.grey .app-prog-time{color:#aaa}
-.app-prog-action{margin-left:auto;font-size:11px;color:var(--muted);cursor:pointer;white-space:nowrap;flex-shrink:0}
-.app-prog-status{margin-left:auto;font-size:11px;font-weight:500;white-space:nowrap;flex-shrink:0}
-.app-prog-status.green{color:#155724}
-.app-prog-status.red{color:#721c24}
+.app-prog-right{flex-shrink:0;display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.app-prog-action{font-size:11px;color:var(--muted);cursor:pointer;white-space:nowrap}
+.app-prog-badge{font-size:10px;font-weight:500;white-space:nowrap;padding:2px 8px;border-radius:20px}
+.app-prog-badge.green{color:#155724;background:#D4EDDA}
+.app-prog-badge.amber{color:#856404;background:#FFF3CD}
+.app-prog-badge.red{color:#721c24;background:#F8D7DA}
+.app-prog-badge.grey{color:#666;background:#E0E0E0}
 
-/* MORE HISTORY */
-.app-hist-fade{position:relative;border-radius:14px;overflow:hidden}
+/* HIST FADE */
+.app-hist-fade{position:relative;border-radius:14px;overflow:hidden;margin-bottom:8px}
 .app-hist-fade-overlay{position:absolute;bottom:0;left:0;right:0;height:60px;background:linear-gradient(to bottom,transparent,var(--cream));display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px;cursor:pointer}
 .app-more-btn{font-size:12px;color:var(--rose);font-weight:500}
-
-/* LOGOUT */
 .app-logout{margin:16px 18px;padding:14px;text-align:center;background:var(--white);border:1px solid var(--border);border-radius:14px;cursor:pointer;font-size:14px;color:var(--red)}
 
-/* NOTIFICATIONS PANEL */
-.app-notif-panel{position:fixed;top:0;right:-100%;width:80%;max-width:320px;height:100vh;background:var(--white);border-left:1px solid var(--border);z-index:500;transition:right 0.3s ease;padding-top:env(safe-area-inset-top,0)}
+/* NOTIF PANEL */
+.app-notif-panel{position:fixed;top:0;right:-100%;width:80%;max-width:320px;height:100vh;background:var(--white);border-left:1px solid var(--border);z-index:500;transition:right 0.3s ease;padding-top:env(safe-area-inset-top,44px)}
 .app-notif-panel.open{right:0}
 .app-notif-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.3);z-index:499;display:none}
 .app-notif-overlay.open{display:block}
@@ -265,29 +286,26 @@ body.app-mode{overflow-x:hidden}
 .app-notif-title{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:500;color:var(--dark)}
 .app-notif-close{width:32px;height:32px;display:flex;align-items:center;justify-content:center;background:var(--gold-light);border-radius:50%;border:none;cursor:pointer}
 .app-notif-close svg{width:14px;height:14px;stroke:var(--rose);fill:none;stroke-width:2;stroke-linecap:round}
-.app-notif-item{padding:14px 18px;border-bottom:1px solid var(--border)}
-.app-notif-item.unread{background:var(--rose-light)}
-.app-notif-item-title{font-size:13px;font-weight:500;color:var(--dark);margin-bottom:2px}
-.app-notif-item-body{font-size:12px;color:var(--muted);line-height:1.5}
-.app-notif-item-time{font-size:11px;color:var(--muted);margin-top:4px}
 .app-notif-empty{padding:40px 18px;text-align:center;color:var(--muted);font-size:13px}
 </style>
 </head>
 <body>
 
-<!-- ============ APP MODE PAGES ============ -->
-<!-- APP HOME -->
+<!-- ===== APP PAGES ===== -->
 <div class="page" id="app-home">
   <div class="app-header" id="app-header">
+    <div class="app-header-safe"></div>
     <div class="app-header-inner">
       <div class="app-header-main">
-        <div class="app-logo-text">Bloom<span>.</span></div>
+        <div>
+          <div class="app-logo-text">Bloom<span>.</span></div>
+          <div class="app-header-sub">by Naomi</div>
+        </div>
         <div class="app-bell" onclick="openNotifPanel()">
           <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
           <div class="app-bell-dot" id="app-bell-dot" style="display:none"></div>
         </div>
       </div>
-      <div class="app-header-sub">by Naomi</div>
     </div>
   </div>
   <div class="app-home-scroll" id="app-home-scroll">
@@ -295,39 +313,68 @@ body.app-mode{overflow-x:hidden}
       <h2 id="app-greeting-name">Bună!</h2>
       <p id="app-greeting-sub">Ce facem azi?</p>
     </div>
+
     <div class="app-section-title">Inspo</div>
     <div class="inspo-preview" onclick="loadInspoCategories()">
       <div class="inspo-preview-grid" id="inspo-preview-grid">
-        <div class="inspo-big" style="background:var(--gold-light)"></div>
+        <div class="inspo-big"></div>
         <div class="inspo-small-col">
-          <div class="inspo-small" style="background:var(--gold-light)"></div>
-          <div class="inspo-small" style="background:var(--gold-light)"></div>
+          <div class="inspo-small"></div>
+          <div class="inspo-small"></div>
         </div>
       </div>
-      <div class="inspo-fog">
-        <div class="inspo-fog-text">Vezi<br>toate →</div>
-      </div>
+      <div class="inspo-fog"><div class="inspo-fog-text">Vezi<br>toate →</div></div>
     </div>
+
     <div class="app-section-title">Servicii</div>
     <div class="app-svc-card" id="app-svc-list"></div>
+
+    <div class="app-section-title">Recenzii</div>
+    <div style="margin:0 18px 8px;background:var(--white);border:1px solid var(--border);border-radius:14px;padding:16px" id="app-rv-preview">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px">
+        <span style="color:#F59E0B;font-size:14px">★★★★★</span>
+        <span style="font-size:13px;font-weight:500;color:var(--dark)">5.0</span>
+        <span style="font-size:12px;color:var(--muted)">(465+ evaluări)</span>
+      </div>
+      <div id="app-rv-text" style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;color:var(--dark);line-height:1.6;margin-bottom:10px"></div>
+      <div id="app-rv-author" style="font-size:12px;color:var(--muted)"></div>
+    </div>
+
+    <div class="app-section-title">Locație & Contact</div>
+    <div class="app-info-card">
+      <a href="https://www.google.com/maps/search/Strada+Mihai+Eminescu+34+Suceava+Romania" target="_blank" style="text-decoration:none">
+        <div class="app-info-row">
+          <div class="app-info-icon"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+          <div><div class="app-info-text">Strada Mihai Eminescu, nr.34</div><div class="app-info-sub">Suceava · Deschide Maps</div></div>
+        </div>
+      </a>
+      <a href="https://www.instagram.com/stanciu.naomi.nails" target="_blank" style="text-decoration:none">
+        <div class="app-info-row">
+          <div class="app-info-icon"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>
+          <div><div class="app-info-text">@stanciu.naomi.nails</div><div class="app-info-sub">Instagram</div></div>
+        </div>
+      </a>
+      <a href="mailto:contact@naomistanciu.ro" style="text-decoration:none">
+        <div class="app-info-row">
+          <div class="app-info-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+          <div><div class="app-info-text">contact@naomistanciu.ro</div><div class="app-info-sub">Email</div></div>
+        </div>
+      </a>
+    </div>
     <div style="height:20px"></div>
   </div>
   <div class="app-tabbar">
-    <div class="app-tab active" onclick="showAppHome()">
-      <svg viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      Acasă
+    <div class="app-tab active" id="tab-home" onclick="showAppHome()">
+      <svg viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Acasă
     </div>
-    <div class="app-tab">
-      <div class="app-fab-wrap" onclick="startBooking();showPage('p1')">
-        <div class="app-fab">
-          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        </div>
+    <div class="app-tab" id="tab-book">
+      <div class="app-fab-wrap" onclick="appStartBooking()">
+        <div class="app-fab"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
         <span>Programare</span>
       </div>
     </div>
-    <div class="app-tab" onclick="showAppProfile()">
-      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      Profil
+    <div class="app-tab" id="tab-profile" onclick="showAppProfile()">
+      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profil
     </div>
   </div>
 </div>
@@ -335,69 +382,39 @@ body.app-mode{overflow-x:hidden}
 <!-- APP INSPO CATEGORIES -->
 <div class="page" id="app-inspo-cats">
   <div class="app-back-header">
-    <button class="app-back-btn" onclick="showAppHome()">
-      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-    </button>
+    <button class="app-back-btn" onclick="showAppHome()"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
     <span class="app-page-title">Inspo</span>
-    <div style="width:36px"></div>
+    <div style="width:38px"></div>
   </div>
   <div class="app-scroll-content" id="inspo-cats-list"></div>
   <div class="app-tabbar">
-    <div class="app-tab" onclick="showAppHome()">
-      <svg viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      Acasă
-    </div>
-    <div class="app-tab">
-      <div class="app-fab-wrap" onclick="startBooking();showPage('p1')">
-        <div class="app-fab"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
-        <span>Programare</span>
-      </div>
-    </div>
-    <div class="app-tab" onclick="showAppProfile()">
-      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      Profil
-    </div>
+    <div class="app-tab" onclick="showAppHome()"><svg viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Acasă</div>
+    <div class="app-tab"><div class="app-fab-wrap" onclick="appStartBooking()"><div class="app-fab"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><span>Programare</span></div></div>
+    <div class="app-tab" onclick="showAppProfile()"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profil</div>
   </div>
 </div>
 
-<!-- APP INSPO GALLERY (per categorie) -->
+<!-- APP INSPO GALLERY -->
 <div class="page" id="app-inspo-gallery">
   <div class="app-back-header">
-    <button class="app-back-btn" onclick="loadInspoCategories()">
-      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-    </button>
+    <button class="app-back-btn" onclick="loadInspoCategories()"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
     <span class="app-page-title" id="inspo-gallery-title">Galerie</span>
-    <div style="width:36px"></div>
+    <div style="width:38px"></div>
   </div>
-  <div class="app-scroll-content">
-    <div class="inspo-gallery" id="inspo-gallery-grid"></div>
-  </div>
+  <div class="app-scroll-content"><div class="inspo-gallery" id="inspo-gallery-grid"></div></div>
   <div class="app-tabbar">
-    <div class="app-tab" onclick="showAppHome()">
-      <svg viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      Acasă
-    </div>
-    <div class="app-tab">
-      <div class="app-fab-wrap" onclick="startBooking();showPage('p1')">
-        <div class="app-fab"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
-        <span>Programare</span>
-      </div>
-    </div>
-    <div class="app-tab" onclick="showAppProfile()">
-      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      Profil
-    </div>
+    <div class="app-tab" onclick="showAppHome()"><svg viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Acasă</div>
+    <div class="app-tab"><div class="app-fab-wrap" onclick="appStartBooking()"><div class="app-fab"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><span>Programare</span></div></div>
+    <div class="app-tab" onclick="showAppProfile()"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profil</div>
   </div>
 </div>
 
 <!-- APP INSPO DETAIL -->
 <div class="page" id="app-inspo-detail">
   <div class="app-back-header">
-    <button class="app-back-btn" id="inspo-detail-back-btn">
-      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-    </button>
+    <button class="app-back-btn" id="inspo-detail-back-btn" onclick="showAppPage('app-inspo-gallery')"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
     <span class="app-page-title" id="inspo-detail-cat">Detalii</span>
-    <div style="width:36px"></div>
+    <div style="width:38px"></div>
   </div>
   <div class="app-scroll-content">
     <div class="inspo-detail-img"><img id="inspo-detail-img-el" src="" alt="" style="display:none"><div id="inspo-detail-img-ph" style="height:240px;background:var(--gold-light)"></div></div>
@@ -407,27 +424,16 @@ body.app-mode{overflow-x:hidden}
       <div class="inspo-detail-tags" id="inspo-detail-tags"></div>
     </div>
     <div class="inspo-detail-actions">
-      <button class="btn-book-inspo" id="inspo-book-btn" onclick="bookFromInspo()">Vreau și eu așa!</button>
+      <button class="btn-book-inspo" onclick="bookFromInspo()">Vreau și eu așa!</button>
       <button class="btn-like-inspo" id="inspo-like-btn" onclick="toggleInspoLike()">
         <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
       </button>
     </div>
   </div>
   <div class="app-tabbar">
-    <div class="app-tab" onclick="showAppHome()">
-      <svg viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      Acasă
-    </div>
-    <div class="app-tab">
-      <div class="app-fab-wrap" onclick="startBooking();showPage('p1')">
-        <div class="app-fab"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
-        <span>Programare</span>
-      </div>
-    </div>
-    <div class="app-tab" onclick="showAppProfile()">
-      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      Profil
-    </div>
+    <div class="app-tab" onclick="showAppHome()"><svg viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Acasă</div>
+    <div class="app-tab"><div class="app-fab-wrap" onclick="appStartBooking()"><div class="app-fab"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><span>Programare</span></div></div>
+    <div class="app-tab" onclick="showAppProfile()"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profil</div>
   </div>
 </div>
 
@@ -436,51 +442,35 @@ body.app-mode{overflow-x:hidden}
   <div class="app-profile-header">
     <div class="app-profile-avatar-row">
       <div class="app-profile-avatar" id="app-pv-avatar">?</div>
-      <div>
-        <div class="app-profile-name" id="app-pv-name">—</div>
-        <div class="app-profile-phone" id="app-pv-phone">—</div>
-      </div>
-      <button class="app-edit-btn" onclick="showProfilePage()">Editează</button>
+      <div><div class="app-profile-name" id="app-pv-name">—</div><div class="app-profile-phone" id="app-pv-phone">—</div></div>
+      <button class="app-edit-btn" onclick="showAppEditProfile()">Editează</button>
     </div>
   </div>
-  <div class="app-scroll-content" id="app-profile-scroll">
+  <div class="app-scroll-content">
     <div class="app-profile-section">
       <div class="app-profile-section-title">Programări viitoare</div>
-      <div id="app-prog-viitoare"><div style="text-align:center;padding:20px;color:var(--muted);font-size:13px">Se încarcă...</div></div>
+      <div id="app-prog-viitoare"><div style="padding:16px 0;font-size:13px;color:var(--muted)">Se încarcă...</div></div>
     </div>
     <div class="app-profile-section" style="margin-top:16px">
       <div class="app-profile-section-title">Istoric</div>
       <div id="app-prog-istoric"></div>
     </div>
     <div class="app-logout" onclick="doLogoutApp()">Deconectare</div>
-    <div style="height:90px"></div>
+    <div style="height:20px"></div>
   </div>
   <div class="app-tabbar">
-    <div class="app-tab" onclick="showAppHome()">
-      <svg viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-      Acasă
-    </div>
-    <div class="app-tab">
-      <div class="app-fab-wrap" onclick="startBooking();showPage('p1')">
-        <div class="app-fab"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
-        <span>Programare</span>
-      </div>
-    </div>
-    <div class="app-tab active" onclick="showAppProfile()">
-      <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-      Profil
-    </div>
+    <div class="app-tab" onclick="showAppHome()"><svg viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Acasă</div>
+    <div class="app-tab"><div class="app-fab-wrap" onclick="appStartBooking()"><div class="app-fab"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><span>Programare</span></div></div>
+    <div class="app-tab active" onclick="showAppProfile()"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Profil</div>
   </div>
 </div>
 
-<!-- NOTIFICATIONS PANEL -->
+<!-- NOTIF PANEL -->
 <div class="app-notif-overlay" id="app-notif-overlay" onclick="closeNotifPanel()"></div>
 <div class="app-notif-panel" id="app-notif-panel">
   <div class="app-notif-header">
     <span class="app-notif-title">Notificări</span>
-    <button class="app-notif-close" onclick="closeNotifPanel()">
-      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    </button>
+    <button class="app-notif-close" onclick="closeNotifPanel()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
   </div>
   <div id="app-notif-list"><div class="app-notif-empty">Nu ai notificări noi.</div></div>
 </div>
@@ -857,6 +847,7 @@ body.app-mode{overflow-x:hidden}
 
 <!-- STEP 1 -->
 <div class="page" id="p1">
+  <div class="app-booking-back"><button class="app-back-btn" onclick="goHome()"><svg viewBox="0 0 24 24" fill="none" stroke="var(--rose)" stroke-width="1.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></button><span class="app-page-title">Alege serviciul</span><div style="width:38px"></div></div>
   <nav class="nav"><div class="nav-logo" onclick="goHome()">Naomi<span>Stanciu</span></div><button class="btn-back" onclick="goHome()">← Înapoi</button></nav>
   <div class="steps-wrap"><div class="step-indicator"><div class="step-dot done"></div><div class="step-dot"></div><div class="step-dot"></div><div class="step-dot"></div></div></div>
   <div class="wrap" style="padding-top:0">
@@ -868,6 +859,7 @@ body.app-mode{overflow-x:hidden}
 
 <!-- STEP 2 -->
 <div class="page" id="p2">
+  <div class="app-booking-back"><button class="app-back-btn" onclick="showPage('p1')"><svg viewBox="0 0 24 24" fill="none" stroke="var(--rose)" stroke-width="1.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></button><span class="app-page-title">Alege data</span><div style="width:38px"></div></div>
   <nav class="nav"><div class="nav-logo" onclick="goHome()">Naomi<span>Stanciu</span></div><button class="btn-back" onclick="showPage('p1')">← Înapoi</button></nav>
   <div class="steps-wrap"><div class="step-indicator"><div class="step-dot done"></div><div class="step-dot done"></div><div class="step-dot"></div><div class="step-dot"></div></div></div>
   <div class="wrap" style="padding-top:0">
@@ -885,6 +877,7 @@ body.app-mode{overflow-x:hidden}
 
 <!-- STEP 3 -->
 <div class="page" id="p3">
+  <div class="app-booking-back"><button class="app-back-btn" onclick="showPage('p2')"><svg viewBox="0 0 24 24" fill="none" stroke="var(--rose)" stroke-width="1.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></button><span class="app-page-title">Confirmă programarea</span><div style="width:38px"></div></div>
   <nav class="nav"><div class="nav-logo" onclick="goHome()">Naomi<span>Stanciu</span></div><button class="btn-back" onclick="showPage('p2')">← Înapoi</button></nav>
   <div class="steps-wrap"><div class="step-indicator"><div class="step-dot done"></div><div class="step-dot done"></div><div class="step-dot done"></div><div class="step-dot"></div></div></div>
   <div class="wrap" style="padding-top:0">
@@ -899,6 +892,7 @@ body.app-mode{overflow-x:hidden}
 
 <!-- STEP 4 -->
 <div class="page" id="p4">
+  <div class="app-booking-back"><button class="app-back-btn" onclick="goHome()"><svg viewBox="0 0 24 24" fill="none" stroke="var(--rose)" stroke-width="1.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg></button><span class="app-page-title">Confirmare</span><div style="width:38px"></div></div>
   <nav class="nav"><div class="nav-logo" onclick="goHome()">Naomi<span>Stanciu</span></div></nav>
   <div class="steps-wrap"><div class="step-indicator"><div class="step-dot done"></div><div class="step-dot done"></div><div class="step-dot done"></div><div class="step-dot done"></div></div></div>
   <div class="wrap" style="padding-top:0;text-align:center">
@@ -1441,8 +1435,8 @@ async function uploadAvatar(input){
 }
 
 
-// ============ APP MODE JS ============
-const IS_APP = window.Capacitor !== undefined || window.location.href.includes('capacitor://') || navigator.userAgent.includes('Capacitor');
+// ===== APP MODE JS =====
+const IS_APP = window.Capacitor !== undefined || navigator.userAgent.includes('Capacitor') || window.location.protocol === 'capacitor:';
 
 let currentInspoItem = null;
 let inspoLikes = new Set();
@@ -1450,329 +1444,317 @@ let histPage = 0;
 const HIST_PAGE_SIZE = 2;
 let allHistoric = [];
 
-function showAppPage(pageId) {
+function showAppPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById(pageId).classList.add('active');
-  window.scrollTo(0, 0);
+  document.getElementById(id)?.classList.add('active');
+  window.scrollTo(0,0);
 }
 
 function showAppHome() {
   showAppPage('app-home');
   renderAppHome();
+  loadInspoPreview();
+  loadAppRvPreview();
 }
 
 async function initApp() {
-  loadTheme();
+  // Dark mode: system preference
+  const saved = localStorage.getItem('theme');
+  if (saved) {
+    if (saved === 'dark') document.body.classList.add('dark');
+  } else {
+    if (window.matchMedia?.('(prefers-color-scheme: dark)').matches) document.body.classList.add('dark');
+    window.matchMedia?.('(prefers-color-scheme: dark)').addEventListener('change', e => {
+      if (!localStorage.getItem('theme')) document.body.classList.toggle('dark', e.matches);
+    });
+  }
   document.body.classList.add('app-mode');
   const {data:{session}} = await sb.auth.getSession();
   if (session) { cu = session.user; await loadProf(); }
   renderAppHome();
   showAppPage('app-home');
-  setupAppHeaderScroll();
+  setupHeaderScroll();
   loadInspoPreview();
+  loadAppRvPreview();
   if (cu) loadUserLikes();
 }
 
-function setupAppHeaderScroll() {
+function setupHeaderScroll() {
   const scroll = document.getElementById('app-home-scroll');
   const header = document.getElementById('app-header');
   if (!scroll || !header) return;
   scroll.addEventListener('scroll', () => {
-    if (scroll.scrollTop > 40) header.classList.add('collapsed');
-    else header.classList.remove('collapsed');
-  });
+    header.classList.toggle('collapsed', scroll.scrollTop > 50);
+  }, {passive: true});
 }
 
 function renderAppHome() {
-  // Greeting
-  const nameEl = document.getElementById('app-greeting-name');
-  const subEl = document.getElementById('app-greeting-sub');
-  if (cu && cp) {
-    const firstName = (cp.nume || '').split(' ')[0] || 'bine ai venit';
-    nameEl.textContent = 'Bună, ' + firstName + '!';
-    subEl.textContent = 'Ce facem azi?';
-  } else {
-    nameEl.textContent = 'Bună!';
-    subEl.textContent = 'Programează-te acum';
-  }
-
-  // Services
-  const svcList = document.getElementById('app-svc-list');
-  if (svcList) {
-    svcList.innerHTML = SVCS.filter(s => s.id !== 7).map((s, i, arr) => `
-      <div class="app-svc-row" style="${i === arr.length-1 ? 'border-bottom:none' : ''}">
-        <div>
-          <div class="app-svc-name">${s.name}</div>
-          <div class="app-svc-dur">${dl(s.dur)}</div>
-        </div>
-        <div class="app-svc-price">${s.price} lei</div>
-      </div>`).join('');
-  }
+  const n = document.getElementById('app-greeting-name');
+  const s = document.getElementById('app-greeting-sub');
+  if (cu && cp && cp.nume) {
+    n.textContent = 'Bună, ' + (cp.nume.split(' ')[0]) + '!';
+    s.textContent = 'Ce facem azi?';
+  } else { n.textContent = 'Bună!'; s.textContent = 'Programează-te acum'; }
+  const sl = document.getElementById('app-svc-list');
+  if (sl) sl.innerHTML = SVCS.filter(s=>s.id!==7).map((s,i,a)=>`
+    <div class="app-svc-row" style="${i===a.length-1?'border-bottom:none':''}">
+      <div><div class="app-svc-name">${s.name}</div><div class="app-svc-dur">${dl(s.dur)}</div></div>
+      <div class="app-svc-price">${s.price} lei</div>
+    </div>`).join('');
 }
 
 async function loadInspoPreview() {
   const {data} = await sb.from('inspo').select('imagine_url').limit(3);
-  if (!data || !data.length) return;
+  if (!data?.length) return;
   const grid = document.getElementById('inspo-preview-grid');
   if (!grid) return;
-  const imgs = data.map(d => d.imagine_url);
-  grid.innerHTML = `
-    <div class="inspo-big">${imgs[0] ? `<img src="${imgs[0]}" alt="" style="width:100%;height:100%;object-fit:cover">` : ''}</div>
+  const imgs = data.map(d=>d.imagine_url);
+  grid.innerHTML = `<div class="inspo-big">${imgs[0]?`<img src="${imgs[0]}" style="width:100%;height:100%;object-fit:cover">`:''}</div>
     <div class="inspo-small-col">
-      <div class="inspo-small">${imgs[1] ? `<img src="${imgs[1]}" alt="" style="width:100%;height:100%;object-fit:cover">` : ''}</div>
-      <div class="inspo-small">${imgs[2] ? `<img src="${imgs[2]}" alt="" style="width:100%;height:100%;object-fit:cover">` : ''}</div>
+      <div class="inspo-small">${imgs[1]?`<img src="${imgs[1]}" style="width:100%;height:100%;object-fit:cover">`:''}</div>
+      <div class="inspo-small">${imgs[2]?`<img src="${imgs[2]}" style="width:100%;height:100%;object-fit:cover">`:''}</div>
     </div>`;
+}
+
+async function loadAppRvPreview() {
+  const rvs = typeof rvAll !== 'undefined' ? rvAll : [];
+  if (!rvs.length) return;
+  const r = rvs[Math.floor(Math.random()*Math.min(rvs.length,10))];
+  const t = document.getElementById('app-rv-text');
+  const a = document.getElementById('app-rv-author');
+  if (t) t.textContent = '„' + r.text + '"';
+  if (a) a.textContent = '— ' + r.name;
 }
 
 async function loadInspoCategories() {
   showAppPage('app-inspo-cats');
   const list = document.getElementById('inspo-cats-list');
   list.innerHTML = '<div style="text-align:center;padding:30px;color:var(--muted);font-size:13px">Se încarcă...</div>';
-  const cats = SVCS.filter(s => s.id !== 7).map(s => s.name);
-  const {data} = await sb.from('inspo').select('categorie, imagine_url').limit(50);
-  if (!data) { list.innerHTML = ''; return; }
+  const cats = SVCS.filter(s=>s.id!==7).map(s=>s.name);
+  const {data} = await sb.from('inspo').select('categorie,imagine_url').limit(100);
+  if (!data) { list.innerHTML=''; return; }
   const byCat = {};
-  data.forEach(item => {
-    if (!byCat[item.categorie]) byCat[item.categorie] = [];
-    byCat[item.categorie].push(item.imagine_url);
-  });
-  list.innerHTML = '<div style="padding:8px 0 70px">' + cats.filter(c => byCat[c] && byCat[c].length).map(cat => {
-    const imgs = byCat[cat] || [];
-    return `
-      <div class="inspo-cat-card" onclick="loadInspoGallery('${cat.replace(/'/g,"\'")}')">
-        <div class="inspo-cat-photos">
-          <div class="inspo-cat-photo-big">${imgs[0] ? `<img src="${imgs[0]}" alt="" style="width:100%;height:100%;object-fit:cover">` : ''}</div>
-          <div class="inspo-cat-photo-col">
-            <div class="inspo-cat-photo-sm">${imgs[1] ? `<img src="${imgs[1]}" alt="" style="width:100%;height:100%;object-fit:cover">` : ''}</div>
-            <div class="inspo-cat-photo-sm">${imgs[2] ? `<img src="${imgs[2]}" alt="" style="width:100%;height:100%;object-fit:cover">` : ''}</div>
-          </div>
-          <div class="inspo-cat-photo-col">
-            <div class="inspo-cat-photo-sm">${imgs[3] ? `<img src="${imgs[3]}" alt="" style="width:100%;height:100%;object-fit:cover">` : ''}</div>
-            <div class="inspo-cat-photo-sm">${imgs[4] ? `<img src="${imgs[4]}" alt="" style="width:100%;height:100%;object-fit:cover">` : ''}</div>
-          </div>
+  data.forEach(item => { if(!byCat[item.categorie])byCat[item.categorie]=[]; byCat[item.categorie].push(item.imagine_url); });
+  const available = cats.filter(c=>byCat[c]?.length);
+  if (!available.length) { list.innerHTML='<div style="text-align:center;padding:30px;color:var(--muted);font-size:13px">Nicio categorie disponibilă.</div>'; return; }
+  list.innerHTML = '<div style="padding:8px 0 100px">' + available.map(cat => {
+    const imgs = byCat[cat]||[];
+    return `<div class="inspo-cat-card" onclick="loadInspoGallery('${cat.replace(/'/g,"\'")}')">
+      <div class="inspo-cat-photos">
+        <div class="inspo-cat-photo-big">${imgs[0]?`<img src="${imgs[0]}" style="width:100%;height:100%;object-fit:cover">`:''}</div>
+        <div class="inspo-cat-photo-col">
+          <div class="inspo-cat-photo-sm">${imgs[1]?`<img src="${imgs[1]}" style="width:100%;height:100%;object-fit:cover">`:''}</div>
+          <div class="inspo-cat-photo-sm">${imgs[2]?`<img src="${imgs[2]}" style="width:100%;height:100%;object-fit:cover">`:''}</div>
         </div>
-        <div class="inspo-cat-footer">
-          <span class="inspo-cat-name">${cat}</span>
-          <div class="inspo-cat-btn">
-            <span>Vezi galeria</span>
-            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-          </div>
+        <div class="inspo-cat-photo-col">
+          <div class="inspo-cat-photo-sm">${imgs[3]?`<img src="${imgs[3]}" style="width:100%;height:100%;object-fit:cover">`:''}</div>
+          <div class="inspo-cat-photo-sm">${imgs[4]?`<img src="${imgs[4]}" style="width:100%;height:100%;object-fit:cover">`:''}</div>
         </div>
-      </div>`;
+      </div>
+      <div class="inspo-cat-footer">
+        <span class="inspo-cat-name">${cat}</span>
+        <div class="inspo-cat-btn"><span>Vezi galeria</span><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      </div>
+    </div>`;
   }).join('') + '</div>';
 }
 
 async function loadInspoGallery(categorie) {
   document.getElementById('inspo-gallery-title').textContent = categorie;
   showAppPage('app-inspo-gallery');
-  const grid = document.getElementById('inspo-gallery-grid');
-  grid.innerHTML = '<div style="text-align:center;padding:30px;color:var(--muted);font-size:13px;grid-column:1/-1">Se încarcă...</div>';
-  document.getElementById('inspo-detail-back-btn').onclick = () => showAppPage('app-inspo-gallery');
   document.getElementById('inspo-detail-cat').textContent = categorie;
-  const {data} = await sb.from('inspo').select('*').eq('categorie', categorie).order('created_at', {ascending:false});
-  if (!data || !data.length) { grid.innerHTML = '<div style="text-align:center;padding:30px;color:var(--muted);font-size:13px;grid-column:1/-1">Nicio poză adăugată încă.</div>'; return; }
+  const grid = document.getElementById('inspo-gallery-grid');
+  grid.innerHTML = '<div style="text-align:center;padding:30px;color:var(--muted);font-size:13px">Se încarcă...</div>';
+  const {data} = await sb.from('inspo').select('*').eq('categorie', categorie).order('created_at',{ascending:false});
+  if (!data?.length) { grid.innerHTML='<div style="text-align:center;padding:30px;color:var(--muted);font-size:13px">Nicio poză adăugată.</div>'; return; }
   grid.innerHTML = data.map(item => `
     <div class="inspo-gallery-item" onclick="showInspoDetail(${JSON.stringify(JSON.stringify(item))})">
-      <img src="${item.imagine_url}" alt="${item.titlu || ''}" loading="lazy" style="width:100%;display:block;border-radius:12px" onerror="this.style.display='none'">
+      <img src="${item.imagine_url}" loading="lazy" onerror="this.parentElement.style.display='none'">
     </div>`).join('');
 }
 
 function showInspoDetail(itemJson) {
   const item = JSON.parse(itemJson);
   currentInspoItem = item;
-  const imgEl = document.getElementById('inspo-detail-img-el');
-  const phEl = document.getElementById('inspo-detail-img-ph');
-  imgEl.src = item.imagine_url;
-  imgEl.style.display = 'block';
-  phEl.style.display = 'none';
-  imgEl.onerror = () => { imgEl.style.display='none'; phEl.style.display='block'; };
-  document.getElementById('inspo-detail-title').textContent = item.titlu || '';
-  document.getElementById('inspo-detail-desc').textContent = item.descriere || '';
-  const tags = item.culori || [];
-  document.getElementById('inspo-detail-tags').innerHTML = tags.map(t => `<span class="inspo-tag">${t}</span>`).join('');
-  const likeBtn = document.getElementById('inspo-like-btn');
-  likeBtn.classList.toggle('liked', inspoLikes.has(item.id));
+  const img = document.getElementById('inspo-detail-img-el');
+  const ph = document.getElementById('inspo-detail-img-ph');
+  img.src = item.imagine_url; img.style.display='block'; ph.style.display='none';
+  img.onerror = () => { img.style.display='none'; ph.style.display='block'; };
+  document.getElementById('inspo-detail-title').textContent = item.titlu||'';
+  document.getElementById('inspo-detail-desc').textContent = item.descriere||'';
+  const tags = Array.isArray(item.culori)?item.culori:[];
+  document.getElementById('inspo-detail-tags').innerHTML = tags.map(t=>`<span class="inspo-tag">${t}</span>`).join('');
+  document.getElementById('inspo-like-btn').classList.toggle('liked', inspoLikes.has(item.id));
   showAppPage('app-inspo-detail');
 }
 
 async function toggleInspoLike() {
-  if (!cu) { showLoginModal(() => toggleInspoLike()); return; }
-  const item = currentInspoItem;
-  if (!item) return;
+  if (!cu) { showLoginModal(()=>toggleInspoLike()); return; }
+  const item = currentInspoItem; if(!item) return;
   const btn = document.getElementById('inspo-like-btn');
   if (inspoLikes.has(item.id)) {
-    await sb.from('inspo_likes').delete().eq('user_id', cu.id).eq('inspo_id', item.id);
-    inspoLikes.delete(item.id);
-    btn.classList.remove('liked');
+    await sb.from('inspo_likes').delete().eq('user_id',cu.id).eq('inspo_id',item.id);
+    inspoLikes.delete(item.id); btn.classList.remove('liked');
   } else {
-    await sb.from('inspo_likes').insert({user_id: cu.id, inspo_id: item.id});
-    inspoLikes.add(item.id);
-    btn.classList.add('liked');
+    await sb.from('inspo_likes').insert({user_id:cu.id,inspo_id:item.id});
+    inspoLikes.add(item.id); btn.classList.add('liked');
   }
 }
 
 async function loadUserLikes() {
   if (!cu) return;
-  const {data} = await sb.from('inspo_likes').select('inspo_id').eq('user_id', cu.id);
-  if (data) data.forEach(r => inspoLikes.add(r.inspo_id));
+  const {data} = await sb.from('inspo_likes').select('inspo_id').eq('user_id',cu.id);
+  if (data) data.forEach(r=>inspoLikes.add(r.inspo_id));
 }
 
 function bookFromInspo() {
   if (!currentInspoItem) return;
-  const svc = SVCS.find(s => s.name === currentInspoItem.categorie);
-  const mention = (currentInspoItem.titlu ? currentInspoItem.titlu + ' - ' : '') + (currentInspoItem.descriere || '');
+  const svc = SVCS.find(s=>s.name===currentInspoItem.categorie);
+  const mention = [currentInspoItem.titlu, currentInspoItem.descriere].filter(Boolean).join(' - ');
   if (svc) {
     startBookingSvc(svc.id);
-    setTimeout(() => {
-      const obs = document.getElementById('obs');
-      if (obs && mention) obs.value = 'Inspo: ' + mention.substring(0, 200);
-    }, 500);
-  } else {
-    startBooking();
-  }
+    setTimeout(()=>{ const obs=document.getElementById('obs'); if(obs&&mention) obs.value='Inspo: '+mention.substring(0,200); },500);
+  } else startBooking();
 }
 
 async function showAppProfile() {
-  if (!cu || !cp) { showLoginModal(showAppProfile); return; }
+  if (!cu||!cp) { showLoginModal(showAppProfile); return; }
   showAppPage('app-profile');
-  // Avatar
   const av = document.getElementById('app-pv-avatar');
-  if (cp.avatar_url) { setAvatarEl(av, cp); } else {
-    av.textContent = (cp.nume||'?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
-  }
-  document.getElementById('app-pv-name').textContent = cp.nume || '';
-  document.getElementById('app-pv-phone').textContent = cp.telefon || '';
+  if (cp.avatar_url) setAvatarEl(av,cp);
+  else av.textContent=(cp.nume||'?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+  document.getElementById('app-pv-name').textContent = cp.nume||'';
+  document.getElementById('app-pv-phone').textContent = cp.telefon||'';
   await loadAppProgramari();
   await loadAppIstoric();
 }
 
-function getMonthShort(dateStr) {
-  const months = ['IAN','FEB','MAR','APR','MAI','IUN','IUL','AUG','SEP','OCT','NOI','DEC'];
-  const d = new Date(dateStr + 'T12:00:00');
-  return months[d.getMonth()];
+function showAppEditProfile() {
+  showProfilePage(); // deschide pagina de profil existentă
 }
-function getDayNum(dateStr) {
-  return new Date(dateStr + 'T12:00:00').getDate();
+
+function getMonthShort(ds) {
+  return ['IAN','FEB','MAR','APR','MAI','IUN','IUL','AUG','SEP','OCT','NOI','DEC'][new Date(ds+'T12:00:00').getMonth()];
 }
+function getDayNum(ds) { return new Date(ds+'T12:00:00').getDate(); }
 
 function progCardHTML(p, colorClass) {
   const month = getMonthShort(p.data);
   const day = getDayNum(p.data);
-  const canAct = p.data >= dk(tod) && p.status !== 'anulat';
-  return `
-    <div class="app-prog-card ${colorClass}">
-      <div class="app-prog-date ${colorClass}">
-        <div class="app-prog-month ${colorClass}">${month}</div>
-        <div class="app-prog-day ${colorClass}">${day}</div>
-      </div>
-      <div style="flex:1;min-width:0">
-        <div class="app-prog-svc">${p.serviciu}</div>
-        <div class="app-prog-time">${p.ora} · ${dl(p.durata)}</div>
-      </div>
-      ${colorClass === 'green' && canAct ? `<span class="app-prog-action" onclick="anulProgApp('${p.id}')">Anulează</span>` : ''}
-      ${colorClass === 'grey' ? `<span class="app-prog-status green">✓</span>` : ''}
-      ${p.status === 'anulat' && colorClass === 'red' ? `<span class="app-prog-status red">Anulat</span>` : ''}
-    </div>`;
+  const canCancel = p.data >= dk(tod) && p.status !== 'anulat';
+  let badge = '';
+  if (colorClass==='green') badge = `<span class="app-prog-badge green">Confirmat</span>`;
+  else if (colorClass==='amber') badge = `<span class="app-prog-badge amber">Așteptare</span>`;
+  else if (colorClass==='red') badge = `<span class="app-prog-badge red">Anulat</span>`;
+  else badge = `<span class="app-prog-badge grey">Efectuat</span>`;
+  return `<div class="app-prog-card ${colorClass}">
+    <div class="app-prog-date ${colorClass}">
+      <div class="app-prog-month ${colorClass}">${month}</div>
+      <div class="app-prog-day ${colorClass}">${day}</div>
+    </div>
+    <div class="app-prog-info">
+      <div class="app-prog-svc">${p.serviciu}</div>
+      <div class="app-prog-time">${p.ora} · ${dl(p.durata)}</div>
+    </div>
+    <div class="app-prog-right">
+      ${badge}
+      ${canCancel ? `<span class="app-prog-action" onclick="anulProgApp('${p.id}')">Anulează</span>` : ''}
+    </div>
+  </div>`;
 }
 
 async function loadAppProgramari() {
   const el = document.getElementById('app-prog-viitoare');
-  const {data} = await sb.from('programari').select('*').eq('user_id', cu.id).gte('data', dk(tod)).neq('status', 'anulat').order('data', {ascending:true});
-  if (!data || !data.length) { el.innerHTML = '<div style="padding:12px 0;font-size:13px;color:var(--muted)">Nicio programare viitoare.</div>'; return; }
-  el.innerHTML = data.map(p => {
-    const colorClass = p.status === 'confirmat' ? 'green' : 'green';
-    return progCardHTML(p, colorClass);
-  }).join('');
+  const {data} = await sb.from('programari').select('*').eq('user_id',cu.id).gte('data',dk(tod)).neq('status','anulat').order('data',{ascending:true});
+  if (!data?.length) { el.innerHTML='<div style="padding:12px 0;font-size:13px;color:var(--muted)">Nicio programare viitoare.</div>'; return; }
+  el.innerHTML = data.map(p => progCardHTML(p, p.status==='confirmat'?'green':'amber')).join('');
 }
 
 async function loadAppIstoric() {
   const el = document.getElementById('app-prog-istoric');
-  const {data} = await sb.from('programari').select('*').eq('user_id', cu.id).lt('data', dk(tod)).order('data', {ascending:false});
-  if (!data || !data.length) { el.innerHTML = '<div style="padding:12px 0;font-size:13px;color:var(--muted)">Niciun istoric.</div>'; return; }
-  allHistoric = data;
-  histPage = 0;
-  renderHistPage(el);
+  const {data} = await sb.from('programari').select('*').eq('user_id',cu.id).lt('data',dk(tod)).order('data',{ascending:false});
+  if (!data?.length) { el.innerHTML='<div style="padding:12px 0;font-size:13px;color:var(--muted)">Niciun istoric.</div>'; return; }
+  allHistoric = data; histPage = 0; renderHistPage(el);
 }
 
 function renderHistPage(el) {
-  const visible = allHistoric.slice(0, (histPage + 1) * HIST_PAGE_SIZE);
+  const visible = allHistoric.slice(0, (histPage+1)*HIST_PAGE_SIZE);
   const hasMore = visible.length < allHistoric.length;
-  const cards = visible.map(p => {
-    const colorClass = p.status === 'anulat' ? 'red' : 'grey';
-    return progCardHTML(p, colorClass);
-  }).join('');
+  const cards = visible.map(p => progCardHTML(p, p.status==='anulat'?'red':'grey')).join('');
   el.innerHTML = cards + (hasMore ? `
     <div class="app-hist-fade">
-      <div class="app-prog-card grey" style="opacity:0.3">
+      <div class="app-prog-card grey" style="opacity:0.25">
         <div class="app-prog-date grey"><div class="app-prog-month grey">—</div><div class="app-prog-day grey">—</div></div>
-        <div style="flex:1"><div class="app-prog-svc">...</div><div class="app-prog-time">—</div></div>
+        <div class="app-prog-info"><div class="app-prog-svc">...</div></div>
       </div>
-      <div class="app-hist-fade-overlay" onclick="loadMoreHist()">
-        <span class="app-more-btn">Mai mult →</span>
-      </div>
+      <div class="app-hist-fade-overlay" onclick="loadMoreHist()"><span class="app-more-btn">Mai mult →</span></div>
     </div>` : '');
 }
 
-function loadMoreHist() {
-  histPage++;
-  const el = document.getElementById('app-prog-istoric');
-  renderHistPage(el);
-}
+function loadMoreHist() { histPage++; renderHistPage(document.getElementById('app-prog-istoric')); }
 
 async function anulProgApp(id) {
   if (!confirm('Ești sigură că vrei să anulezi?')) return;
-  await sb.from('programari').update({status:'anulat'}).eq('id', id);
-  await loadAppProgramari();
-  await loadAppIstoric();
+  await sb.from('programari').update({status:'anulat'}).eq('id',id);
+  await loadAppProgramari(); await loadAppIstoric();
 }
 
 async function doLogoutApp() {
-  await sb.auth.signOut();
-  cu = null; cp = null;
-  showAppHome();
+  await sb.auth.signOut(); cu=null; cp=null; showAppHome();
 }
 
-function openNotifPanel() {
-  document.getElementById('app-notif-panel').classList.add('open');
-  document.getElementById('app-notif-overlay').classList.add('open');
-}
+function openNotifPanel() { document.getElementById('app-notif-panel').classList.add('open'); document.getElementById('app-notif-overlay').classList.add('open'); }
+function closeNotifPanel() { document.getElementById('app-notif-panel').classList.remove('open'); document.getElementById('app-notif-overlay').classList.remove('open'); }
 
-function closeNotifPanel() {
-  document.getElementById('app-notif-panel').classList.remove('open');
-  document.getElementById('app-notif-overlay').classList.remove('open');
-}
+function appStartBooking() { startBooking(); showPage('p1'); }
 
-// Override showPage pentru app mode - booking pages
+// Override showPage pentru app mode
 const _origShowPage = showPage;
 function showPage(id) {
-  if (IS_APP && ['p1','p2','p3','p4'].includes(id)) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
+  if (IS_APP) {
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.getElementById(id)?.classList.add('active');
     window.scrollTo(0,0);
     return;
   }
   _origShowPage(id);
 }
 
-// Override goHome pentru app mode
+// Override goHome
+const _origGoHome = goHome;
 function goHome() {
   if (IS_APP) { showAppHome(); return; }
-  renderHome(); _origShowPage('phome');
+  renderHome(); showPage('phome');
 }
 
-// Override init pentru app mode
+// Override loadTheme pentru dark mode system
+function loadTheme() {
+  const saved = localStorage.getItem('theme');
+  if (IS_APP) {
+    if (saved) {
+      document.body.classList.toggle('dark', saved==='dark');
+    } else {
+      if (window.matchMedia?.('(prefers-color-scheme: dark)').matches) document.body.classList.add('dark');
+      window.matchMedia?.('(prefers-color-scheme: dark)').addEventListener('change', e => {
+        if (!localStorage.getItem('theme')) document.body.classList.toggle('dark', e.matches);
+      });
+    }
+  } else {
+    if (saved==='dark') document.body.classList.add('dark');
+  }
+  updateThemeBtn();
+}
+
+// Override init
 async function init() {
   if (IS_APP) { await initApp(); return; }
   loadTheme();
   const hash = window.location.hash;
-  if (hash && hash.includes('type=recovery')) { showResetModal(); return; }
+  if (hash?.includes('type=recovery')) { showResetModal(); return; }
   const {data:{session}} = await sb.auth.getSession();
-  if (session) { cu = session.user; await loadProf(); }
-  updNav();
-  renderHome();
-  _origShowPage('phome');
+  if (session) { cu=session.user; await loadProf(); }
+  updNav(); renderHome(); showPage('phome');
 }
-
 
 init();
 </script>
